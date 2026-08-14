@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redenção Music — Cifras e Repertório</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0b0f;
+    --bg-glow: radial-gradient(1100px 520px at 12% -8%, rgba(231,179,76,0.14), transparent 60%),
+               radial-gradient(900px 480px at 100% 0%, rgba(110,168,254,0.10), transparent 55%);
+    --panel:#14161d;
+    --panel2:#1b1e27;
+    --panel3:#20242f;
+    --border:#262a35;
+    --border-soft:#1e222b;
+    --text:#f1f2f5;
+    --muted:#9198a6;
+    --muted-soft:#6b7280;
+    --accent:#eab654;
+    --accent-dim:#8a6a2c;
+    --accent2:#6ea8fe;
+    --gui:#eab654;
+    --nica:#6ea8fe;
+    --mila:#f2879a;
+    --manu:#6fd6ac;
+    --rafa:#c79cf0;
+    --nika:#6ea8fe;
+    --todos:#9198a6;
+    --radius:16px;
+    --shadow: 0 8px 24px -12px rgba(0,0,0,0.5);
+    --shadow-lg: 0 16px 40px -14px rgba(0,0,0,0.6);
+  }
+  *{box-sizing:border-box;}
+  ::selection{ background:rgba(234,182,84,0.35); color:#fff; }
+  html{ scrollbar-color: #3a3f4c transparent; }
+  ::-webkit-scrollbar{ width:10px; height:10px; }
+  ::-webkit-scrollbar-thumb{ background:#2c313d; border-radius:8px; }
+  ::-webkit-scrollbar-thumb:hover{ background:#3a3f4c; }
+  body{
+    margin:0;
+    font-family:'Manrope',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background-color:var(--bg);
+    background-image:var(--bg-glow);
+    background-attachment:fixed;
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+  }
+  header{
+    position:sticky; top:0; z-index:10;
+    background:linear-gradient(180deg, rgba(10,11,15,0.98), rgba(10,11,15,0.88));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--border-soft);
+    padding:20px 20px 16px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .brand-icon{
+    width:42px; height:42px;
+    border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.25rem;
+    background:linear-gradient(140deg, #eab654, #c9852f);
+    box-shadow:0 6px 16px -4px rgba(234,182,84,0.45);
+    flex-shrink:0;
+  }
+  header h1{
+    margin:0;
+    font-size:1.3rem;
+    font-weight:800;
+    letter-spacing:-.2px;
+    background:linear-gradient(120deg,#fff,#c9cdd6);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  header .sub{
+    color:var(--muted);
+    font-size:.83rem;
+    margin-top:1px;
+  }
+  .tabs{
+    display:flex;
+    gap:6px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab-btn{
+    border:1px solid var(--border);
+    background:var(--panel2);
+    color:var(--muted);
+    padding:9px 15px;
+    border-radius:12px;
+    font-size:.85rem;
+    font-weight:700;
+    font-family:inherit;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:all .15s ease;
+    flex:1 1 auto;
+    text-align:center;
+  }
+  @media (max-width:480px){
+    .tab-btn{ padding:8px 10px; font-size:.76rem; flex-basis:30%; }
+  }
+  .tab-btn:hover{ border-color:#3a4050; color:var(--text); }
+  .tab-btn.active{
+    color:#1a1305;
+    background:var(--accent);
+    border-color:var(--accent);
+    box-shadow:0 4px 14px -4px rgba(234,182,84,0.5);
+  }
+  .view{ display:none; }
+  .view.active{ display:block; }
+  .reading-opts{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+  }
+  .reading-opts .chip.active{
+    color:#0d2016;
+    background:var(--accent2);
+    border-color:var(--accent2);
+    box-shadow:0 4px 14px -4px rgba(110,168,254,0.5);
+  }
+  .font-ctrl{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:var(--muted);
+    font-size:.78rem;
+    font-weight:600;
+  }
+  .font-ctrl button{
+    border:1px solid var(--border);
+    background:var(--panel2);
+    color:var(--text);
+    width:30px; height:30px;
+    border-radius:9px;
+    font-size:.78rem;
+    font-weight:700;
+    font-family:inherit;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .font-ctrl button:hover{ border-color:#3a4050; background:var(--panel); }
+  .proximas-intro{
+    color:var(--muted);
+    font-size:.85rem;
+    background:var(--panel2);
+    border:1px solid var(--border-soft);
+    border-radius:12px;
+    padding:12px 14px;
+    margin:14px 0 10px;
+  }
+  .searchbar{
+    position:relative;
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+  }
+  input[type="search"]{
+    flex:1 1 220px;
+    background:var(--panel2) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%239198a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>') no-repeat 14px center;
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:11px 14px 11px 40px;
+    border-radius:12px;
+    font-size:.95rem;
+    font-family:inherit;
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  input[type="search"]::placeholder{ color:var(--muted-soft); }
+  input[type="search"]:focus{
+    border-color:var(--accent2);
+    box-shadow:0 0 0 3px rgba(110,168,254,0.15);
+  }
+  .filters{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .chip{
+    border:1px solid var(--border);
+    background:var(--panel2);
+    color:var(--muted);
+    padding:7px 13px;
+    border-radius:999px;
+    font-size:.78rem;
+    font-weight:600;
+    font-family:inherit;
+    cursor:pointer;
+    user-select:none;
+    white-space:nowrap;
+    transition:all .15s ease;
+  }
+  .chip:hover{ border-color:#3a4050; color:var(--text); }
+  .chip.active{
+    color:#1a1305;
+    background:var(--accent);
+    border-color:var(--accent);
+    box-shadow:0 4px 14px -4px rgba(234,182,84,0.5);
+  }
+  .sort-chip{
+    display:inline-block;
+    margin:2px 0 12px;
+  }
+  .sort-chip.active{
+    color:#0d2016;
+    background:var(--accent2);
+    border-color:var(--accent2);
+    box-shadow:0 4px 14px -4px rgba(110,168,254,0.5);
+  }
+  main{
+    max-width:880px;
+    margin:0 auto;
+    padding:18px 16px 70px;
+  }
+  .count{
+    color:var(--muted-soft);
+    font-size:.78rem;
+    margin:4px 6px 16px;
+    letter-spacing:.1px;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border-soft);
+    border-radius:var(--radius);
+    margin-bottom:10px;
+    overflow:hidden;
+    transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+  }
+  .card:hover{
+    border-color:#31374350;
+    box-shadow:var(--shadow);
+  }
+  .card.open{
+    border-color:#333a48;
+    box-shadow:var(--shadow-lg);
+  }
+  .card-head{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:14px 16px;
+    cursor:pointer;
+  }
+  .num{
+    color:var(--muted-soft);
+    font-size:.72rem;
+    font-weight:600;
+    width:26px; height:26px;
+    border-radius:9px;
+    background:var(--panel3);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .title{
+    flex:1;
+    font-weight:700;
+    font-size:.96rem;
+    letter-spacing:-.1px;
+    min-width:0;
+  }
+  .title .note{
+    display:block;
+    font-weight:500;
+    color:var(--muted-soft);
+    font-size:.73rem;
+    margin-top:2px;
+  }
+  .uv{
+    display:block;
+    font-weight:600;
+    font-size:.71rem;
+    margin-top:3px;
+    letter-spacing:.1px;
+  }
+  .uv-recente{ color:#f2877e; }
+  .uv-morno{ color:#e8c169; }
+  .uv-seguro{ color:#6fbf8f; }
+  .uv-desconhecido{ color:var(--muted-soft); }
+  .badge{
+    font-size:.7rem;
+    font-weight:700;
+    padding:4px 10px 4px 8px;
+    border-radius:999px;
+    background:rgba(255,255,255,0.05);
+    flex-shrink:0;
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    letter-spacing:.2px;
+  }
+  .badge .dot{
+    width:6px; height:6px;
+    border-radius:50%;
+    background:currentColor;
+    box-shadow:0 0 6px currentColor;
+  }
+  .badge.GUI{color:var(--gui);}
+  .badge.NICA,.badge.NIKA{color:var(--nica);}
+  .badge.MILA{color:var(--mila);}
+  .badge.MANU{color:var(--manu);}
+  .badge.RAFA{color:var(--rafa);}
+  .badge.TODOS,.badge.OUTROS{color:var(--todos);}
+  .tom{
+    font-size:.71rem;
+    color:#1a1305;
+    background:linear-gradient(140deg, #f2c874, #dfa53f);
+    padding:4px 10px;
+    border-radius:999px;
+    font-weight:800;
+    flex-shrink:0;
+    letter-spacing:.2px;
+  }
+  .chevron{
+    color:var(--muted-soft);
+    transition:transform .2s ease;
+    flex-shrink:0;
+    font-size:1.1rem;
+  }
+  .card.open .chevron{ transform:rotate(90deg); color:var(--accent2); }
+  .card-body{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows .3s cubic-bezier(.4,0,.2,1);
+  }
+  .card.open .card-body{ grid-template-rows:1fr; }
+  .card-body-inner{
+    overflow:hidden;
+    min-height:0;
+  }
+  .card-body-inner > .body-pad{
+    padding:2px 16px 18px;
+    border-top:1px solid var(--border-soft);
+  }
+  .meta-row{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+    margin:14px 0 10px;
+    font-size:.81rem;
+    color:var(--muted);
+  }
+  .meta-row b{ color:var(--text); font-weight:600; }
+  .mod-row{
+    background:rgba(234,182,84,0.07);
+    border:1px solid rgba(234,182,84,0.18);
+    border-radius:10px;
+    padding:9px 12px;
+    font-size:.79rem;
+    color:#e2c88d;
+    margin:2px 0 10px;
+    line-height:1.45;
+  }
+  .cifra{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
+    overflow-x:auto;
+    white-space:pre;
+    font-family:'JetBrains Mono',"SF Mono",Menlo,Consolas,monospace;
+    font-size:var(--cifra-fs, .82rem);
+    line-height:1.65;
+    color:#c6cbd6;
+  }
+  .cifra .line{ white-space:pre; }
+  .cifra .chord{ color:var(--accent); font-weight:700; }
+  .cifra .section-label{ color:var(--accent2); font-weight:700; }
+  body.hide-chords .cifra .chord-line,
+  body.hide-chords .cifra .chord-part{ display:none; }
+  .placeholder{
+    color:var(--muted-soft);
+    font-size:.84rem;
+    font-style:italic;
+    padding:14px 0 8px;
+  }
+  .source{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    margin-top:12px;
+    font-size:.78rem;
+    font-weight:600;
+    color:var(--accent2);
+    text-decoration:none;
+  }
+  .source:hover{ text-decoration:underline; }
+  .transpose{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin:2px 0 14px;
+    font-size:.79rem;
+    color:var(--muted);
+    background:var(--panel3);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:8px 10px;
+    width:fit-content;
+    max-width:100%;
+  }
+  .transpose button{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    color:var(--text);
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:1rem;
+    font-family:inherit;
+    line-height:1;
+    display:flex; align-items:center; justify-content:center;
+    transition:all .15s ease;
+  }
+  .transpose button:hover{ border-color:var(--accent2); color:var(--accent2); transform:translateY(-1px); }
+  .transpose button:active{ transform:translateY(0); }
+  .transpose .tr-tom{
+    color:var(--text);
+    font-weight:800;
+    min-width:32px;
+    text-align:center;
+    font-size:.8rem;
+    white-space:nowrap;
+  }
+  .transpose .tr-reset{
+    width:auto;
+    height:auto;
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:.71rem;
+    font-weight:600;
+    font-family:inherit;
+  }
+  .empty-state{
+    text-align:center;
+    color:var(--muted-soft);
+    padding:50px 20px;
+    font-size:.9rem;
+  }
+  .semana:empty{ display:none; }
+  .semana-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:12px;
+    background:linear-gradient(135deg, rgba(234,182,84,0.16), rgba(110,168,254,0.08));
+    border:1px solid rgba(234,182,84,0.28);
+    border-radius:16px;
+    padding:16px 18px;
+    margin-bottom:12px;
+  }
+  .semana-title{
+    font-weight:800;
+    font-size:1rem;
+    letter-spacing:-.1px;
+  }
+  .semana-date{
+    color:var(--muted);
+    font-size:.82rem;
+    margin-top:3px;
+  }
+  .semana-escalados{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    align-items:flex-start;
+  }
+  .semana-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom:26px;
+  }
+  .semana-tbd{
+    border:1px dashed var(--border);
+    border-radius:var(--radius);
+    padding:18px;
+    text-align:center;
+    color:var(--muted-soft);
+    font-size:.85rem;
+    font-style:italic;
+  }
+  .yt-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:rgba(255,60,60,0.1);
+    border:1px solid rgba(255,90,90,0.32);
+    color:#ff8f8f;
+    padding:7px 13px;
+    border-radius:999px;
+    font-size:.78rem;
+    font-weight:700;
+    text-decoration:none;
+    margin:14px 0 2px;
+  }
+  .yt-link:hover{ background:rgba(255,60,60,0.18); }
+  footer{
+    text-align:center;
+    color:var(--muted-soft);
+    font-size:.72rem;
+    line-height:1.7;
+    padding:26px 20px 34px;
+    border-top:1px solid var(--border-soft);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-icon">🎸</div>
+    <div>
+      <h1>Redenção Music</h1>
+      <div class="sub">Cifras, tons e repertório da banda</div>
+    </div>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button class="tab-btn" data-tab="musicas">Músicas</button>
+    <button class="tab-btn active" data-tab="semana">Repertório da Semana</button>
+    <button class="tab-btn" data-tab="proximas">Próximas Músicas</button>
+  </nav>
+  <div class="reading-opts" id="readingOpts">
+    <button class="chip" id="toggleChordsBtn">🎼 Ocultar cifras</button>
+    <div class="font-ctrl">
+      <span>Fonte</span>
+      <button id="fontDec" title="Diminuir fonte">A−</button>
+      <button id="fontInc" title="Aumentar fonte">A+</button>
+    </div>
+  </div>
+  <div class="searchbar" id="searchbar" style="display:none;">
+    <input type="search" id="search" placeholder="Buscar música ou quem canta...">
+  </div>
+  <div class="filters" id="filters" style="display:none;"></div>
+</header>
+
+<main>
+  <section id="view-musicas" class="view">
+    <div class="count" id="count"></div>
+    <div id="list"></div>
+  </section>
+
+  <section id="view-semana" class="view active">
+    <section class="semana" id="semana"></section>
+  </section>
+
+  <section id="view-proximas" class="view">
+    <div class="proximas-intro">🆕 Músicas novas que a banda vai aprender e lançar em breve.</div>
+    <div class="count" id="count-proximas"></div>
+    <div id="list-proximas"></div>
+  </section>
+</main>
+
+<footer>
+  Cifras e tons de referência — confira com quem canta antes do ensaio, pois o tom pode variar por voz.<br>
+  Repertório completo importado da planilha da banda · atualizado manualmente
+</footer>
+
+<script>
+// ---------- DADOS ----------
+// Músicas com cifra completa (lote inicial de validação)
+const CIFRAS = {
+  "REINAS": {
+    tom: "Bb",
+    fonte: "https://www.cifraclub.com.br/purples/reinas/",
+    fonteNome: "Purples — Cifra Club",
+    compositor: "Julio Cesar Filho",
+    cifra:
+`[Intro] Gm  F  Eb9
+        Gm  F  Eb9
+
+     Gm
+Eras tu antes do sol
+         F
+De toda vida o autor tu és
+  Eb9
+Reinas
+     Gm
+Pelo som da tua voz
+         F
+Impérios dobram-se aos teus pés
+  Eb9
+Reinas
+
+        Gm
+Fazes o mar obedecer
+          Bb                       Eb9  Cm
+E em teu nome toda a terra estremecer
+        Gm
+E sob a luz a se prostrar
+      F
+O universo a declarar
+      Eb9
+Que reinas
+
+  Bb9
+Reinas
+             F
+Eternamente reinas
+             Bb/D
+Maravilhoso salvador
+               Eb9
+Cordeiro santo és
+                Bb9
+Sobre todos tu reinas
+             F/A
+Eternamente reinas
+             Cm7  Bb/D Eb9
+És único, incomparável Deus
+
+      Gm
+Sopro teu, meu respirar
+         F
+De pó a vida a me formar
+  Eb9
+Reinas
+        Gm
+Tu és o pão a alimentar
+          F
+A fonte eterna a saciar
+  Eb9
+Reinas
+
+         Gm
+Com tuas mãos podes curar
+            Bb
+Teus pés nas águas caminhar
+            Eb9
+Teu sangue sara o meu pecar
+           Cm7
+Teu braço forte a sustentar
+
+           Gm
+Os céus proclamam o teu louvor
+           F
+E ante ao trono do senhor
+          Eb9
+Teu povo dobra-se em temor
+          Eb9
+Entoam anjos para sempre
+
+     Bb9
+Tu reinas
+             F
+Eternamente reinas
+             Bb/D
+Maravilhoso salvador
+               Eb9
+Cordeiro santo és
+                Bb9
+Sobre todos tu reinas
+             F/A
+Eternamente reinas
+             Cm7  Bb/D Eb9
+És único, incomparável Deus
+
+(Gm  F  Bb/D  Eb  Gm  F  Cm  Bb/D Eb)
+Reinas
+
+Bb9   F  Bb/D  Eb   Gm  F                 Eb
+Je--sus,  Je--sus, Je--sus! Eternamente reinas
+Gm  F     Eb  Cm7  Gm  F                 Eb
+Je--sus,  Je--sus, Je--sus! Eternamente reinas
+Gm  F     Eb  Cm7  Gm  F                 Eb
+Je--sus,  Je--sus, Je--sus! Eternamente reinas
+
+     Bb9
+Tu reinas
+             F
+Eternamente reinas
+             Bb/D
+Maravilhoso salvador
+               Eb9
+Cordeiro santo és
+                Bb9
+Sobre todos tu reinas
+             F/A
+Eternamente reinas
+             Cm7  Bb/D Eb9
+És único, incomparável Deus
+
+  Gm   F   Eb  Cm7
+Reinas
+
+     Gm
+Eras tu antes do sol
+         F
+De toda vida o autor tu és
+  Eb     Cm7
+Reinas`
+  },
+  "TEU REINO": {
+    tom: "F#",
+    fonte: "https://www.cifraclub.com.br/ministerio-cristo-vivo/teu-reino/",
+    fonteNome: "Ministério Cristo Vivo — Cifra Club",
+    compositor: "Vinícius Zulato",
+    cifra:
+`[Intro] B  B/D#  C#7
+        B  B/D#  C#7
+
+[Primeira Parte]
+               F#9  F#
+Os reinos se abalam
+             F#9   F#
+Os povos se curvam
+            F#9   F#
+As bocas se abrem
+              F#9   F#
+As mãos se levantam
+                       B7M  B6
+Pra dizer que tu és o rei
+G#m9        G#m             F#    F#9  F#
+     Pra dizer que tu és o Senhor
+
+(repete Primeira Parte)
+
+[Refrão]
+                     B9
+Teu Reino é sempre eterno
+                  G#m
+Firmado em misericórdia
+                F#
+Justiça e igualdade
+                 F#7M
+Bondade e fidelidade
+                  B9  G#m
+A tua igreja te adora
+                F#  F#7M  F#
+Tua igreja te adora
+
+(repete Refrão)
+
+[Primeira Parte]
+               F#
+Os reinos se abalam
+Os povos se curvam
+As bocas se abrem
+As mãos se levantam
+                       B9
+Pra dizer que tu és o rei
+G#m                        F#
+    Pra dizer que tu és o Senhor
+
+(repete, com "Pra dizer que tu és o rei / Pra dizer que tu és o Senhor" 2x extra)
+
+[Refrão] (repete 2x)
+
+[Solo] B9/D#  G#m  F#
+       B9/D#  G#m  F#
+       B9/D#  G#m  F#
+       B9/D#  G#m  F#
+
+[Refrão] (repete 2x, final sem "F#" no fim da última linha)`
+  },
+  "ENTREGA": {
+    tom: "D",
+    fonte: "https://www.cifraclub.com.br/vineyard/entrega/",
+    fonteNome: "Vineyard — Cifra Club",
+    compositor: "Vineyard",
+    cifra:
+`[Intro] D  A/C#  G  Bm7  A/C#
+
+[Verso 1]
+D                      A
+Te dou meu coração
+                    G
+E tudo que há em mim
+                   Bm7
+Entrego meu viver
+              A/C#         D
+Por amor a ti, meu rei!
+                 A
+Meus sonhos rendo a ti
+                G
+E meus direitos dou
+                     Bm7
+O orgulho vou trocar
+      A/C#     D
+Pela vida do senhor
+
+[Refrão]
+  Bm7   A/C#   D    G
+E eu      entrego tudo a ti
+ Bm7    A    G
+Tudo a ti
+
+[Verso 2]
+D                A
+Eu canto esta canção
+                  G
+De entrega a ti, Jesus
+                 Bm7
+E o que o mundo dá
+          A/C#        D
+Eu deixo aos pés da cruz
+             A
+Por conhecer a ti
+                G
+A teu nome dar louvor
+                Bm7
+Sentir tua alegria
+             A/C#  D
+Partilhando tua dor
+
+[Refrão] (repete)`
+  },
+  "VASOS QUEBRADOS": {
+    tom: "C",
+    fonte: "https://www.cifraclub.com.br/hillsong-brasil/vasos-quebrados--sublime-graca-/htkmtg.html",
+    fonteNome: "Hillsong Em Português — Cifra Club",
+    compositor: "Joel Houston e Jonas Myrin",
+    cifra:
+`[Intro] Em  G  (repete)
+
+Em                    G
+(Versos — construção sobre vasos quebrados)
+D                     C
+
+[Refrão] "Sublime Graça, doce som..."
+G                     D
+Em                    C
+G                     D
+Em                    C`
+  },
+  "BONDADE DE DEUS": {
+    tom: "C",
+    fonte: "https://www.cifraclub.com.br/douglas-machado/bondade-de-deus-goodness-of-god/",
+    fonteNome: "Douglas Machado — Cifra Club (também em Fernandinho, Isaías Saad)",
+    compositor: "Bethel Music (Goodness of God)",
+    cifra:
+`[Verso]
+C                F              C
+Te amo, Deus...
+G/B        Am              F            G
+
+[Pré-Refrão]
+Am    F
+C     G/B  Am
+F            G
+
+[Refrão]
+F        G        C
+F                 C
+F                C         G
+F                    C  G/B  Am
+F        G        C
+
+[Ponte]
+C/E              F           G            C
+C/E              F           G             C
+C/E              F           G             Am
+C/E                 F         G            C`
+  },
+  "A FACE ADORADA": {
+    tom: "E",
+    fonte: "https://www.cifraclub.com.br/juerp/a-face-adorada/",
+    fonteNome: "Juerp — Cifra Club",
+    compositor: "Paulo César de Oliveira (Paulo Macalão)",
+    cifra:
+`[Verso 1]
+E                       A           E
+E                          F#m        B
+
+[Verso 2]
+E                          A            E
+E           C#m        A      B     E
+
+[Refrão]
+E              A           E
+E                 F#m          B
+
+E                   A            E
+E         C#m         A      B      E`
+  },
+  "MARAVILHOSA GRAÇA": {
+    tom: "A",
+    fonte: "https://www.cifraclub.com.br/comunidade-da-graca/maravilhosa-graca-this-is-amazing-grace-phil-wickham/",
+    fonteNome: "Comunidade da Graça — Cifra Club",
+    compositor: "Josh Farro, Jeremy Riddle, Phil Wickham (This Is Amazing Grace)",
+    cifra:
+`[Intro] A  D
+
+[Verso]
+A            D
+F#m          E
+
+[Refrão]
+A     D     F#m     E
+A     D     F#m     E
+
+[Ponte]
+A     D  (repete, com ênfase em F#m)`
+  },
+  "GRANDE É O SENHOR": {
+    tom: "D",
+    modulacao: "Sobe de Ré (D) para Lá (A) a partir do interlúdio / 2º verso.",
+    fonte: "https://www.cifraclub.com.br/tiago-suguihara/grande--o-senhor-great-are-you-lord/",
+    fonteNome: "Tiago Suguihara — Cifra Club",
+    compositor: "Bethel Church (Great Are You Lord)",
+    cifra:
+`[Verso 1]
+D      F#m
+E
+D           F#m
+E
+
+[Refrão]
+D F#m            E
+D              F#m
+E
+D              F#m
+E
+
+[Interlúdio] A  Asus4  D2  A
+
+[Verso 2]
+A
+Asus4
+D2             A`
+  },
+  "TU ÉS BOM": {
+    tom: "B",
+    fonte: "https://www.cifraclub.com.br/fred-arrais/tu-es-bom/",
+    fonteNome: "Fred Arrais — Cifra Club",
+    compositor: "Fred Arrais",
+    cifra:
+`[Intro] G#m  B/D#  E   G#m  B/D#
+
+[Verso]
+E              F#    G#m
+Como eu amo os Teus caminhos
+F#     E              F#     G#m
+Lindo Jesus, estrela da manhã
+F#     E
+Eu cantarei a Ti
+
+[Pré-Refrão]
+F#             G#m    E
+O que posso te dar, por tudo o que Tu és
+C#m B/D#   E
+Você me libertou e me curou
+
+[Refrão]
+B                     F#/A#
+Tu és bom, em todo o tempo és bom
+G#m
+Justiça está em Ti
+F#     E
+Teu amor é pra sempre
+
+[Ponte]
+B/D#  E     F#
+Seu amor dura pra sempre
+G#m  C#m G#m  F#
+Seu amor dura pra sempre`
+  },
+  "EU ME RENDO": {
+    tom: "F",
+    fonte: "https://www.cifraclub.com.br/hillsong-brasil/eu-me-rendo-i-surrender/",
+    fonteNome: "Hillsong Em Português — Cifra Club",
+    compositor: "Matt Crocker (I Surrender)",
+    cifra:
+`[Intro] Dm  F  C  A#
+
+[Verso 1]
+Dm                F
+Eis-me aqui, prostrado outra vez
+C                 A#
+Pra tudo entregar
+
+[Verso 2]
+Dm                F
+Leva-me, perto de Ti, Senhor
+C                 A#
+Anseio por ti
+
+[Refrão]
+Dm            F
+Eu me rendo, eu me rendo
+Gm7                A#
+Pra conhecer-te mais
+
+[Verso 3]
+Dm                F
+Enche-me, da graça e do Teu amor
+C                 A#
+Sacia meu ser
+
+[Ponte] A#  F  C  A#  Dm  C`
+  },
+  "ESTRELA DA MANHÃ": {
+    tom: "D",
+    modulacao: "2ª parte da música modula de Ré (D) para Mi (E), mantendo a mesma progressão.",
+    fonte: "https://www.cifraclub.com.br/eli-soares/estrela-da-manha/",
+    fonteNome: "Eli Soares — Cifra Club",
+    compositor: "Jônatas Manaem Liasch",
+    cifra:
+`[Intro] D  G/B  A/C#  (3x)
+D  G/B  A/C#  F#/Bb  Bm7  E/G#  A  D/F#  G
+D/F#  G
+
+[Verso 1]
+D              A/C#          Bm
+G              D/F#             Em    Gm
+
+[Verso 2]
+D              A/C#          Bm
+G              D/F#          Em
+
+[Verso 3]
+F#              F#/Bb       Bm    Bm/A G D/F# Em
+D       C  B4 B7
+
+[Refrão]
+E                 A
+B                  E  A/C# B/D#
+E                    A
+B    B/A       G#m   C#m      F#m
+B9
+
+[Ponte instrumental] F#/Bb  A7(13)  E/G#  G7(13)  F#m11  A9/B  D9
+
+(a 2ª parte modula para Mi maior, mesma progressão)`
+  },
+  "A BENÇÃO": {
+    tom: "C",
+    fonte: "https://www.cifraclub.com.br/louvor-icer/a-bencao-versao-the-blessing/",
+    fonteNome: "Louvor Icer — Cifra Club",
+    compositor: "Cody Carnes, Elevation Worship e Kari Jobe (The Blessing)",
+    cifra:
+`[Intro] Am  F  C  G  G4  G
+
+C               F
+Que o Senhor te abençoe
+C          G                 Am
+E faça brilhar Seu rosto em ti
+           F
+Que conceda Sua graça
+C  G     F  C/E  Dm  C
+E te dê paz
+
+Am  F     C     G
+A...mém, amém, amém
+Am  F     C     G
+A...mém, amém, amém
+
+Am          F
+Que o Senhor te abençoe
+C          G                 Am
+E faça brilhar Seu rosto em ti
+           F
+Que conceda Sua graça
+C  G     F  C/E  Dm  C
+E te dê paz
+
+Am  F     C     G
+A...mém, amém, amém
+Am  F    C     G
+A...mém, amém, amém
+
+Am
+Que a bênção se derrame
+F
+Até mil gerações
+C
+Tua família, e teus filhos
+G
+E os filhos dos teus filhos
+
+Am
+Que a bênção se derrame
+F
+Até mil gerações
+C
+Tua família, e teus filhos
+G
+E os filhos dos teus filhos
+
+Am
+Sua presença te acompanhe
+F
+Por de trás e por diante
+C
+Do teu lado e em ti
+G
+É contigo, é por ti
+
+Am
+E de dia e de noite
+F
+Tua entrada e saída
+C
+Em teu riso, em teu choro
+G
+É contigo é por ti
+Oh-oh-oh-oh
+
+Am  F    C     G
+A...mém, amém, amém
+Am  F     C     G  C
+A...mém, amém, amém`
+  },
+  "SEMPRE EM FRENTE": {
+    tom: "A",
+    modulacao: "Não há troca de tom — permanece em Lá (A) do início ao fim.",
+    fonte: "https://www.cifraclub.com.br/projeto-sola/sempre-em-frente/",
+    fonteNome: "Projeto Sola — Cifra Club",
+    compositor: "Projeto Sola",
+    cifra:
+`[Intro] A  D  A
+
+[Verso 1]
+A          F#m       D        A
+(com variações)
+
+[Pré-Refrão]
+E    F#m    C#m    D
+Bm         D
+
+[Refrão]
+A       E/G#      F#m     D
+Bm            D  (repetido)
+
+[Verso 2]
+(mesma estrutura do verso 1)
+
+[Ponte]
+F#m   D   A   E/G#  (repetido)
+
+[Seção final]
+D   A   E   F#m  (progressão expandida)
+
+[Outro] A  D  A`
+  },
+  "GRANDE É O NOME DO SENHOR": {
+    tom: "G",
+    modulacao: "Não há troca de tom — permanece em Sol (G) do início ao fim.",
+    fonte: "https://www.cifraclub.com.br/novo-canto/grande-e-o-nome-do-senhor/",
+    fonteNome: "Novo Canto — Cifra Club",
+    compositor: "Novo Canto",
+    cifra:
+`[Intro] G  Em  C  D
+
+G               Em
+Nações se prostrarão
+              C
+Os reis se dobrarão
+          D
+Virão declarar
+                   G
+Grande é o nome do Senhor
+                 Em
+Povos, tribos clamarão
+            C
+Ao Deus da criação
+          D
+Virão declarar
+                   G
+Grande é o nome do Senhor
+
+Am             G
+Eu levanto as mãos a ti
+Am               G
+Deus da minha salvação
+Am                  G
+Com os anjos vim te adorar
+      C          D
+Te adoramos, te adoramos
+
+[Refrão]
+  G
+Grande é o nome do Senhor
+  Em
+Grande é o nome do Senhor
+  C                   D
+Grande é o nome do Senhor
+
+Te adoramos
+
+  G
+Grande é o nome do Senhor
+  Em
+Grande é o nome do Senhor
+  C                   D
+Grande é o nome do Senhor
+
+Te adoramos
+
+[Intro] G  Em  C  D  (repete verso, pré-refrão e refrão)
+
+[Solo] G  Em  C  D
+       G  Em  C  D
+
+[Refrão]
+  G
+Grande é o nome do Senhor
+  Em
+Grande é o nome do Senhor
+  C                   D
+Grande é o nome do Senhor
+
+Te adoramos
+
+  G
+Grande é o nome do Senhor
+  Em
+Grande é o nome do Senhor
+  C                   D
+Grande é o nome do Senhor
+           G  C
+Te adoramos`
+  },
+  "JESUS": {
+    tom: "F",
+    modulacao: "Ponte desce para Ré menor (Dm), criando tensão harmônica antes de resolver de volta a Fá (F).",
+    fonte: "https://www.cifraclub.com.br/suylo/jesus/",
+    fonteNome: "Suylô — Cifra Club",
+    compositor: "Suylô",
+    cifra:
+`[Intro] F
+
+    F                  A7
+Ele é o mediador entre Deus e o homem
+    Bb                   C
+Ele é o verbo que se fez carne
+    Bb
+Ele é o amor que justifica o pecador
+    F                     A
+Ele é o autor e o consumador da nossa fé
+    Bb                      C
+Ele é o precursor o bom pastor
+    Bb
+Pedra angular, raiz de Davi
+
+   F                     C
+Jesus o nome sobre todo nome
+                  Bb
+Ele é a luz que nos conduz
+                    C
+Para os braços do pai
+          F                   C
+Ele é Jesus, é o caminho é a verdade
+             Bb
+A verdadeira vida
+           C
+O filho de Deus
+      F
+Ele é Deus
+
+    F                  A7
+Ele é o mediador entre Deus e o homem
+    Bb                   C
+Ele é o verbo que se fez carne
+    F                    A
+Ele é o autor e o consumador da nossa fé
+    Bb                     C
+Ele é o precursor o bom pastor
+    Bb
+Pedra angular, raiz de Davi
+
+    F                   C
+Jesus o nome sobre todo nome
+                        Bb
+Ele é a luz que nos conduz
+                    C
+Para os braços do pai
+          F                        C
+Ele é Jesus, é o caminho é a verdade
+             Bb
+A verdadeira vida
+           C
+O filho de Deus
+
+Bb                               C
+Que haja em nós o mesmo sentimento
+
+Que houve em Jesus
+Dm
+Se humilhou e obediente
+C
+Padeceu naquela cruz
+Bb                   C
+Recebeu o nome que acima de todo nome está
+Dm7                                      C
+Que todo joelho se curve e língua confesse que
+
+Cristo Jesus é o senhor
+
+    F                   C
+Jesus o nome sobre todo nome
+                     Bb                        C
+Ele é a luz que nos conduz para os braços do pai
+    F                   C
+Jesus o nome sobre todo nome
+                     Bb                       C
+Ele é a luz que nos conduz para os braços do pai
+       F                      C                     Bb
+Ele é Jesus, é o caminho é a verdade, a verdadeira vida
+           C           F
+O filho de Deus, Ele é Deus`
+  },
+  "DONO DA MINHA AFEIÇÃO": {
+    tom: "C",
+    fonte: "https://www.cifraclub.com.br/florianopolis-house-of-prayer/dono-da-minha-afeicao/",
+    fonteNome: "Florianópolis House Of Prayer (fhop music) — Cifra Club",
+    compositor: "Hamilton Rabelo e Debora Rabelo",
+    cifra:
+`[Intro] C  F/C
+
+[Verso 1]
+C
+Eu não vou deixar
+C4
+Eu não vou trocar
+        Am           G          F
+O que eu encontrei o mundo não pode me dar
+C
+Eu não vou deixar
+C4
+Eu não vou trocar
+Am
+A boa parte está
+          G                F
+Naquele que primeiro me amou
+
+[Verso 2]
+C
+Mais vale um dia
+Em tua casa
+      C/E      F         G
+Que mil dias    em outro lugar
+C
+Senhor da minh'alma
+Do meu coração
+           C/E         F                 G
+Sempre será o primeiro em minha devoção
+
+[Pré-Refrão]
+C/E          F        Am
+Oooh Ooooh, conheces o meu amor
+     F        C            G
+Oooh Oooh, Tu és o Rei do meu coração
+
+[Refrão]
+C
+Eu não vou deixar
+F/C
+Eu não vou trocar
+        Am           G          F
+O que eu encontrei o mundo não pode me dar
+C
+Eu não vou deixar
+F/C
+Eu não vou trocar
+Am
+A boa parte está
+          G                F
+Naquele que primeiro me amou
+
+[Interlúdio] Am  G/B
+
+[Seção Repetida] (2x)
+C                Am
+Não há outro nome, não há outro amor
+G/B
+Não há outro rei
+C             C/E
+Nem outro Senhor
+F                  G
+Minha devoção, dono da minha afeição
+
+[Verso Final]
+C
+Eu não vou deixar
+G/B      Em
+Eu não vou trocar
+        Am           G          F
+O que eu encontrei o mundo não pode me dar
+C/E
+Eu não vou deixar
+Dm
+Eu não vou trocar
+Am
+A boa parte está
+          G                F
+Naquele que primeiro me amou
+
+[Seção Repetida] (2x)
+C                Am
+Não há outro nome, não há outro amor
+G/B
+Não há outro rei
+C             C/E
+Nem outro Senhor
+F                  G
+Minha devoção, dono da minha afeição
+
+[Final]
+F              Am
+Oooh Ooooh, conheces o meu amor
+     F        C            G
+Oooh Oooh, Tu és o Rei do meu coração`
+  },
+  "SOMENTE CRISTO": {
+    tom: "G",
+    fonte: "https://www.cifraclub.com.br/florianopolis-house-of-prayer/somente-cristo/",
+    fonteNome: "Florianópolis House Of Prayer (fhop music) — Cifra Club",
+    compositor: "Emi Sousa, Gabi Sampaio, William Passos e Lucas Bertolazzo",
+    cifra:
+`[Intro] G5  Bm  C7M  Am7
+
+[Verso]
+G          G/B
+Em7(9)     D    C9
+
+[Pré-Refrão]
+Am7(11)    G/B
+Am11       G/B
+C9         G/B
+C9         Em7(9)   D
+
+[Refrão]
+G       C      G/B
+Em7     Dm9    G7
+C9
+Am7     Em7(9)   D
+
+[Solo] C  D  Em7  D
+
+[Ponte]
+C     D
+Em7   D
+C     D
+Em7   D
+
+[Final] G`
+  },
+  "MINHA ALMA ENGRANDECE": {
+    tom: "C",
+    modulacao: "Sobe de Dó (C) para Ré (D) na parte final (\"Adorado, exaltado és, Senhor\").",
+    fonte: "https://www.cifraclub.com.br/rachel-novaes/minh-alma-engrandece-ao-senhor-adorado/",
+    fonteNome: "Rachel Novaes — Cifra Club",
+    compositor: "Rachel Novaes (part. Thamires Garcia)",
+    cifra:
+`[Intro] Dm  C  G/B
+        C  G/B  Am7
+        Dm  C  G/B
+        C4  C  F/A
+
+     C           G/B         Am  Am/G
+Minh'alma engrandece ao Senhor
+      Dm7         G                  C        F/A  G/B
+Meu espírito se alegra em Deus, meu Salvador
+     C              G/B             Am    Am/G
+Pois com poder tem feito grandes coisas
+    Dm7      G               C
+E, com misericórdia, demonstrado amor!
+
+ Dm  C  G/B  C  G/B  Am
+Santo!      Santo!
+Dm  C  G       C  Dm  C/E
+Santo és, Senhor!
+ Dm  C  G/B  C  G/B  Am
+Santo!      Santo!
+Dm  C  G      C4  C  F/A  G/B
+Santo és, Senhor!
+
+     C           G/B         Am  Am/G
+Minh'alma engrandece ao Senhor
+      Dm7         G                  C       F/A  G/B
+Meu espírito se alegra em Deus, meu Salvador
+     C              G/B             Am  Am/G
+Pois com poder tem feito grandes coisas
+    Dm7      G               C
+E, com misericórdia, demonstrado amor!
+
+ Dm  C  G/B  C  G/B  Am
+Santo!      Santo!
+Dm  C  G       C  Dm  C/E
+Santo és, Senhor!
+ Dm  C  G/B  C  G/B  Am
+Santo!      Santo!
+Dm  C  G      C4  C
+Santo és, Senhor!
+
+      F            G/F
+Tem enchido nossas lâmpadas
+       Em7       Am7
+Com o óleo do Espírito
+     D/F#                G
+Tem feito sua vide florescer!
+
+      F            G/F
+Tem enchido nossas lâmpadas
+       Em7       Am7
+Com o óleo do Espírito
+     D/F#                G
+Tem feito sua vide florescer!
+
+ Dm C G/B  C  G/B  Am
+Santo!    Santo!
+Dm C   G      C  Dm  C/E
+Santo és, Senhor!
+ Dm C G/B  C  G/B  Am
+Santo!    Santo!
+Dm  C  G      F  G  A4
+Santo és, Senhor!
+
+        D/F#          G
+Adorado,     exaltado és, Senhor
+      D/F#         G
+Tão amado, desejado das nações
+A   Bm7            C
+Adorado mais que todos
+          G/B        D        A
+Mais que tudo és amado, adorado
+
+ D/F#         G
+Adorado, exaltado és, Senhor
+      D/F#       G
+Tão amado, desejado das nações
+A   Bm            C
+Adorado mais que todos
+          G/B       D        A
+Mais que tudo és amado, adorado
+
+[Final] D/G`
+  },
+  "SENHOR DE TI PRECISO": {
+    tom: "Bb",
+    modulacao: "Cifra original em Db com capotraste na 3ª casa (formato/shapes de Bb) — é assim que a banda toca.",
+    fonte: "https://www.cifraclub.com.br/paulo-cesar-baruk/senhor-eu-preciso-lord-i-need-you-cd-graca/",
+    fonteNome: "Paulo César Baruk — Cifra Club",
+    compositor: "Paulo César Baruk",
+    cifra:
+`[Intro] Bb  Eb/Bb  Bb
+
+        Bb    Eb/Bb  Bb         Gm7    F9    Eb
+Venho a Ti me confessar pra minh'alma descansar
+          Bb     Eb/Bb   Bb     Bb/F  F            Eb
+Sem Tuas mãos perdido estou guia-me      por Teu Amor
+
+      Bb     Eb    Bb  F
+Oh Senhor de Ti preciso
+ Gm7    Eb     Bb  F
+Mais e mais preciso
+    Bb/D  Cm/Eb      Bb/F  Eb/G
+Meu Defensor   Justo e   Fiel
+  Bb/F       F  Bb     Bb
+De Ti Eu Preciso
+
+            Bb    Eb/Bb     Bb      F/A      Gm7    F9    Eb
+Se estou perdido encontro a graça, e onde há graça, Tu estás
+          Bb     Eb/Bb  Bb                Bb/F  F
+Se estás aqui, há liberdade, Tua vida em mim      é
+ Bb     Eb/Bb
+santidade
+
+      Bb     Eb    Bb  F
+Oh Senhor de Ti preciso
+ Gm7    Eb    Bb/F  F
+Mais e mais preciso
+    Bb/D  Cm/Eb      Bb/F  Eb/G
+Meu Defensor   Justo e   Fiel
+  Bb/F       F  Bb
+De Ti Eu Preciso
+
+   Eb      Bb/D  F     Gm7  Eb              F      Eb/Bb
+E quando a tentação surgir que minha vida cante a Ti
+           Eb  Bb/D       F   Gm  Eb           F    Bb
+Se eu não conseguir mais suportar Teu amor me guardará
+   Eb/Bb
+
+
+      Bb     Eb    Bb  F
+Oh Senhor de Ti preciso
+ Gm7    Eb     Bb  F
+Mais e mais preciso
+    Bb/D  Cm/Eb      Bb/F  Eb/G
+Meu Defensor   Justo e   Fiel
+  Bb/F       F  Bb
+De Ti Eu Preciso
+
+    Bb/D  Cm/Eb      Bb/F  Eb/G  Bb/F       F  Bb
+Meu Defensor   Justo e   Fiel de Ti Eu Preciso
+    Bb/D  Cm/Eb      Bb/F  Eb/G   Bb       F  Bb
+Meu Defensor   Justo e   Fiel de Ti Eu Preciso`
+  }
+};
+
+// Histórico extraído do grupo do WhatsApp: última data (DD/MM/AAAA) em que cada música
+// apareceu num "*CULTO ...*" postado pelo Bruno. Usado pra evitar repetir música à toa.
+const ULTIMA_VEZ_TOCADA = {
+  "Jesus": "06/08/2026",
+  "Vitorioso És": "06/08/2026",
+  "Cartas para o Mundo": "06/08/2026",
+  "Perante o Trono": "30/07/2026",
+  "Venham à Mesa": "30/07/2026",
+  "Sempre Em Frente": "30/07/2026",
+  "Nada Além do Sangue": "30/07/2026",
+  "Colossenses e Suas Linhas": "23/07/2026",
+  "Aclame ao Senhor": "23/07/2026",
+  "Quem É Esse": "23/07/2026",
+  "Eu Vou Construir": "13/07/2026",
+  "Suficiente + Doxologia": "13/07/2026",
+  "Quão Bondoso Amigo É Cristo": "13/07/2026",
+  "Grande É O Nome Do Senhor": "13/07/2026",
+  "Senhor Te Quero": "07/07/2026",
+  "Em Tua Presença": "07/07/2026",
+  "Não Há Amor Maior": "07/07/2026",
+  "Para o Calvário Olharei": "04/07/2026",
+  "Vinho e Pão": "04/07/2026",
+  "Não Há Amor Igual": "04/07/2026",
+  "A Face Adorada": "26/06/2026",
+  "Grande É O Senhor": "26/06/2026",
+  "Os Que Olham para Ti": "26/06/2026",
+  "Seja Exaltado": "26/06/2026",
+  "Senhor Formoso És / Ele É Exaltado": "17/06/2026",
+  "Sublime": "17/06/2026",
+  "Deus Tanto Nos Amou": "17/06/2026",
+  "Castelo Forte": "08/06/2026",
+  "Cristo Venceu": "08/06/2026",
+  "Reis dos Reis": "08/06/2026",
+  "Efésios 1": "04/06/2026",
+  "Coração Igual ao Teu": "04/06/2026",
+  "Alto Preço": "04/06/2026",
+  "Bondade de Deus": "28/05/2026",
+  "Maravilhosa Graça": "28/05/2026",
+  "Reinas": "28/05/2026",
+  "Maranatha": "28/05/2026",
+  "Digno": "21/05/2026",
+  "Ao Pé da Cruz": "21/05/2026",
+  "Encarnação": "21/05/2026",
+  "Salvador Maravilhoso": "21/05/2026",
+  "Falo Jesus": "14/05/2026",
+  "Rei do Meu Coração": "14/05/2026",
+  "Tu Porém": "14/05/2026",
+  "Santo pra Sempre": "04/05/2026",
+  "A Boa Parte": "04/05/2026",
+  "Aflição e Paz": "04/05/2026",
+  "Salmos 103": "04/05/2026",
+  "Nunca Foi Sobre Nós": "23/04/2026",
+  "Que Amor É Esse": "23/04/2026",
+  "Redenção": "23/04/2026",
+  "Canção de Simeão": "23/04/2026",
+  "Poder pra Salvar": "16/04/2026",
+  "Reina em Mim": "16/04/2026",
+  "Eu Me Rendo": "16/04/2026",
+  "Tua Graça Me Basta": "07/04/2026",
+  "Todo Som": "07/04/2026",
+  "Isaías 53": "31/03/2026",
+  "Pra Sempre": "31/03/2026",
+  "Só em Ti": "26/03/2026",
+  "Somente Cristo": "26/03/2026",
+  "Firmeza na Fé": "26/03/2026",
+  "Cantai / Até Sozim": "17/03/2026",
+  "Glória ao Filho de Deus": "11/03/2026",
+  "Eu Também": "04/03/2026",
+  "Me Derramar": "04/03/2026",
+  "Quebrantado": "23/02/2026",
+  "Eu Era Órfão": "19/02/2026",
+  "Teu Povo": "19/02/2026",
+  "Quebro o Meu Vaso": "13/02/2026",
+  "Vida aos Sepulcros": "13/02/2026",
+  "Teu Melhor": "13/02/2026",
+  "Minha Alma Engrandece": "13/02/2026",
+  "Dono da Minha Afeição": "05/02/2026",
+  "Consagração": "05/02/2026",
+  "Só Tu És Santo / Uma Coisa": "29/01/2026",
+  "Canção do Apocalipse": "22/01/2026",
+  "Trindade Santíssima": "22/01/2026",
+  "Teu Reino": "07/01/2026",
+  "Te Agradeço": "30/12/2025",
+  "A Benção": "30/12/2025",
+  "É o Teu Povo": "11/12/2025",
+  "Pai Nosso": "20/11/2025",
+  "Diante da Cruz": "11/11/2025",
+  "Digno de Tudo / Te Exaltamos": "03/11/2025",
+  "De Graça em Graça": "03/11/2025",
+  "Tu És": "30/10/2025",
+  "Nome Sobre Todo Nome": "20/10/2025",
+  "A Ele a Glória": "13/10/2025",
+  "Eu Te Vejo em Tudo": "24/09/2025",
+  "Meu Respirar": "18/09/2025",
+  "Alfa e Ômega": "11/09/2025",
+  "Senhor de Ti Preciso": "24/08/2025",
+  "Como Eu Te Amo": "21/08/2025",
+  "Vasos Quebrados": "21/08/2025",
+  "Em Teus Braços": "13/08/2025",
+  "Majestoso": "07/08/2025",
+  "Jesus em Tua Presença": "20/07/2025",
+  "Falar com Deus": "01/07/2025",
+  "Até Outra Vez": "29/06/2025",
+  "Toma o Meu Coração": "10/06/2025",
+  "Quão Grande É O Meu Deus": "01/06/2025"
+};
+
+// Repertório da semana: culto, quem está escalado, e as músicas (com quem canta + link do YouTube).
+// titulo:null = vaga ainda não definida. Atualize aqui toda semana.
+const SEMANA = {
+  data: "16/08/2026",
+  diaSemana: "Domingo",
+  escalados: ["MANU","NIKA","MILA"],
+  musicas: [
+    { titulo: "Jesus", voz: "MANU/MILA", youtube: "https://www.youtube.com/watch?v=nwfOXpzbLoA" },
+    { titulo: "Dono da Minha Afeição", voz: "MANU/NIKA/MILA", youtube: "https://www.youtube.com/watch?v=2anDhu7L-Cc" },
+    { titulo: "Senhor de Ti Preciso", voz: "RAFA", youtube: "https://www.youtube.com/watch?v=34-jsOV_7WQ" },
+    { titulo: "Minha Alma Engrandece", voz: "MILA", youtube: "https://www.youtube.com/watch?v=oNUErOaOuPw" }
+  ]
+};
+
+// Repertório completo (planilha "REDENÇÃO MUSIC") — número, título, quem canta
+const REPERTORIO = [
+[1,"Reinas","GUI"],[2,"Teu Reino","GUI"],[3,"Entrega","MANU"],[4,"Vasos Quebrados","NICA"],
+[5,"Bondade de Deus","MILA"],[6,"A Face Adorada","GUI"],[7,"Maravilhosa Graça","GUI"],[8,"Grande É O Senhor","MANU"],
+[9,"Tu És Bom","NICA"],[10,"Eu Me Rendo","MANU"],[11,"Estrela da Manhã","MILA"],[12,"A Benção","NICA"],
+[13,"Santo Espírito","NICA"],[14,"Maranatha","MANU"],[15,"De Graça em Graça","NICA"],[16,"Falo Jesus","MILA"],
+[17,"Como Eu Te Amo","GUI"],[18,"Há Um Lugar","MANU"],[19,"Não Há Amor Maior","MANU"],[20,"Quão Grande É O Meu Deus","MANU"],
+[21,"A Ele a Glória","GUI"],[22,"Toma o Meu Coração","NICA"],[23,"Quebrantado","MANU"],[24,"Alfa e Ômega","MANU"],
+[25,"Meu Respirar","NICA"],[26,"Teu Melhor","GUI"],[27,"Seja Exaltado","GUI"],[28,"Alto Preço","GUI"],
+[29,"Me Derramar","NICA"],[30,"Coração Igual ao Teu","MANU"],[31,"Em Espírito, Em Verdade","MANU"],[32,"Senhor Te Quero","GUI"],
+[33,"Oh Quão Lindo Esse Nome","MANU"],[34,"Reis dos Reis","MILA"],[35,"Vinho e Pão","GUI"],[36,"Atrai Meu Coração","MANU"],
+[37,"A Boa Parte","NICA/MILA"],[38,"Salvador Maravilhoso","GUI"],[39,"Senhor Formoso És / Ele É Exaltado","MANU"],[40,"Para o Calvário Olharei","MILA"],
+[41,"Ao Pé da Cruz","GUI"],[42,"Somente Cristo","NICA/MILA"],[43,"Jesus em Tua Presença","GUI"],[44,"Pai Nosso","MILA"],
+[45,"Jesus É o Caminho","MILA"],[46,"Majestoso","GUI"],[47,"Diante da Cruz","MILA"],[48,"Águas Purificadoras / Oceanos","MANU"],
+[49,"Os Que Olham para Ti","NICA"],[50,"O Cordeiro","GUI"],[51,"Poder pra Salvar","GUI"],[52,"Castelo Forte","GUI"],
+[53,"Vim para Adorar-te","NICA"],[54,"Tu És","MANU"],[55,"Canção do Apocalipse","NICA"],[56,"Que Amor É Esse","MILA"],
+[57,"Liberta-me","MILA"],[58,"Nunca Foi Sobre Nós","MANU"],[59,"Olho para Ti","NICA"],[60,"Pra Sempre","NICA"],
+[61,"Eu Era Órfão","GUI"],[62,"Falar com Deus","GUI"],[63,"Todo Som","GUI"],[64,"Trindade Santíssima","GUI"],
+[65,"Porque Dele Por Ele","NICA"],[66,"Consagração","MANU"],[67,"Vida aos Sepulcros","NICA"],[68,"Aclame ao Senhor","MANU"],
+[69,"Em Tua Presença","MILA"],[70,"Que Ele Cresça","MANU"],[71,"Quebro o Meu Vaso","NICA"],[72,"Salmos 103","NICA"],
+[73,"Te Agradeço","MANU"],[74,"Eu Te Vejo em Tudo","NICA"],[75,"Reina em Mim","GUI"],[76,"Nome Sobre Todo Nome","GUI"],
+[77,"Em Teus Braços","NICA"],[78,"De Todo o Coração","GUI"],[79,"Colossenses 1","MANU"],[80,"Digno","MANU"],
+[81,"Quero Conhecer Jesus","MANU"],[82,"Nada Além do Sangue","GUI"],[83,"Pra Te Adorar Eu Vivo","NICA"],[84,"Ousado Amor","MILA"],
+[85,"Não Há Amor Igual","GUI"],[86,"Firmeza na Fé","GUI"],[87,"Perante o Trono","GUI"],[88,"Só Tu És Santo / Uma Coisa","NICA"],
+[89,"Tua Graça Me Basta","GUI"],[90,"Encarnação","MILA"],[91,"Eu Vou Construir","MANU"],[92,"Vitorioso És","MANU"],
+[93,"Cartas para o Mundo","MILA"],[94,"É o Teu Povo","GUI"],[95,"Rei do Meu Coração","NICA"],[96,"Teu Povo","GUI"],
+[97,"Cantai / Até Sozim","RAFA"],[98,"In Memorian","GUI"],[99,"Senhor de Ti Preciso","RAFA"],[100,"Santo pra Sempre","MILA"],
+[101,"Só em Ti","GUI"],[102,"Dono da Minha Afeição","NIKA/MANU"],[103,"Colossenses e Suas Linhas","NIKA"],[104,"Eu Também","NIKA"],
+[105,"Redenção","GUI"],[106,"Suficiente + Doxologia","TODOS"],[107,"Até Outra Vez","GUI/RAFA"],[108,"Digno de Tudo / Te Exaltamos","NIKA"],
+[109,"Ressurreição","GUI"],[110,"Cristo Venceu","GUI"],[111,"Glória ao Filho de Deus","GUI"],[112,"Sublime","RAFA/NIKA"],
+[113,"Oferta Agradável a Ti","MILA"],[114,"Efésios 1","GUI"],[115,"Aflição e Paz","GUI"],[116,"Venham à Mesa","MILA"],
+[117,"Minha Alma Engrandece","MILA"],[118,"Canção de Simeão","NIKA"],[119,"Quem É Esse","MILA"],[120,"Fé","NIKA"],
+[121,"Deus Tanto Nos Amou","NIKA"],[122,"Em Memória de Mim","NIKA"],[123,"Isaías 53","MULHE/RAFA"],[124,"Firmeza na Fé","GUI"],
+[125,"Tu Porém","RAFA"],[126,"Quão Bondoso Amigo É Cristo","MILA"],[127,"Oração","—"],[128,"Tu És Soberano","—"],
+[129,"Sempre Em Frente","RAFA"],[130,"Grande É O Nome Do Senhor","GUI"],[131,"Jesus","MANU/MILA"]
+];
+
+// Músicas novas que a banda está aprendendo/vai lançar em breve — lista curada manualmente
+// (diferente do repertório de sempre). Adicione aqui: { titulo, voz (opcional), youtube (opcional), nota (opcional) }.
+const PROXIMOS_LANCAMENTOS = [
+];
+
+// ---------- BUILD ----------
+const listEl = document.getElementById('list');
+const countEl = document.getElementById('count');
+const searchEl = document.getElementById('search');
+const filtersEl = document.getElementById('filters');
+const searchbarEl = document.getElementById('searchbar');
+const listProximasEl = document.getElementById('list-proximas');
+const countProximasEl = document.getElementById('count-proximas');
+const tabsEl = document.getElementById('tabs');
+const views = {
+  musicas: document.getElementById('view-musicas'),
+  semana: document.getElementById('view-semana'),
+  proximas: document.getElementById('view-proximas'),
+};
+
+// Navegação por abas: Músicas / Repertório da Semana / Próximas Músicas
+let activeTab = 'semana';
+function switchTab(tab){
+  activeTab = tab;
+  tabsEl.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
+  Object.entries(views).forEach(([k, el])=> el && el.classList.toggle('active', k===tab));
+  // busca e filtro de voz só fazem sentido na aba Músicas
+  searchbarEl.style.display = tab==='musicas' ? '' : 'none';
+  filtersEl.style.display = tab==='musicas' ? '' : 'none';
+  if(tab==='proximas') renderProximas();
+}
+tabsEl.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>switchTab(btn.dataset.tab));
+});
+
+// Opções de leitura: ocultar cifras (só letra) e tamanho da fonte — valem pra qualquer aba.
+const toggleChordsBtn = document.getElementById('toggleChordsBtn');
+const fontDecBtn = document.getElementById('fontDec');
+const fontIncBtn = document.getElementById('fontInc');
+let hideChords = false;
+let fontStep = 0;
+const FONT_BASE = 0.82, FONT_STEP = 0.08, FONT_MIN_STEP = -4, FONT_MAX_STEP = 6;
+
+function applyReadingPrefs(){
+  document.body.classList.toggle('hide-chords', hideChords);
+  toggleChordsBtn.textContent = hideChords ? '📝 Mostrar cifras' : '🎼 Ocultar cifras';
+  toggleChordsBtn.classList.toggle('active', hideChords);
+  const fs = FONT_BASE + fontStep * FONT_STEP;
+  document.documentElement.style.setProperty('--cifra-fs', fs.toFixed(2) + 'rem');
+}
+toggleChordsBtn.addEventListener('click', ()=>{
+  hideChords = !hideChords;
+  applyReadingPrefs();
+});
+fontDecBtn.addEventListener('click', ()=>{
+  fontStep = Math.max(FONT_MIN_STEP, fontStep - 1);
+  applyReadingPrefs();
+});
+fontIncBtn.addEventListener('click', ()=>{
+  fontStep = Math.min(FONT_MAX_STEP, fontStep + 1);
+  applyReadingPrefs();
+});
+applyReadingPrefs();
+
+function normalize(str){
+  return (str||"").toString().normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+}
+
+function vozClass(voz){
+  const v = (voz||"").toUpperCase();
+  if(v.includes("GUI")) return "GUI";
+  if(v.includes("NICA")||v.includes("NIKA")) return "NICA";
+  if(v.includes("MILA")) return "MILA";
+  if(v.includes("MANU")) return "MANU";
+  if(v.includes("RAFA")) return "RAFA";
+  if(v.includes("TODOS")) return "TODOS";
+  return "OUTROS";
+}
+
+// ---------- ÚLTIMA VEZ TOCADA (histórico do WhatsApp) ----------
+function parseBrDate(str){
+  const [dd,mm,yyyy] = str.split('/').map(Number);
+  return new Date(yyyy, mm-1, dd);
+}
+
+// Acha a data mais recente em que "title" foi tocada, com correspondência exata
+// e, se não achar, por aproximação (ignorando acentos/maiúsculas).
+function getUltimaVez(title){
+  if(ULTIMA_VEZ_TOCADA[title]) return ULTIMA_VEZ_TOCADA[title];
+  const nt = normalize(title);
+  let best = null;
+  for(const k in ULTIMA_VEZ_TOCADA){
+    const nk = normalize(k);
+    if(nk===nt || nk.includes(nt) || nt.includes(nk)){
+      const d = ULTIMA_VEZ_TOCADA[k];
+      if(!best || parseBrDate(d) > parseBrDate(best)) best = d;
+    }
+  }
+  return best;
+}
+
+function ultimaVezInfo(title){
+  const data = getUltimaVez(title);
+  if(!data) return { data:null, label:"Sem registro de execução", nivel:"desconhecido" };
+  const dt = parseBrDate(data);
+  const dias = Math.round((new Date() - dt) / 86400000);
+  let label;
+  if(dias<=0) label = "hoje";
+  else if(dias===1) label = "há 1 dia";
+  else if(dias<14) label = `há ${dias} dias`;
+  else if(dias<60) label = `há ${Math.round(dias/7)} semanas`;
+  else label = `há ${Math.round(dias/30)} meses`;
+  let nivel;
+  if(dias<21) nivel = "recente";       // tocada há menos de 3 semanas — cuidado pra não repetir
+  else if(dias<60) nivel = "morno";    // 3-8 semanas
+  else nivel = "seguro";               // 2+ meses, tranquilo repetir
+  return { data, dias, label, nivel };
+}
+
+// ---------- TRANSPOSIÇÃO DE TOM ----------
+const NOTES_SHARP = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const NOTES_FLAT  = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+const NOTE_INDEX = {};
+NOTES_SHARP.forEach((n,i)=>{ NOTE_INDEX[n]=i; });
+NOTES_FLAT.forEach((n,i)=>{ NOTE_INDEX[n]=i; });
+
+const DECORATIVE_RE = /^\(?\d+x\)?$/i;
+const CHORD_CORE_RE = /^[A-G](#|b)?[a-zA-Z0-9#\+\-\(\)]*$/;
+
+function parseChordCore(str){
+  const m = str.match(/^([A-G])(#|b)?(.*)$/);
+  if(!m) return null;
+  return {letter:m[1], acc:m[2]||'', suffix:m[3]||''};
+}
+
+function transposeNote(letter, acc, semitones, useFlats){
+  const idx = NOTE_INDEX[letter+acc];
+  if(idx===undefined) return letter+acc;
+  const newIdx = ((idx + semitones) % 12 + 12) % 12;
+  return useFlats ? NOTES_FLAT[newIdx] : NOTES_SHARP[newIdx];
+}
+
+function transposeChordString(chord, semitones, useFlats){
+  if(!semitones) return chord;
+  const slashIdx = chord.indexOf('/');
+  const main = slashIdx>-1 ? chord.slice(0,slashIdx) : chord;
+  const bass = slashIdx>-1 ? chord.slice(slashIdx+1) : null;
+  const mainParsed = parseChordCore(main);
+  if(!mainParsed) return chord;
+  let result = transposeNote(mainParsed.letter, mainParsed.acc, semitones, useFlats) + mainParsed.suffix;
+  if(bass!==null){
+    const bassParsed = parseChordCore(bass);
+    result += '/' + (bassParsed ? transposeNote(bassParsed.letter, bassParsed.acc, semitones, useFlats) + bassParsed.suffix : bass);
+  }
+  return result;
+}
+
+function isTransposableToken(tok){
+  if(DECORATIVE_RE.test(tok)) return {decorative:true};
+  let core = tok, prefix='', suffix='';
+  while(core.length && '(['.includes(core[0])){ prefix+=core[0]; core=core.slice(1); }
+  while(core.length && ')]'.includes(core[core.length-1])){ suffix = core[core.length-1]+suffix; core = core.slice(0,-1); }
+  if(!core.length) return {chord:false};
+  const slashIdx = core.indexOf('/');
+  const mainCore = slashIdx>-1 ? core.slice(0,slashIdx) : core;
+  if(CHORD_CORE_RE.test(mainCore)) return {chord:true, prefix, core, suffix};
+  return {chord:false};
+}
+
+// Decide se uma linha é "de acordes" (cifra) ou letra/texto livre.
+// Extrai também um possível rótulo entre colchetes, ex: "[Intro] D A/C# G"
+function classifyLine(line){
+  const bracketMatch = line.match(/^(\s*\[[^\]]*\]\s*)(.*)$/);
+  const label = bracketMatch ? bracketMatch[1] : '';
+  const rest = bracketMatch ? bracketMatch[2] : line;
+  const parts = rest.split(/(\s+)/);
+  let allValid = true, hasChord = false;
+  for(const p of parts){
+    if(p.trim()==='') continue;
+    const info = isTransposableToken(p);
+    if(info.decorative) continue;
+    if(info.chord){ hasChord = true; continue; }
+    allValid = false; break;
+  }
+  return { label, parts, isChordish: allValid && hasChord };
+}
+
+function transposeLine(line, semitones, useFlats){
+  const { label, parts, isChordish } = classifyLine(line);
+  if(!isChordish || !semitones) return line;
+  const newParts = parts.map(p=>{
+    if(p.trim()==='') return p;
+    const info = isTransposableToken(p);
+    if(info.decorative) return p;
+    if(info.chord) return info.prefix + transposeChordString(info.core, semitones, useFlats) + info.suffix;
+    return p;
+  });
+  return label + newParts.join('');
+}
+
+function transposeCifra(text, semitones, useFlats){
+  if(!semitones) return text;
+  return text.split("\n").map(l=>transposeLine(l, semitones, useFlats)).join("\n");
+}
+
+// Renderiza cada linha da cifra num bloco próprio, pra dar pra esconder só as linhas
+// de acorde (modo "só letra") sem perder rótulos de seção como [Intro]/[Refrão].
+function highlightChords(text){
+  return text.split("\n").map(line=>{
+    const { label, isChordish } = classifyLine(line);
+    if(label){
+      const rest = line.slice(label.length);
+      const restIsChords = isChordish && rest.trim().length>0;
+      const restHtml = restIsChords ? `<span class="chord chord-part">${rest}</span>` : rest;
+      return `<div class="line"><span class="section-label">${label}</span>${restHtml}</div>`;
+    }
+    if(isChordish){
+      return `<div class="line chord-line"><span class="chord">${line}</span></div>`;
+    }
+    return `<div class="line">${line.length ? line : ' '}</div>`;
+  }).join('');
+}
+
+const voices = ["TODAS", ...Array.from(new Set(REPERTORIO.map(r=>vozClass(r[2])))).filter(v=>v!=="OUTROS").sort()];
+let activeVoice = "TODAS";
+
+voices.forEach(v=>{
+  const chip = document.createElement('div');
+  chip.className = 'chip' + (v===activeVoice ? ' active':'');
+  chip.textContent = v==="TODAS" ? "Todas" : v;
+  chip.dataset.voice = v;
+  chip.addEventListener('click', ()=>{
+    activeVoice = v;
+    filtersEl.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    render();
+  });
+  filtersEl.appendChild(chip);
+});
+
+// Constrói um card de música reutilizável (usado na lista geral, no repertório da semana e em próximas músicas)
+function createSongCard({ num, title, voz, youtube, openByDefault, nota } = {}){
+  const key = (title||'').toUpperCase();
+  const data = CIFRAS[key];
+  const vClass = voz ? vozClass(voz) : null;
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  if(openByDefault) card.classList.add('open');
+
+  const head = document.createElement('div');
+  head.className = 'card-head';
+  const uv = ultimaVezInfo(title);
+  head.innerHTML = `
+    ${num!==undefined ? `<span class="num">${num}</span>` : ''}
+    <span class="title">${title}${data ? '' : '<span class="note">cifra ainda não cadastrada</span>'}
+      <span class="uv uv-${uv.nivel}">${uv.data ? '🕓 '+uv.label : '— nunca tocada'}</span>
+    </span>
+    ${data ? `<span class="tom">${data.tom}</span>` : ''}
+    ${voz ? `<span class="badge ${vClass}"><span class="dot"></span>${voz}</span>` : ''}
+    <span class="chevron">›</span>
+  `;
+  head.addEventListener('click', ()=>{
+    card.classList.toggle('open');
+  });
+
+  const body = document.createElement('div');
+  body.className = 'card-body';
+  const bodyInner = document.createElement('div');
+  bodyInner.className = 'card-body-inner';
+  const bodyPad = document.createElement('div');
+  bodyPad.className = 'body-pad';
+  bodyInner.appendChild(bodyPad);
+  body.appendChild(bodyInner);
+
+  const youtubeRow = youtube
+    ? `<a class="yt-link" href="${youtube}" target="_blank" rel="noopener">▶ Ouvir no YouTube</a>`
+    : '';
+  const notaRow = nota ? `<div class="mod-row">📝 ${nota}</div>` : '';
+
+  if(data){
+    bodyPad.innerHTML = `
+      ${youtubeRow}
+      ${notaRow}
+      <div class="meta-row">
+        <span><b>Tom original:</b> ${data.tom}</span>
+        <span><b>Compositor:</b> ${data.compositor}</span>
+      </div>
+      ${data.modulacao ? `<div class="mod-row">🎚️ <b>Troca de tom na música:</b> ${data.modulacao}</div>` : ''}
+      <div class="transpose">
+        <span>Transpor</span>
+        <button class="tr-btn" data-dir="-1" title="Descer meio tom">–</button>
+        <span class="tr-tom"></span>
+        <button class="tr-btn" data-dir="1" title="Subir meio tom">+</button>
+        <button class="tr-reset chip" style="display:none;">voltar ao original</button>
+      </div>
+      <div class="cifra"></div>
+      <a class="source" href="${data.fonte}" target="_blank" rel="noopener">Ver cifra completa em ${data.fonteNome} ↗</a>
+    `;
+
+    let offset = 0;
+    const useFlats = (data.tom||'').includes('b');
+    const cifraEl = bodyPad.querySelector('.cifra');
+    const tomEl = bodyPad.querySelector('.tr-tom');
+    const resetBtn = bodyPad.querySelector('.tr-reset');
+
+    function renderTranspose(){
+      cifraEl.innerHTML = highlightChords(transposeCifra(data.cifra, offset, useFlats));
+      const currentTom = offset===0 ? data.tom : transposeChordString(data.tom, offset, useFlats);
+      tomEl.textContent = offset===0 ? currentTom : `${currentTom} (${offset>0?'+':''}${offset} ${Math.abs(offset)===1?'semitom':'semitons'})`;
+      resetBtn.style.display = offset===0 ? 'none' : 'inline-block';
+    }
+    renderTranspose();
+
+    bodyPad.querySelectorAll('.tr-btn').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        offset += parseInt(btn.dataset.dir, 10);
+        renderTranspose();
+      });
+    });
+    resetBtn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      offset = 0;
+      renderTranspose();
+    });
+  } else {
+    bodyPad.innerHTML = `
+      ${youtubeRow}
+      ${notaRow}
+      <div class="placeholder">Cifra e tom ainda não foram cadastrados para "${title}". Assim que forem definidos, entram aqui automaticamente.</div>
+    `;
+  }
+
+  card.appendChild(head);
+  card.appendChild(body);
+  return card;
+}
+
+function renderSemana(){
+  const el = document.getElementById('semana');
+  if(!el) return;
+  if(!SEMANA || !Array.isArray(SEMANA.musicas) || !SEMANA.musicas.length){
+    el.innerHTML = '';
+    return;
+  }
+  const escaladosHtml = (SEMANA.escalados||[]).map(v=>`<span class="badge ${vozClass(v)}"><span class="dot"></span>${v}</span>`).join('');
+  el.innerHTML = `
+    <div class="semana-head">
+      <div>
+        <div class="semana-title">🗓️ Repertório da semana</div>
+        <div class="semana-date">${SEMANA.diaSemana ? SEMANA.diaSemana + ' · ' : ''}${SEMANA.data || ''}</div>
+      </div>
+      ${escaladosHtml ? `<div class="semana-escalados">${escaladosHtml}</div>` : ''}
+    </div>
+    <div class="semana-list"></div>
+  `;
+  const listWrap = el.querySelector('.semana-list');
+  SEMANA.musicas.forEach((m, i)=>{
+    if(!m || !m.titulo){
+      const ph = document.createElement('div');
+      ph.className = 'semana-tbd';
+      ph.textContent = `Música ${i+1} — a definir`;
+      listWrap.appendChild(ph);
+      return;
+    }
+    listWrap.appendChild(createSongCard({ title: m.titulo, voz: m.voz, youtube: m.youtube }));
+  });
+}
+
+function render(){
+  const q = normalize(searchEl.value);
+  listEl.innerHTML = "";
+  let shown = 0;
+
+  let entries = REPERTORIO.filter(([num, title, voz])=>{
+    const vClass = vozClass(voz);
+    if(activeVoice!=="TODAS" && vClass!==activeVoice) return false;
+    const matches = !q || normalize(title).includes(q) || normalize(voz).includes(q);
+    return matches;
+  });
+
+  entries.forEach(([num, title, voz])=>{
+    shown++;
+    listEl.appendChild(createSongCard({ num, title, voz }));
+  });
+
+  countEl.textContent = shown + (shown===1 ? " música encontrada" : " músicas encontradas") + ` · ${Object.keys(CIFRAS).length} com cifra completa de ${REPERTORIO.length} no repertório`;
+
+  if(shown===0){
+    listEl.innerHTML = `<div class="empty-state">Nenhuma música encontrada para essa busca.</div>`;
+  }
+}
+
+// Próximas Músicas: repertório inteiro ordenado pelas que ficaram mais tempo sem tocar
+// (nunca tocada = prioridade máxima), pra ajudar a escolher sem repetir à toa.
+function renderProximas(){
+  listProximasEl.innerHTML = "";
+  if(!PROXIMOS_LANCAMENTOS.length){
+    countProximasEl.textContent = "Nenhuma música nova cadastrada ainda.";
+    listProximasEl.innerHTML = `<div class="empty-state">Quando tiver uma música nova pra ensinar a banda, me manda o nome (e a cifra, se já tiver) que eu coloco aqui.</div>`;
+    return;
+  }
+  PROXIMOS_LANCAMENTOS.forEach(m=>{
+    listProximasEl.appendChild(createSongCard({ title: m.titulo, voz: m.voz, youtube: m.youtube, nota: m.nota }));
+  });
+  countProximasEl.textContent = `${PROXIMOS_LANCAMENTOS.length} música(s) nova(s) a caminho`;
+}
+
+searchEl.addEventListener('input', render);
+switchTab('semana');
+renderSemana();
+render();
+</script>
+
+</body>
+</html>
