@@ -448,6 +448,92 @@
     font-weight:600;
     font-family:inherit;
   }
+  .tr-fs{
+    width:auto;
+    height:auto;
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:.71rem;
+    font-weight:700;
+    font-family:inherit;
+    border:1px solid var(--border);
+    background:var(--panel2);
+    color:var(--accent2);
+    cursor:pointer;
+    margin-left:auto;
+    transition:all .15s ease;
+  }
+  .tr-fs:hover{ border-color:var(--accent2); background:rgba(110,168,254,0.1); }
+  .fs-overlay{
+    position:fixed;
+    inset:0;
+    z-index:999;
+    background-color:var(--bg);
+    background-image:var(--bg-glow);
+    display:none;
+    flex-direction:column;
+  }
+  .fs-overlay.active{ display:flex; }
+  .fs-header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:12px;
+    padding:16px 18px;
+    border-bottom:1px solid var(--border-soft);
+    background:linear-gradient(180deg, rgba(10,11,15,0.98), rgba(10,11,15,0.88));
+    backdrop-filter: blur(10px);
+    flex-wrap:wrap;
+  }
+  .fs-title{
+    font-size:1.15rem;
+    font-weight:800;
+    color:var(--text);
+  }
+  .fs-sub{
+    color:var(--accent);
+    font-weight:700;
+    font-size:.9rem;
+    margin-top:2px;
+  }
+  .fs-controls{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .fs-sep{
+    width:1px;
+    height:20px;
+    background:var(--border);
+    margin:0 4px;
+  }
+  .fs-btn{
+    border:1px solid var(--border);
+    background:var(--panel2);
+    color:var(--text);
+    width:36px; height:36px;
+    border-radius:10px;
+    font-size:.85rem;
+    font-weight:700;
+    font-family:inherit;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .fs-btn:hover{ border-color:#3a4050; background:var(--panel); }
+  .fs-close{ color:#ff8a8a; border-color:rgba(255,138,138,0.3); }
+  .fs-close:hover{ background:rgba(255,138,138,0.1); }
+  .fs-body{
+    flex:1;
+    overflow:auto;
+    padding:20px;
+  }
+  .fs-body .cifra{
+    max-width:900px;
+    margin:0 auto;
+    font-size:var(--fs-cifra-fs, 1.15rem);
+    line-height:1.8;
+  }
   .empty-state{
     text-align:center;
     color:var(--muted-soft);
@@ -573,6 +659,26 @@
   Cifras e tons de referência — confira com quem canta antes do ensaio, pois o tom pode variar por voz.<br>
   Repertório completo importado da planilha da banda · atualizado manualmente
 </footer>
+
+<div class="fs-overlay" id="fsOverlay">
+  <div class="fs-header">
+    <div>
+      <div class="fs-title" id="fsTitle"></div>
+      <div class="fs-sub" id="fsSub"></div>
+    </div>
+    <div class="fs-controls">
+      <button class="fs-btn" id="fsTrDec" title="Descer meio tom">–</button>
+      <button class="fs-btn" id="fsTrInc" title="Subir meio tom">+</button>
+      <span class="fs-sep"></span>
+      <button class="fs-btn" id="fsFontDec" title="Diminuir fonte">A−</button>
+      <button class="fs-btn" id="fsFontInc" title="Aumentar fonte">A+</button>
+      <button class="fs-btn fs-close" id="fsClose" title="Fechar tela cheia">✕</button>
+    </div>
+  </div>
+  <div class="fs-body">
+    <div class="cifra" id="fsCifra"></div>
+  </div>
+</div>
 
 <script>
 // ---------- DADOS ----------
@@ -1828,6 +1934,68 @@ fontIncBtn.addEventListener('click', ()=>{
 });
 applyReadingPrefs();
 
+// ---------- TELA CHEIA ----------
+const fsOverlay = document.getElementById('fsOverlay');
+const fsTitleEl = document.getElementById('fsTitle');
+const fsSubEl = document.getElementById('fsSub');
+const fsCifraEl = document.getElementById('fsCifra');
+const fsTrDecBtn = document.getElementById('fsTrDec');
+const fsTrIncBtn = document.getElementById('fsTrInc');
+const fsFontDecBtn = document.getElementById('fsFontDec');
+const fsFontIncBtn = document.getElementById('fsFontInc');
+const fsCloseBtn = document.getElementById('fsClose');
+
+let fsOpenKey = null;
+let fsHandlers = null;
+let fsFontStep = 4; // começa maior que o padrão, já que é feito pra ler de longe
+
+function applyFsFont(){
+  const fs = FONT_BASE + fsFontStep * FONT_STEP;
+  document.documentElement.style.setProperty('--fs-cifra-fs', fs.toFixed(2) + 'rem');
+}
+applyFsFont();
+
+function openFullscreen({ key, title, tomText, cifraHtml, onDec, onInc }){
+  fsOpenKey = key;
+  fsHandlers = { onDec, onInc };
+  fsTitleEl.textContent = title;
+  fsSubEl.textContent = tomText;
+  fsCifraEl.innerHTML = cifraHtml;
+  fsOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  if(document.documentElement.requestFullscreen){
+    document.documentElement.requestFullscreen().catch(()=>{ /* segue no modo tela-cheia via CSS mesmo se o navegador bloquear */ });
+  }
+}
+
+function syncFullscreen(cifraHtml, tomText){
+  fsCifraEl.innerHTML = cifraHtml;
+  if(tomText!==undefined) fsSubEl.textContent = tomText;
+}
+
+function closeFullscreen(){
+  fsOpenKey = null;
+  fsHandlers = null;
+  fsOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+  if(document.fullscreenElement && document.exitFullscreen){
+    document.exitFullscreen().catch(()=>{});
+  }
+}
+
+fsCloseBtn.addEventListener('click', closeFullscreen);
+fsTrDecBtn.addEventListener('click', ()=> fsHandlers && fsHandlers.onDec());
+fsTrIncBtn.addEventListener('click', ()=> fsHandlers && fsHandlers.onInc());
+fsFontDecBtn.addEventListener('click', ()=>{ fsFontStep = Math.max(FONT_MIN_STEP, fsFontStep-1); applyFsFont(); });
+fsFontIncBtn.addEventListener('click', ()=>{ fsFontStep = Math.min(FONT_MAX_STEP+4, fsFontStep+1); applyFsFont(); });
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && fsOverlay.classList.contains('active')) closeFullscreen(); });
+document.addEventListener('fullscreenchange', ()=>{
+  if(!document.fullscreenElement && fsOverlay.classList.contains('active')){
+    // usuário saiu da tela cheia nativa (ex: tecla Esc do navegador) — fecha nossa camada também
+    closeFullscreen();
+  }
+});
+
 function normalize(str){
   return (str||"").toString().normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
 }
@@ -2059,6 +2227,7 @@ function createSongCard({ num, title, voz, youtube, openByDefault, nota } = {}){
         <span class="tr-tom"></span>
         <button class="tr-btn" data-dir="1" title="Subir meio tom">+</button>
         <button class="tr-reset chip" style="display:none;">voltar ao original</button>
+        <button class="tr-fs" title="Ver em tela cheia">⛶ Tela cheia</button>
       </div>
       <div class="cifra"></div>
       <a class="source" href="${data.fonte}" target="_blank" rel="noopener">Ver cifra completa em ${data.fonteNome} ↗</a>
@@ -2069,12 +2238,15 @@ function createSongCard({ num, title, voz, youtube, openByDefault, nota } = {}){
     const cifraEl = bodyPad.querySelector('.cifra');
     const tomEl = bodyPad.querySelector('.tr-tom');
     const resetBtn = bodyPad.querySelector('.tr-reset');
+    const fsBtn = bodyPad.querySelector('.tr-fs');
+    const songKey = key;
 
     function renderTranspose(){
       cifraEl.innerHTML = highlightChords(transposeCifra(data.cifra, offset, useFlats));
       const currentTom = offset===0 ? data.tom : transposeChordString(data.tom, offset, useFlats);
       tomEl.textContent = offset===0 ? currentTom : `${currentTom} (${offset>0?'+':''}${offset} ${Math.abs(offset)===1?'semitom':'semitons'})`;
       resetBtn.style.display = offset===0 ? 'none' : 'inline-block';
+      if(fsOpenKey === songKey) syncFullscreen(cifraEl.innerHTML, tomEl.textContent);
     }
     renderTranspose();
 
@@ -2089,6 +2261,17 @@ function createSongCard({ num, title, voz, youtube, openByDefault, nota } = {}){
       e.stopPropagation();
       offset = 0;
       renderTranspose();
+    });
+    fsBtn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      openFullscreen({
+        key: songKey,
+        title,
+        tomText: tomEl.textContent,
+        cifraHtml: cifraEl.innerHTML,
+        onDec: ()=>{ offset -= 1; renderTranspose(); },
+        onInc: ()=>{ offset += 1; renderTranspose(); },
+      });
     });
   } else {
     bodyPad.innerHTML = `
