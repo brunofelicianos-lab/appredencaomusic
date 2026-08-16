@@ -1632,97 +1632,149 @@ O filho de Deus, Ele é Deus`
 `[Intro] C  F/C
 
 [Verso 1]
-C
+               C
 Eu não vou deixar
-C4
+               C4
 Eu não vou trocar
-        Am           G          F
+               Am                G      F
 O que eu encontrei o mundo não pode me dar
-C
+                C
 Eu não vou deixar
-C4
+               C4
 Eu não vou trocar
-Am
+               Am
 A boa parte está
-          G                F
+                 G         F
 Naquele que primeiro me amou
 
 [Verso 2]
-C
+             C
 Mais vale um dia
+
 Em tua casa
-      C/E      F         G
+         C/E   F            G
 Que mil dias    em outro lugar
-C
+               C
 Senhor da minh'alma
+
 Do meu coração
-           C/E         F                 G
-Sempre será o primeiro em minha devoção
+           C/E       F                G
+Sempre será o   primeiro em minha devoção
 
 [Pré-Refrão]
-C/E          F        Am
+C/E    F                    Am
 Oooh Ooooh, conheces o meu amor
-     F        C            G
+       F           C             G
 Oooh Oooh, Tu és o Rei do meu coração
 
 [Refrão]
-C
+               C
 Eu não vou deixar
-F/C
+               F/C
 Eu não vou trocar
-        Am           G          F
+               Am                G      F
 O que eu encontrei o mundo não pode me dar
-C
+                C
 Eu não vou deixar
-F/C
+               F/C
 Eu não vou trocar
-Am
+               Am
 A boa parte está
-          G                F
+                 G         F
 Naquele que primeiro me amou
 
-[Interlúdio] Am  G/B
+[Interlúdio] Am  G/B  C
+              G
 
-[Seção Repetida] (2x)
-C                Am
-Não há outro nome, não há outro amor
-G/B
+[Seção Repetida]
+      Am
+Não há outro nome
+
+Não há outro amor
+   G/B
 Não há outro rei
-C             C/E
+   C          C/E
 Nem outro Senhor
-F                  G
-Minha devoção, dono da minha afeição
+F
+Minha devoção
+        G
+Dono da minha afeição
+
+[Seção Repetida]
+      Am
+Não há outro nome
+
+Não há outro amor
+   G/B
+Não há outro rei
+   C
+Nem outro Senhor
+F
+Minha devoção
+        G
+Dono da minha afeição
+
+[Seção Repetida]
+      Am
+Não há outro nome
+
+Não há outro amor
+   G/B
+Não há outro rei
+   C          C/E
+Nem outro Senhor
+F
+Minha devoção
+        G
+Dono da minha afeição
 
 [Verso Final]
-C
+               C
 Eu não vou deixar
-G/B      Em
+               G/B    Em
 Eu não vou trocar
-        Am           G          F
+               Am                G      F
 O que eu encontrei o mundo não pode me dar
-C/E
+                C/E
 Eu não vou deixar
-Dm
+               Dm
 Eu não vou trocar
-Am
+               Am
 A boa parte está
-          G                F
+                 G         F
 Naquele que primeiro me amou
 
-[Seção Repetida] (2x)
-C                Am
-Não há outro nome, não há outro amor
-G/B
-Não há outro rei
-C             C/E
-Nem outro Senhor
-F                  G
-Minha devoção, dono da minha afeição
+[Seção Repetida]
+               Am
+Não há outro nome
 
+Não há outro amor
+   G/B
+Não há outro rei
+   C          C/E
+Nem outro Senhor
+F
+Minha devoção
+        G
+Dono da minha afeição
+
+[Seção Repetida]
+Am
+Não há outro nome
+
+Não há outro amor
+   G/B
+Não há outro rei
+   C          C/E
+Nem outro Senhor
+F
+Minha devoção
+        G
+Dono da minha afeição
 [Final]
-F              Am
+      F                    Am
 Oooh Ooooh, conheces o meu amor
-     F        C            G
+       F           C             G
 Oooh Oooh, Tu és o Rei do meu coração`
   },
   "SOMENTE CRISTO": {
@@ -2449,27 +2501,13 @@ function highlightChords(text){
   }).join('');
 }
 
-// Linhas de acorde não podem quebrar (senão o alinhamento com a letra embaixo se perde) —
-// em vez disso, se a linha for larga demais pro card, reduz a fonte só daquela linha até caber.
+// Linhas de acorde não podem quebrar (senão o alinhamento com a letra embaixo se perde).
+// A fonte da cifra fica sempre no tamanho escolhido pelo usuário (A-/A+) — não reduz
+// sozinha. Se alguma linha rara de acordes for larga demais pro card, o próprio ".cifra"
+// tem rolagem horizontal (overflow-x:auto) como recurso, em vez de encolher o texto.
 function fitChordLines(container){
   if(!container) return;
-  const lines = container.querySelectorAll('.chord-line');
-  // clientWidth inclui o padding do próprio container — o texto das linhas só tem
-  // a área de conteúdo (clientWidth menos o padding horizontal) disponível de verdade.
-  const cs = getComputedStyle(container);
-  const maxWidth = container.clientWidth - parseFloat(cs.paddingLeft||0) - parseFloat(cs.paddingRight||0);
-  if(!maxWidth || maxWidth<=0) return;
-  lines.forEach(line=>{
-    line.style.fontSize = '';
-    if(line.scrollWidth <= maxWidth) return;
-    let size = parseFloat(getComputedStyle(line).fontSize);
-    let guard = 0;
-    while(line.scrollWidth > maxWidth && size > 8 && guard < 40){
-      size -= 0.5;
-      line.style.fontSize = size + 'px';
-      guard++;
-    }
-  });
+  container.querySelectorAll('.chord-line').forEach(line=>{ line.style.fontSize = ''; });
 }
 function fitAllChordLines(){
   document.querySelectorAll('.cifra').forEach(fitChordLines);
