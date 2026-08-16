@@ -441,7 +441,8 @@
     color:var(--cifra-text);
   }
   .cifra .line{ white-space:pre-wrap; overflow-wrap:anywhere; }
-  .cifra .line.chord-line{ white-space:pre; overflow-wrap:normal; display:block; }
+  .cifra .line.chord-line{ white-space:pre-wrap; overflow-wrap:normal; display:block; }
+  .cifra .cl-pair{ display:contents; }
   .cifra .chord{ color:var(--accent); font-weight:700; }
   .cifra .section-label{ color:var(--accent2); font-weight:700; }
   body.hide-chords .cifra .chord-line,
@@ -2484,30 +2485,116 @@ function transposeCifra(text, semitones, useFlats){
 
 // Renderiza cada linha da cifra num bloco próprio, pra dar pra esconder só as linhas
 // de acorde (modo "só letra") sem perder rótulos de seção como [Intro]/[Refrão].
+function escapeHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Uma linha de acorde seguida de uma linha de letra forma um "par" — quando a letra
+// precisa quebrar em telas estreitas, o acorde tem que quebrar junto, no mesmo lugar,
+// pra continuar exatamente em cima da silaba certa (ver wrapPair/fitChordLines).
 function highlightChords(text){
-  return text.split("\n").map(line=>{
+  const lines = text.split("\n");
+  const out = [];
+  for(let i=0;i<lines.length;i++){
+    const line = lines[i];
     const { label, isChordish } = classifyLine(line);
     if(label){
       const rest = line.slice(label.length);
       const restIsChords = isChordish && rest.trim().length>0;
-      const restHtml = restIsChords ? `<span class="chord chord-part">${rest}</span>` : rest;
+      const restHtml = restIsChords ? `<span class="chord chord-part">${escapeHtml(rest)}</span>` : escapeHtml(rest);
       const cls = restIsChords ? 'line chord-line' : 'line';
-      return `<div class="${cls}"><span class="section-label">${label}</span>${restHtml}</div>`;
+      out.push(`<div class="${cls}"><span class="section-label">${escapeHtml(label)}</span>${restHtml}</div>`);
+      continue;
     }
     if(isChordish){
-      return `<div class="line chord-line"><span class="chord">${line}</span></div>`;
+      const next = lines[i+1];
+      const nextInfo = next!==undefined ? classifyLine(next) : null;
+      const nextIsLyric = next!==undefined && nextInfo && !nextInfo.label && !nextInfo.isChordish && next.trim().length>0;
+      if(nextIsLyric){
+        out.push(
+          `<div class="cl-pair" data-chord="${encodeURIComponent(line)}" data-lyric="${encodeURIComponent(next)}">` +
+          `<div class="line chord-line"><span class="chord">${escapeHtml(line)}</span></div>` +
+          `<div class="line">${escapeHtml(next)}</div>` +
+          `</div>`
+        );
+        i++;
+        continue;
+      }
+      out.push(`<div class="line chord-line"><span class="chord">${escapeHtml(line)}</span></div>`);
+      continue;
     }
-    return `<div class="line">${line.length ? line : ' '}</div>`;
-  }).join('');
+    out.push(`<div class="line">${line.length ? escapeHtml(line) : ' '}</div>`);
+  }
+  return out.join('');
 }
 
-// Linhas de acorde não podem quebrar (senão o alinhamento com a letra embaixo se perde).
-// A fonte da cifra fica sempre no tamanho escolhido pelo usuário (A-/A+) — não reduz
-// sozinha. Se alguma linha rara de acordes for larga demais pro card, o próprio ".cifra"
-// tem rolagem horizontal (overflow-x:auto) como recurso, em vez de encolher o texto.
+// Divide um par acorde+letra em varios pares menores, quebrando os dois juntos na mesma
+// coluna (sempre num espaco da letra, pra nao cortar palavra no meio) — assim o acorde
+// wrapado continua exatamente em cima da silaba onde estava no texto original.
+function wrapPair(chordLine, lyricLine, maxChars){
+  const total = Math.max(chordLine.length, lyricLine.length);
+  if(maxChars<=0 || total<=maxChars) return [{ chord: chordLine, lyric: lyricLine }];
+  const segments = [];
+  let start = 0;
+  while(total - start > maxChars){
+    const searchEnd = Math.min(start+maxChars, lyricLine.length);
+    let breakAt = -1;
+    for(let i=searchEnd; i>start; i--){
+      if(lyricLine[i-1]===' '){ breakAt = i; break; }
+    }
+    if(breakAt===-1 || breakAt<=start){
+      breakAt = Math.min(start+maxChars, total);
+      if(breakAt<=start) breakAt = start+1;
+    }
+    segments.push({ chord: chordLine.slice(start, breakAt), lyric: lyricLine.slice(start, breakAt) });
+    start = breakAt;
+  }
+  segments.push({ chord: chordLine.slice(start), lyric: lyricLine.slice(start) });
+  return segments;
+}
+
+function renderPairSegment(seg){
+  let html = '';
+  if(seg.chord.trim().length>0){
+    html += `<div class="line chord-line"><span class="chord">${escapeHtml(seg.chord)}</span></div>`;
+  }
+  html += `<div class="line">${seg.lyric.length ? escapeHtml(seg.lyric) : ' '}</div>`;
+  return html;
+}
+
+function measureCharWidth(container){
+  const probe = document.createElement('span');
+  probe.style.position = 'absolute';
+  probe.style.visibility = 'hidden';
+  probe.style.whiteSpace = 'pre';
+  probe.style.top = '-9999px';
+  probe.style.left = '-9999px';
+  probe.textContent = 'M'.repeat(60);
+  container.appendChild(probe);
+  const w = probe.getBoundingClientRect().width / 60;
+  container.removeChild(probe);
+  return w || 8;
+}
+
+// Recalcula a quebra sincronizada de cada par acorde+letra pro tamanho atual do container
+// (sempre a partir do texto original guardado em data-chord/data-lyric, nunca acumulando
+// sobre uma quebra anterior) — chamado no render, ao trocar de aba, redimensionar, mudar
+// fonte ou abrir a tela cheia.
 function fitChordLines(container){
   if(!container) return;
-  container.querySelectorAll('.chord-line').forEach(line=>{ line.style.fontSize = ''; });
+  const pairs = container.querySelectorAll('.cl-pair');
+  if(!pairs.length) return;
+  const cs = getComputedStyle(container);
+  const maxWidthPx = container.clientWidth - parseFloat(cs.paddingLeft||0) - parseFloat(cs.paddingRight||0);
+  if(!maxWidthPx || maxWidthPx<=0) return;
+  const charWidth = measureCharWidth(container);
+  const maxChars = Math.max(4, Math.floor(maxWidthPx / charWidth) - 1);
+  pairs.forEach(pair=>{
+    const chord = decodeURIComponent(pair.dataset.chord||'');
+    const lyric = decodeURIComponent(pair.dataset.lyric||'');
+    const segments = wrapPair(chord, lyric, maxChars);
+    pair.innerHTML = segments.map(renderPairSegment).join('');
+  });
 }
 function fitAllChordLines(){
   document.querySelectorAll('.cifra').forEach(fitChordLines);
