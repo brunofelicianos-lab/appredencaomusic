@@ -33,13 +33,74 @@
     --radius:16px;
     --shadow: 0 8px 24px -12px rgba(0,0,0,0.5);
     --shadow-lg: 0 16px 40px -14px rgba(0,0,0,0.6);
+    --header-fade-a: rgba(10,11,15,0.98);
+    --header-fade-b: rgba(10,11,15,0.88);
+    --title-grad-a: #fff;
+    --title-grad-b: #c9cdd6;
+    --cifra-text: #c6cbd6;
+    --hover-border: #3a4050;
+    --card-hover-border: #31374350;
+    --card-open-border: #333a48;
+    --uv-recente: #f2877e;
+    --uv-morno: #e8c169;
+    --uv-seguro: #6fbf8f;
+    --mod-text: #e2c88d;
+    --scrollbar-thumb: #2c313d;
+    --scrollbar-thumb-hover: #3a3f4c;
+    --fs-close-color: #ff8a8a;
+    --badge-bg: rgba(255,255,255,0.05);
+    --select-bg: rgba(234,182,84,0.35);
+    --yt-color: #ff8f8f;
+  }
+  body.light{
+    --bg:#f3f4f7;
+    --bg-glow: radial-gradient(1100px 520px at 12% -8%, rgba(231,179,76,0.10), transparent 60%),
+               radial-gradient(900px 480px at 100% 0%, rgba(110,168,254,0.08), transparent 55%);
+    --panel:#ffffff;
+    --panel2:#eef0f3;
+    --panel3:#e3e6ec;
+    --border:#dcdfe6;
+    --border-soft:#e6e8ed;
+    --text:#1a1d24;
+    --muted:#5b6270;
+    --muted-soft:#7d8492;
+    --accent:#c9852f;
+    --accent-dim:#e0b46a;
+    --accent2:#3f7fe0;
+    --gui:#a8761f;
+    --nica:#2f66c9;
+    --mila:#c2436a;
+    --manu:#1f9166;
+    --rafa:#8452c9;
+    --nika:#2f66c9;
+    --todos:#5b6270;
+    --shadow: 0 8px 24px -14px rgba(20,22,30,0.16);
+    --shadow-lg: 0 16px 40px -16px rgba(20,22,30,0.20);
+    --header-fade-a: rgba(255,255,255,0.98);
+    --header-fade-b: rgba(255,255,255,0.85);
+    --title-grad-a: #1a1d24;
+    --title-grad-b: #4a5060;
+    --cifra-text: #2b2f38;
+    --hover-border: #c7cbd3;
+    --card-hover-border: #c3c8d0;
+    --card-open-border: #b7bcc6;
+    --uv-recente: #c0392b;
+    --uv-morno: #9a7311;
+    --uv-seguro: #2f7d4f;
+    --mod-text: #8a6a1f;
+    --scrollbar-thumb: #c7cbd3;
+    --scrollbar-thumb-hover: #aab0ba;
+    --fs-close-color: #c0392b;
+    --badge-bg: rgba(0,0,0,0.045);
+    --select-bg: rgba(201,133,47,0.28);
+    --yt-color: #c0392b;
   }
   *{box-sizing:border-box;}
-  ::selection{ background:rgba(234,182,84,0.35); color:#fff; }
-  html{ scrollbar-color: #3a3f4c transparent; }
+  ::selection{ background:var(--select-bg); color:var(--text); }
+  html{ scrollbar-color: var(--scrollbar-thumb) transparent; }
   ::-webkit-scrollbar{ width:10px; height:10px; }
-  ::-webkit-scrollbar-thumb{ background:#2c313d; border-radius:8px; }
-  ::-webkit-scrollbar-thumb:hover{ background:#3a3f4c; }
+  ::-webkit-scrollbar-thumb{ background:var(--scrollbar-thumb); border-radius:8px; }
+  ::-webkit-scrollbar-thumb:hover{ background:var(--scrollbar-thumb-hover); }
   body{
     margin:0;
     font-family:'Manrope',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -51,7 +112,7 @@
   }
   header{
     position:sticky; top:0; z-index:10;
-    background:linear-gradient(180deg, rgba(10,11,15,0.98), rgba(10,11,15,0.88));
+    background:linear-gradient(180deg, var(--header-fade-a), var(--header-fade-b));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom:1px solid var(--border-soft);
@@ -77,7 +138,7 @@
     font-size:1.3rem;
     font-weight:800;
     letter-spacing:-.2px;
-    background:linear-gradient(120deg,#fff,#c9cdd6);
+    background:linear-gradient(120deg,var(--title-grad-a),var(--title-grad-b));
     -webkit-background-clip:text;
     background-clip:text;
     color:transparent;
@@ -111,7 +172,7 @@
   @media (max-width:480px){
     .tab-btn{ padding:8px 10px; font-size:.76rem; flex-basis:30%; }
   }
-  .tab-btn:hover{ border-color:#3a4050; color:var(--text); }
+  .tab-btn:hover{ border-color:var(--hover-border); color:var(--text); }
   .tab-btn.active{
     color:#1a1305;
     background:var(--accent);
@@ -153,7 +214,7 @@
     cursor:pointer;
     transition:all .15s ease;
   }
-  .font-ctrl button:hover{ border-color:#3a4050; background:var(--panel); }
+  .font-ctrl button:hover{ border-color:var(--hover-border); background:var(--panel); }
   .proximas-intro{
     color:var(--muted);
     font-size:.85rem;
@@ -206,7 +267,7 @@
     white-space:nowrap;
     transition:all .15s ease;
   }
-  .chip:hover{ border-color:#3a4050; color:var(--text); }
+  .chip:hover{ border-color:var(--hover-border); color:var(--text); }
   .chip.active{
     color:#1a1305;
     background:var(--accent);
@@ -243,11 +304,11 @@
     transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease;
   }
   .card:hover{
-    border-color:#31374350;
+    border-color:var(--card-hover-border);
     box-shadow:var(--shadow);
   }
   .card.open{
-    border-color:#333a48;
+    border-color:var(--card-open-border);
     box-shadow:var(--shadow-lg);
   }
   .card-head{
@@ -288,16 +349,16 @@
     margin-top:3px;
     letter-spacing:.1px;
   }
-  .uv-recente{ color:#f2877e; }
-  .uv-morno{ color:#e8c169; }
-  .uv-seguro{ color:#6fbf8f; }
+  .uv-recente{ color:var(--uv-recente); }
+  .uv-morno{ color:var(--uv-morno); }
+  .uv-seguro{ color:var(--uv-seguro); }
   .uv-desconhecido{ color:var(--muted-soft); }
   .badge{
     font-size:.7rem;
     font-weight:700;
     padding:4px 10px 4px 8px;
     border-radius:999px;
-    background:rgba(255,255,255,0.05);
+    background:var(--badge-bg);
     flex-shrink:0;
     display:inline-flex;
     align-items:center;
@@ -362,7 +423,7 @@
     border-radius:10px;
     padding:9px 12px;
     font-size:.79rem;
-    color:#e2c88d;
+    color:var(--mod-text);
     margin:2px 0 10px;
     line-height:1.45;
   }
@@ -371,14 +432,15 @@
     border:1px solid var(--border);
     border-radius:12px;
     padding:16px;
-    overflow-x:auto;
-    white-space:pre;
+    overflow-x:hidden;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
     font-family:'JetBrains Mono',"SF Mono",Menlo,Consolas,monospace;
     font-size:var(--cifra-fs, .82rem);
     line-height:1.65;
-    color:#c6cbd6;
+    color:var(--cifra-text);
   }
-  .cifra .line{ white-space:pre; }
+  .cifra .line{ white-space:pre-wrap; overflow-wrap:anywhere; }
   .cifra .chord{ color:var(--accent); font-weight:700; }
   .cifra .section-label{ color:var(--accent2); font-weight:700; }
   body.hide-chords .cifra .chord-line,
@@ -481,7 +543,7 @@
     gap:12px;
     padding:16px 18px;
     border-bottom:1px solid var(--border-soft);
-    background:linear-gradient(180deg, rgba(10,11,15,0.98), rgba(10,11,15,0.88));
+    background:linear-gradient(180deg, var(--header-fade-a), var(--header-fade-b));
     backdrop-filter: blur(10px);
     flex-wrap:wrap;
   }
@@ -520,8 +582,8 @@
     cursor:pointer;
     transition:all .15s ease;
   }
-  .fs-btn:hover{ border-color:#3a4050; background:var(--panel); }
-  .fs-close{ color:#ff8a8a; border-color:rgba(255,138,138,0.3); }
+  .fs-btn:hover{ border-color:var(--hover-border); background:var(--panel); }
+  .fs-close{ color:var(--fs-close-color); border-color:rgba(255,138,138,0.3); }
   .fs-close:hover{ background:rgba(255,138,138,0.1); }
   .fs-body{
     flex:1;
@@ -590,7 +652,7 @@
     gap:6px;
     background:rgba(255,60,60,0.1);
     border:1px solid rgba(255,90,90,0.32);
-    color:#ff8f8f;
+    color:var(--yt-color);
     padding:7px 13px;
     border-radius:999px;
     font-size:.78rem;
@@ -626,6 +688,7 @@
   </nav>
   <div class="reading-opts" id="readingOpts">
     <button class="chip" id="toggleChordsBtn">🎼 Ocultar cifras</button>
+    <button class="chip" id="toggleThemeBtn">☀️ Modo claro</button>
     <div class="font-ctrl">
       <span>Fonte</span>
       <button id="fontDec" title="Diminuir fonte">A−</button>
@@ -686,6 +749,8 @@
 const CIFRAS = {
   "REINAS": {
     tom: "Bb",
+    compasso: "4/4",
+    bpm: null,
     fonte: "https://www.cifraclub.com.br/purples/reinas/",
     fonteNome: "Purples — Cifra Club",
     compositor: "Julio Cesar Filho",
@@ -815,6 +880,8 @@ Reinas`
   },
   "TEU REINO": {
     tom: "F#",
+    compasso: "4/4",
+    bpm: null,
     fonte: "https://www.cifraclub.com.br/ministerio-cristo-vivo/teu-reino/",
     fonteNome: "Ministério Cristo Vivo — Cifra Club",
     compositor: "Vinícius Zulato",
@@ -878,6 +945,8 @@ G#m                        F#
   },
   "ENTREGA": {
     tom: "D",
+    compasso: "4/4",
+    bpm: null,
     fonte: "https://www.cifraclub.com.br/vineyard/entrega/",
     fonteNome: "Vineyard — Cifra Club",
     compositor: "Vineyard",
@@ -930,6 +999,8 @@ Partilhando tua dor
   },
   "VASOS QUEBRADOS": {
     tom: "C",
+    compasso: "4/4",
+    bpm: null,
     fonte: "https://www.cifraclub.com.br/hillsong-brasil/vasos-quebrados--sublime-graca-/htkmtg.html",
     fonteNome: "Hillsong Em Português — Cifra Club",
     compositor: "Joel Houston e Jonas Myrin",
@@ -948,6 +1019,8 @@ Em                    C`
   },
   "BONDADE DE DEUS": {
     tom: "C",
+    compasso: "4/4",
+    bpm: null,
     fonte: "https://www.cifraclub.com.br/douglas-machado/bondade-de-deus-goodness-of-god/",
     fonteNome: "Douglas Machado — Cifra Club (também em Fernandinho, Isaías Saad)",
     compositor: "Bethel Music (Goodness of God)",
@@ -977,6 +1050,8 @@ C/E                 F         G            C`
   },
   "A FACE ADORADA": {
     tom: "E",
+    compasso: "4/4",
+    bpm: null,
     fonte: "https://www.cifraclub.com.br/juerp/a-face-adorada/",
     fonteNome: "Juerp — Cifra Club",
     compositor: "Paulo César de Oliveira (Paulo Macalão)",
@@ -998,6 +1073,8 @@ E         C#m         A      B      E`
   },
   "MARAVILHOSA GRAÇA": {
     tom: "A",
+    compasso: "4/4",
+    bpm: null,
     fonte: "https://www.cifraclub.com.br/comunidade-da-graca/maravilhosa-graca-this-is-amazing-grace-phil-wickham/",
     fonteNome: "Comunidade da Graça — Cifra Club",
     compositor: "Josh Farro, Jeremy Riddle, Phil Wickham (This Is Amazing Grace)",
@@ -1017,6 +1094,8 @@ A     D  (repete, com ênfase em F#m)`
   },
   "GRANDE É O SENHOR": {
     tom: "D",
+    compasso: "4/4",
+    bpm: null,
     modulacao: "Sobe de Ré (D) para Lá (A) a partir do interlúdio / 2º verso.",
     fonte: "https://www.cifraclub.com.br/tiago-suguihara/grande--o-senhor-great-are-you-lord/",
     fonteNome: "Tiago Suguihara — Cifra Club",
@@ -1044,6 +1123,8 @@ D2             A`
   },
   "TU ÉS BOM": {
     tom: "B",
+    compasso: "4/4",
+    bpm: null,
     fonte: "https://www.cifraclub.com.br/fred-arrais/tu-es-bom/",
     fonteNome: "Fred Arrais — Cifra Club",
     compositor: "Fred Arrais",
@@ -1080,6 +1161,8 @@ Seu amor dura pra sempre`
   },
   "EU ME RENDO": {
     tom: "F",
+    compasso: "4/4",
+    bpm: null,
     fonte: "https://www.cifraclub.com.br/hillsong-brasil/eu-me-rendo-i-surrender/",
     fonteNome: "Hillsong Em Português — Cifra Club",
     compositor: "Matt Crocker (I Surrender)",
@@ -1114,6 +1197,8 @@ Sacia meu ser
   },
   "ESTRELA DA MANHÃ": {
     tom: "D",
+    compasso: "4/4",
+    bpm: null,
     modulacao: "2ª parte da música modula de Ré (D) para Mi (E), mantendo a mesma progressão.",
     fonte: "https://www.cifraclub.com.br/eli-soares/estrela-da-manha/",
     fonteNome: "Eli Soares — Cifra Club",
@@ -1148,6 +1233,8 @@ B9
   },
   "A BENÇÃO": {
     tom: "C",
+    compasso: "4/4",
+    bpm: null,
     fonte: "https://www.cifraclub.com.br/louvor-icer/a-bencao-versao-the-blessing/",
     fonteNome: "Louvor Icer — Cifra Club",
     compositor: "Cody Carnes, Elevation Worship e Kari Jobe (The Blessing)",
@@ -1226,6 +1313,8 @@ A...mém, amém, amém`
   },
   "SEMPRE EM FRENTE": {
     tom: "A",
+    compasso: "4/4",
+    bpm: null,
     modulacao: "Não há troca de tom — permanece em Lá (A) do início ao fim.",
     fonte: "https://www.cifraclub.com.br/projeto-sola/sempre-em-frente/",
     fonteNome: "Projeto Sola — Cifra Club",
@@ -1258,6 +1347,8 @@ D   A   E   F#m  (progressão expandida)
   },
   "GRANDE É O NOME DO SENHOR": {
     tom: "G",
+    compasso: "4/4",
+    bpm: null,
     modulacao: "Não há troca de tom — permanece em Sol (G) do início ao fim.",
     fonte: "https://www.cifraclub.com.br/novo-canto/grande-e-o-nome-do-senhor/",
     fonteNome: "Novo Canto — Cifra Club",
@@ -1336,6 +1427,8 @@ Te adoramos`
   },
   "JESUS": {
     tom: "F",
+    compasso: "4/4",
+    bpm: null,
     modulacao: "Ponte desce para Ré menor (Dm), criando tensão harmônica antes de resolver de volta a Fá (F).",
     fonte: "https://www.cifraclub.com.br/suylo/jesus/",
     fonteNome: "Suylô — Cifra Club",
@@ -1425,6 +1518,8 @@ O filho de Deus, Ele é Deus`
   },
   "DONO DA MINHA AFEIÇÃO": {
     tom: "C",
+    compasso: "4/4",
+    bpm: null,
     fonte: "https://www.cifraclub.com.br/florianopolis-house-of-prayer/dono-da-minha-afeicao/",
     fonteNome: "Florianópolis House Of Prayer (fhop music) — Cifra Club",
     compositor: "Hamilton Rabelo e Debora Rabelo",
@@ -1527,6 +1622,8 @@ Oooh Oooh, Tu és o Rei do meu coração`
   },
   "SOMENTE CRISTO": {
     tom: "G",
+    compasso: "4/4",
+    bpm: null,
     fonte: "https://www.cifraclub.com.br/florianopolis-house-of-prayer/somente-cristo/",
     fonteNome: "Florianópolis House Of Prayer (fhop music) — Cifra Club",
     compositor: "Emi Sousa, Gabi Sampaio, William Passos e Lucas Bertolazzo",
@@ -1561,6 +1658,8 @@ Em7   D
   },
   "MINHA ALMA ENGRANDECE": {
     tom: "C",
+    compasso: "4/4",
+    bpm: null,
     modulacao: "Sobe de Dó (C) para Ré (D) na parte final (\"Adorado, exaltado és, Senhor\").",
     fonte: "https://www.cifraclub.com.br/rachel-novaes/minh-alma-engrandece-ao-senhor-adorado/",
     fonteNome: "Rachel Novaes — Cifra Club",
@@ -1652,6 +1751,8 @@ Mais que tudo és amado, adorado
   },
   "SENHOR DE TI PRECISO": {
     tom: "Bb",
+    compasso: "4/4",
+    bpm: null,
     modulacao: "Cifra original em Db com capotraste na 3ª casa (formato/shapes de Bb) — é assim que a banda toca.",
     fonte: "https://www.cifraclub.com.br/paulo-cesar-baruk/senhor-eu-preciso-lord-i-need-you-cd-graca/",
     fonteNome: "Paulo César Baruk — Cifra Club",
@@ -1905,11 +2006,13 @@ tabsEl.querySelectorAll('.tab-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>switchTab(btn.dataset.tab));
 });
 
-// Opções de leitura: ocultar cifras (só letra) e tamanho da fonte — valem pra qualquer aba.
+// Opções de leitura: ocultar cifras (só letra), modo claro/escuro e tamanho da fonte — valem pra qualquer aba.
 const toggleChordsBtn = document.getElementById('toggleChordsBtn');
+const toggleThemeBtn = document.getElementById('toggleThemeBtn');
 const fontDecBtn = document.getElementById('fontDec');
 const fontIncBtn = document.getElementById('fontInc');
 let hideChords = false;
+let lightMode = false;
 let fontStep = 0;
 const FONT_BASE = 0.82, FONT_STEP = 0.08, FONT_MIN_STEP = -4, FONT_MAX_STEP = 6;
 
@@ -1917,11 +2020,18 @@ function applyReadingPrefs(){
   document.body.classList.toggle('hide-chords', hideChords);
   toggleChordsBtn.textContent = hideChords ? '📝 Mostrar cifras' : '🎼 Ocultar cifras';
   toggleChordsBtn.classList.toggle('active', hideChords);
+  document.body.classList.toggle('light', lightMode);
+  toggleThemeBtn.textContent = lightMode ? '🌙 Modo escuro' : '☀️ Modo claro';
+  toggleThemeBtn.classList.toggle('active', lightMode);
   const fs = FONT_BASE + fontStep * FONT_STEP;
   document.documentElement.style.setProperty('--cifra-fs', fs.toFixed(2) + 'rem');
 }
 toggleChordsBtn.addEventListener('click', ()=>{
   hideChords = !hideChords;
+  applyReadingPrefs();
+});
+toggleThemeBtn.addEventListener('click', ()=>{
+  lightMode = !lightMode;
   applyReadingPrefs();
 });
 fontDecBtn.addEventListener('click', ()=>{
@@ -2219,6 +2329,8 @@ function createSongCard({ num, title, voz, youtube, openByDefault, nota } = {}){
       <div class="meta-row">
         <span><b>Tom original:</b> ${data.tom}</span>
         <span><b>Compositor:</b> ${data.compositor}</span>
+        ${data.compasso ? `<span><b>Compasso:</b> ${data.compasso}</span>` : ''}
+        <span><b>BPM:</b> ${data.bpm ? data.bpm : 'a confirmar'}</span>
       </div>
       ${data.modulacao ? `<div class="mod-row">🎚️ <b>Troca de tom na música:</b> ${data.modulacao}</div>` : ''}
       <div class="transpose">
