@@ -432,7 +432,7 @@
     border:1px solid var(--border);
     border-radius:12px;
     padding:16px;
-    overflow-x:hidden;
+    overflow-x:auto;
     white-space:pre-wrap;
     overflow-wrap:anywhere;
     font-family:'JetBrains Mono',"SF Mono",Menlo,Consolas,monospace;
@@ -441,6 +441,7 @@
     color:var(--cifra-text);
   }
   .cifra .line{ white-space:pre-wrap; overflow-wrap:anywhere; }
+  .cifra .line.chord-line{ white-space:pre; overflow-wrap:normal; display:block; }
   .cifra .chord{ color:var(--accent); font-weight:700; }
   .cifra .section-label{ color:var(--accent2); font-weight:700; }
   body.hide-chords .cifra .chord-line,
@@ -510,7 +511,7 @@
     font-weight:600;
     font-family:inherit;
   }
-  .tr-fs{
+  .transpose .tr-fs{
     width:auto;
     height:auto;
     padding:6px 12px;
@@ -523,9 +524,74 @@
     color:var(--accent2);
     cursor:pointer;
     margin-left:auto;
+    white-space:nowrap;
     transition:all .15s ease;
   }
-  .tr-fs:hover{ border-color:var(--accent2); background:rgba(110,168,254,0.1); }
+  .transpose .tr-fs:hover{ border-color:var(--accent2); background:rgba(110,168,254,0.1); }
+  .transpose .tr-edit{
+    width:auto;
+    height:auto;
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:.71rem;
+    font-weight:700;
+    font-family:inherit;
+    border:1px solid var(--border);
+    background:var(--panel2);
+    color:var(--accent);
+    cursor:pointer;
+    white-space:nowrap;
+    transition:all .15s ease;
+  }
+  .transpose .tr-edit:hover{ border-color:var(--accent); background:rgba(234,182,84,0.1); }
+  .cifra-editbox{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .cifra-editbox label{
+    display:block;
+    font-size:.78rem;
+    font-weight:700;
+    color:var(--muted);
+  }
+  .edit-tom{
+    margin-top:6px;
+    width:140px;
+    max-width:100%;
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:8px 10px;
+    border-radius:8px;
+    font-family:inherit;
+    font-size:.85rem;
+  }
+  .edit-cifra{
+    margin-top:6px;
+    width:100%;
+    min-height:280px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:12px;
+    border-radius:8px;
+    font-family:'JetBrains Mono',"SF Mono",Menlo,Consolas,monospace;
+    font-size:.82rem;
+    line-height:1.6;
+    resize:vertical;
+  }
+  .edit-tom:focus, .edit-cifra:focus{ outline:none; border-color:var(--accent2); }
+  .edit-actions{ display:flex; gap:8px; }
+  .edit-save{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#1a1305;
+  }
   .fs-overlay{
     position:fixed;
     inset:0;
@@ -588,13 +654,49 @@
   .fs-body{
     flex:1;
     overflow:auto;
-    padding:20px;
+    padding:20px 60px;
   }
   .fs-body .cifra{
     max-width:900px;
     margin:0 auto;
     font-size:var(--fs-cifra-fs, 1.15rem);
     line-height:1.8;
+  }
+  .fs-nav-hint{
+    color:var(--muted-soft);
+    font-size:.72rem;
+    margin-top:2px;
+  }
+  .fs-arrow{
+    position:fixed;
+    top:50%;
+    transform:translateY(-50%);
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:var(--panel2);
+    color:var(--text);
+    font-size:1.3rem;
+    line-height:1;
+    cursor:pointer;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+    box-shadow:var(--shadow);
+    transition:all .15s ease;
+  }
+  .fs-arrow:hover{ border-color:var(--accent2); background:rgba(110,168,254,0.1); }
+  .fs-arrow:disabled{ opacity:.3; cursor:default; pointer-events:none; }
+  .fs-arrow.visible{ display:flex; }
+  .fs-arrow-prev{ left:14px; }
+  .fs-arrow-next{ right:14px; }
+  @media (max-width:600px){
+    .fs-arrow{ width:34px; height:34px; font-size:1rem; }
+    .fs-arrow-prev{ left:6px; }
+    .fs-arrow-next{ right:6px; }
+    .fs-body{ padding:16px 44px; }
   }
   .empty-state{
     text-align:center;
@@ -728,6 +830,7 @@
     <div>
       <div class="fs-title" id="fsTitle"></div>
       <div class="fs-sub" id="fsSub"></div>
+      <div class="fs-nav-hint" id="fsNavHint"></div>
     </div>
     <div class="fs-controls">
       <button class="fs-btn" id="fsTrDec" title="Descer meio tom">–</button>
@@ -741,6 +844,8 @@
   <div class="fs-body">
     <div class="cifra" id="fsCifra"></div>
   </div>
+  <button class="fs-arrow fs-arrow-prev" id="fsPrev" title="Música anterior da semana">‹</button>
+  <button class="fs-arrow fs-arrow-next" id="fsNext" title="Próxima música da semana">›</button>
 </div>
 
 <script>
@@ -1976,6 +2081,32 @@ const REPERTORIO = [
 const PROXIMOS_LANCAMENTOS = [
 ];
 
+// Edição de cifra direto no app (celular ou computador): salva no localStorage do navegador,
+// então cada aparelho guarda suas próprias edições. Blindado com try/catch porque localStorage
+// pode não estar disponível em alguns contextos (ex: artifact embutido).
+const CIFRA_OVERRIDE_PREFIX = 'redencaoMusicCifraOverride::';
+function saveCifraOverride(key, payload){
+  try{
+    localStorage.setItem(CIFRA_OVERRIDE_PREFIX + key, JSON.stringify(payload));
+  }catch(e){ /* localStorage indisponível nesse navegador/contexto — edição fica só nesta sessão */ }
+}
+function loadCifraOverrides(){
+  try{
+    for(let i=0; i<localStorage.length; i++){
+      const k = localStorage.key(i);
+      if(!k || !k.startsWith(CIFRA_OVERRIDE_PREFIX)) continue;
+      const songKey = k.slice(CIFRA_OVERRIDE_PREFIX.length);
+      if(!CIFRAS[songKey]) continue;
+      const saved = JSON.parse(localStorage.getItem(k));
+      if(saved && typeof saved.cifra === 'string'){
+        CIFRAS[songKey].cifra = saved.cifra;
+        if(saved.tom) CIFRAS[songKey].tom = saved.tom;
+      }
+    }
+  }catch(e){ /* localStorage indisponível — segue só com os dados padrão do app */ }
+}
+loadCifraOverrides();
+
 // ---------- BUILD ----------
 const listEl = document.getElementById('list');
 const countEl = document.getElementById('count');
@@ -1985,6 +2116,12 @@ const searchbarEl = document.getElementById('searchbar');
 const listProximasEl = document.getElementById('list-proximas');
 const countProximasEl = document.getElementById('count-proximas');
 const tabsEl = document.getElementById('tabs');
+// Registro de "abrir esta música em tela cheia" por música (chave = título em maiúsculas),
+// usado pelas setas de navegação da tela cheia pra pular pra próxima/anterior da semana.
+const songCardRegistry = {};
+// Registro só dos cards do Repertório da Semana — as setas preferem esses, pra manter
+// o estado de transposição de cada card da semana ao navegar entre eles.
+const semanaCardRegistry = {};
 const views = {
   musicas: document.getElementById('view-musicas'),
   semana: document.getElementById('view-semana'),
@@ -2001,6 +2138,9 @@ function switchTab(tab){
   searchbarEl.style.display = tab==='musicas' ? '' : 'none';
   filtersEl.style.display = tab==='musicas' ? '' : 'none';
   if(tab==='proximas') renderProximas();
+  // cards escondidos (display:none) têm clientWidth 0 quando renderizados, então
+  // as linhas de acorde só conseguem ser ajustadas depois que a aba fica visível.
+  setTimeout(fitAllChordLines, 0);
 }
 tabsEl.querySelectorAll('.tab-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>switchTab(btn.dataset.tab));
@@ -2025,6 +2165,7 @@ function applyReadingPrefs(){
   toggleThemeBtn.classList.toggle('active', lightMode);
   const fs = FONT_BASE + fontStep * FONT_STEP;
   document.documentElement.style.setProperty('--cifra-fs', fs.toFixed(2) + 'rem');
+  fitAllChordLines();
 }
 toggleChordsBtn.addEventListener('click', ()=>{
   hideChords = !hideChords;
@@ -2054,25 +2195,58 @@ const fsTrIncBtn = document.getElementById('fsTrInc');
 const fsFontDecBtn = document.getElementById('fsFontDec');
 const fsFontIncBtn = document.getElementById('fsFontInc');
 const fsCloseBtn = document.getElementById('fsClose');
+const fsPrevBtn = document.getElementById('fsPrev');
+const fsNextBtn = document.getElementById('fsNext');
+const fsNavHintEl = document.getElementById('fsNavHint');
 
 let fsOpenKey = null;
 let fsHandlers = null;
 let fsFontStep = 4; // começa maior que o padrão, já que é feito pra ler de longe
+let fsSemanaIndex = null;
+let fsSemanaKeys = [];
 
 function applyFsFont(){
   const fs = FONT_BASE + fsFontStep * FONT_STEP;
   document.documentElement.style.setProperty('--fs-cifra-fs', fs.toFixed(2) + 'rem');
+  fitChordLines(fsCifraEl);
 }
 applyFsFont();
+
+// Se a música aberta faz parte do repertório da semana, habilita as setas
+// pra navegar pras outras músicas da semana sem sair da tela cheia.
+function updateFsNav(key){
+  fsSemanaKeys = (SEMANA && Array.isArray(SEMANA.musicas))
+    ? SEMANA.musicas.filter(m=>m && m.titulo).map(m=>m.titulo.toUpperCase())
+    : [];
+  const idx = fsSemanaKeys.indexOf(key);
+  fsSemanaIndex = idx>=0 ? idx : null;
+  const show = fsSemanaIndex !== null && fsSemanaKeys.length>1;
+  fsPrevBtn.classList.toggle('visible', show);
+  fsNextBtn.classList.toggle('visible', show);
+  fsPrevBtn.disabled = !show || fsSemanaIndex<=0;
+  fsNextBtn.disabled = !show || fsSemanaIndex>=fsSemanaKeys.length-1;
+  fsNavHintEl.textContent = show ? `Música ${fsSemanaIndex+1} de ${fsSemanaKeys.length} da semana` : '';
+}
+
+function goFsSemana(delta){
+  if(fsSemanaIndex===null) return;
+  const newIndex = fsSemanaIndex + delta;
+  if(newIndex<0 || newIndex>=fsSemanaKeys.length) return;
+  const newKey = fsSemanaKeys[newIndex];
+  const opener = semanaCardRegistry[newKey] || songCardRegistry[newKey];
+  if(opener) opener();
+}
 
 function openFullscreen({ key, title, tomText, cifraHtml, onDec, onInc }){
   fsOpenKey = key;
   fsHandlers = { onDec, onInc };
   fsTitleEl.textContent = title;
   fsSubEl.textContent = tomText;
-  fsCifraEl.innerHTML = cifraHtml;
   fsOverlay.classList.add('active');
   document.body.style.overflow = 'hidden';
+  fsCifraEl.innerHTML = cifraHtml;
+  fitChordLines(fsCifraEl);
+  updateFsNav(key);
   if(document.documentElement.requestFullscreen){
     document.documentElement.requestFullscreen().catch(()=>{ /* segue no modo tela-cheia via CSS mesmo se o navegador bloquear */ });
   }
@@ -2080,12 +2254,14 @@ function openFullscreen({ key, title, tomText, cifraHtml, onDec, onInc }){
 
 function syncFullscreen(cifraHtml, tomText){
   fsCifraEl.innerHTML = cifraHtml;
+  fitChordLines(fsCifraEl);
   if(tomText!==undefined) fsSubEl.textContent = tomText;
 }
 
 function closeFullscreen(){
   fsOpenKey = null;
   fsHandlers = null;
+  fsSemanaIndex = null;
   fsOverlay.classList.remove('active');
   document.body.style.overflow = '';
   if(document.fullscreenElement && document.exitFullscreen){
@@ -2098,7 +2274,14 @@ fsTrDecBtn.addEventListener('click', ()=> fsHandlers && fsHandlers.onDec());
 fsTrIncBtn.addEventListener('click', ()=> fsHandlers && fsHandlers.onInc());
 fsFontDecBtn.addEventListener('click', ()=>{ fsFontStep = Math.max(FONT_MIN_STEP, fsFontStep-1); applyFsFont(); });
 fsFontIncBtn.addEventListener('click', ()=>{ fsFontStep = Math.min(FONT_MAX_STEP+4, fsFontStep+1); applyFsFont(); });
-document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && fsOverlay.classList.contains('active')) closeFullscreen(); });
+fsPrevBtn.addEventListener('click', ()=> goFsSemana(-1));
+fsNextBtn.addEventListener('click', ()=> goFsSemana(1));
+document.addEventListener('keydown', (e)=>{
+  if(!fsOverlay.classList.contains('active')) return;
+  if(e.key==='Escape') closeFullscreen();
+  else if(e.key==='ArrowLeft') goFsSemana(-1);
+  else if(e.key==='ArrowRight') goFsSemana(1);
+});
 document.addEventListener('fullscreenchange', ()=>{
   if(!document.fullscreenElement && fsOverlay.classList.contains('active')){
     // usuário saiu da tela cheia nativa (ex: tecla Esc do navegador) — fecha nossa camada também
@@ -2256,7 +2439,8 @@ function highlightChords(text){
       const rest = line.slice(label.length);
       const restIsChords = isChordish && rest.trim().length>0;
       const restHtml = restIsChords ? `<span class="chord chord-part">${rest}</span>` : rest;
-      return `<div class="line"><span class="section-label">${label}</span>${restHtml}</div>`;
+      const cls = restIsChords ? 'line chord-line' : 'line';
+      return `<div class="${cls}"><span class="section-label">${label}</span>${restHtml}</div>`;
     }
     if(isChordish){
       return `<div class="line chord-line"><span class="chord">${line}</span></div>`;
@@ -2264,6 +2448,37 @@ function highlightChords(text){
     return `<div class="line">${line.length ? line : ' '}</div>`;
   }).join('');
 }
+
+// Linhas de acorde não podem quebrar (senão o alinhamento com a letra embaixo se perde) —
+// em vez disso, se a linha for larga demais pro card, reduz a fonte só daquela linha até caber.
+function fitChordLines(container){
+  if(!container) return;
+  const lines = container.querySelectorAll('.chord-line');
+  // clientWidth inclui o padding do próprio container — o texto das linhas só tem
+  // a área de conteúdo (clientWidth menos o padding horizontal) disponível de verdade.
+  const cs = getComputedStyle(container);
+  const maxWidth = container.clientWidth - parseFloat(cs.paddingLeft||0) - parseFloat(cs.paddingRight||0);
+  if(!maxWidth || maxWidth<=0) return;
+  lines.forEach(line=>{
+    line.style.fontSize = '';
+    if(line.scrollWidth <= maxWidth) return;
+    let size = parseFloat(getComputedStyle(line).fontSize);
+    let guard = 0;
+    while(line.scrollWidth > maxWidth && size > 8 && guard < 40){
+      size -= 0.5;
+      line.style.fontSize = size + 'px';
+      guard++;
+    }
+  });
+}
+function fitAllChordLines(){
+  document.querySelectorAll('.cifra').forEach(fitChordLines);
+}
+let fitResizeTimer = null;
+window.addEventListener('resize', ()=>{
+  clearTimeout(fitResizeTimer);
+  fitResizeTimer = setTimeout(fitAllChordLines, 150);
+});
 
 const voices = ["TODAS", ...Array.from(new Set(REPERTORIO.map(r=>vozClass(r[2])))).filter(v=>v!=="OUTROS").sort()];
 let activeVoice = "TODAS";
@@ -2283,7 +2498,7 @@ voices.forEach(v=>{
 });
 
 // Constrói um card de música reutilizável (usado na lista geral, no repertório da semana e em próximas músicas)
-function createSongCard({ num, title, voz, youtube, openByDefault, nota } = {}){
+function createSongCard({ num, title, voz, youtube, openByDefault, nota, registry } = {}){
   const key = (title||'').toUpperCase();
   const data = CIFRAS[key];
   const vClass = voz ? vozClass(voz) : null;
@@ -2340,27 +2555,71 @@ function createSongCard({ num, title, voz, youtube, openByDefault, nota } = {}){
         <button class="tr-btn" data-dir="1" title="Subir meio tom">+</button>
         <button class="tr-reset chip" style="display:none;">voltar ao original</button>
         <button class="tr-fs" title="Ver em tela cheia">⛶ Tela cheia</button>
+        <button class="tr-edit" title="Editar essa cifra">✏️ Editar</button>
       </div>
       <div class="cifra"></div>
+      <div class="cifra-editbox" style="display:none;">
+        <label>Tom<br><input type="text" class="edit-tom"></label>
+        <label>Cifra (acordes + letra)<br><textarea class="edit-cifra" spellcheck="false"></textarea></label>
+        <div class="edit-actions">
+          <button class="edit-save chip">💾 Salvar</button>
+          <button class="edit-cancel chip">Cancelar</button>
+        </div>
+      </div>
       <a class="source" href="${data.fonte}" target="_blank" rel="noopener">Ver cifra completa em ${data.fonteNome} ↗</a>
     `;
 
     let offset = 0;
-    const useFlats = (data.tom||'').includes('b');
+    let useFlats = (data.tom||'').includes('b');
     const cifraEl = bodyPad.querySelector('.cifra');
     const tomEl = bodyPad.querySelector('.tr-tom');
     const resetBtn = bodyPad.querySelector('.tr-reset');
     const fsBtn = bodyPad.querySelector('.tr-fs');
+    const editBtn = bodyPad.querySelector('.tr-edit');
+    const editBox = bodyPad.querySelector('.cifra-editbox');
+    const editTomInput = bodyPad.querySelector('.edit-tom');
+    const editCifraInput = bodyPad.querySelector('.edit-cifra');
+    const saveBtn = bodyPad.querySelector('.edit-save');
+    const cancelBtn = bodyPad.querySelector('.edit-cancel');
+    const transposeRow = bodyPad.querySelector('.transpose');
     const songKey = key;
 
     function renderTranspose(){
       cifraEl.innerHTML = highlightChords(transposeCifra(data.cifra, offset, useFlats));
+      fitChordLines(cifraEl);
       const currentTom = offset===0 ? data.tom : transposeChordString(data.tom, offset, useFlats);
       tomEl.textContent = offset===0 ? currentTom : `${currentTom} (${offset>0?'+':''}${offset} ${Math.abs(offset)===1?'semitom':'semitons'})`;
       resetBtn.style.display = offset===0 ? 'none' : 'inline-block';
       if(fsOpenKey === songKey) syncFullscreen(cifraEl.innerHTML, tomEl.textContent);
     }
     renderTranspose();
+
+    editBtn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      editTomInput.value = data.tom;
+      editCifraInput.value = data.cifra;
+      cifraEl.style.display = 'none';
+      transposeRow.style.display = 'none';
+      editBox.style.display = 'block';
+    });
+    cancelBtn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      editBox.style.display = 'none';
+      cifraEl.style.display = '';
+      transposeRow.style.display = '';
+    });
+    saveBtn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      data.cifra = editCifraInput.value;
+      data.tom = editTomInput.value.trim() || data.tom;
+      useFlats = (data.tom||'').includes('b');
+      offset = 0;
+      saveCifraOverride(songKey, { cifra: data.cifra, tom: data.tom });
+      editBox.style.display = 'none';
+      cifraEl.style.display = '';
+      transposeRow.style.display = '';
+      renderTranspose();
+    });
 
     bodyPad.querySelectorAll('.tr-btn').forEach(btn=>{
       btn.addEventListener('click', (e)=>{
@@ -2374,8 +2633,7 @@ function createSongCard({ num, title, voz, youtube, openByDefault, nota } = {}){
       offset = 0;
       renderTranspose();
     });
-    fsBtn.addEventListener('click', (e)=>{
-      e.stopPropagation();
+    function openThisFs(){
       openFullscreen({
         key: songKey,
         title,
@@ -2384,6 +2642,12 @@ function createSongCard({ num, title, voz, youtube, openByDefault, nota } = {}){
         onDec: ()=>{ offset -= 1; renderTranspose(); },
         onInc: ()=>{ offset += 1; renderTranspose(); },
       });
+    }
+    songCardRegistry[songKey] = openThisFs;
+    if(registry) registry[songKey] = openThisFs;
+    fsBtn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      openThisFs();
     });
   } else {
     bodyPad.innerHTML = `
@@ -2425,7 +2689,7 @@ function renderSemana(){
       listWrap.appendChild(ph);
       return;
     }
-    listWrap.appendChild(createSongCard({ title: m.titulo, voz: m.voz, youtube: m.youtube }));
+    listWrap.appendChild(createSongCard({ title: m.titulo, voz: m.voz, youtube: m.youtube, registry: semanaCardRegistry }));
   });
 }
 
