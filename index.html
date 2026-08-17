@@ -545,53 +545,80 @@
     transition:all .15s ease;
   }
   .transpose .tr-edit:hover{ border-color:var(--accent); background:rgba(234,182,84,0.1); }
-  .cifra-editbox{
+  .transpose .tr-edit.active{ background:var(--accent); border-color:var(--accent); color:#1a1305; }
+  .edit-hint{
+    font-size:.74rem;
+    color:var(--muted);
+    background:rgba(234,182,84,0.08);
+    border:1px dashed var(--border);
+    border-radius:8px;
+    padding:8px 10px;
+    margin:2px 0 10px;
+    display:none;
+  }
+  .edit-hint.show{ display:block; }
+  .cifra.editing-chords .chord-tok{
+    cursor:pointer;
+    text-decoration:underline dotted;
+    text-underline-offset:3px;
+    border-radius:4px;
+    padding:0 1px;
+  }
+  .cifra.editing-chords .chord-tok:active{ background:rgba(234,182,84,0.3); }
+  .chord-edit-backdrop{
+    position:fixed; inset:0; z-index:1099;
+    background:rgba(0,0,0,0.45);
+    opacity:0; pointer-events:none;
+    transition:opacity .15s ease;
+  }
+  .chord-edit-backdrop.open{ opacity:1; pointer-events:auto; }
+  .chord-edit-sheet{
+    position:fixed; left:0; right:0; bottom:0; z-index:1100;
+    transform:translateY(100%);
+    transition:transform .2s ease;
+    display:flex; justify-content:center;
+  }
+  .chord-edit-sheet.open{ transform:translateY(0); }
+  .chord-edit-sheet-inner{
+    width:100%; max-width:480px;
     background:var(--panel2);
     border:1px solid var(--border);
-    border-radius:12px;
-    padding:16px;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
+    border-bottom:none;
+    border-radius:16px 16px 0 0;
+    padding:16px 16px calc(16px + env(safe-area-inset-bottom));
+    box-shadow:0 -8px 30px rgba(0,0,0,0.35);
   }
-  .cifra-editbox label{
-    display:block;
+  .chord-edit-label{
     font-size:.78rem;
     font-weight:700;
     color:var(--muted);
+    margin-bottom:8px;
   }
-  .edit-tom{
-    margin-top:6px;
-    width:140px;
-    max-width:100%;
-    background:var(--panel);
-    border:1px solid var(--border);
-    color:var(--text);
-    padding:8px 10px;
-    border-radius:8px;
-    font-family:inherit;
-    font-size:.85rem;
-  }
-  .edit-cifra{
-    margin-top:6px;
+  .chord-edit-input{
     width:100%;
-    min-height:280px;
     background:var(--panel);
     border:1px solid var(--border);
     color:var(--text);
-    padding:12px;
+    padding:10px 12px;
     border-radius:8px;
     font-family:'JetBrains Mono',"SF Mono",Menlo,Consolas,monospace;
-    font-size:.82rem;
-    line-height:1.6;
-    resize:vertical;
+    font-size:1rem;
+    margin-bottom:12px;
   }
-  .edit-tom:focus, .edit-cifra:focus{ outline:none; border-color:var(--accent2); }
-  .edit-actions{ display:flex; gap:8px; }
-  .edit-save{
-    background:var(--accent);
-    border-color:var(--accent);
-    color:#1a1305;
+  .chord-edit-input:focus{ outline:none; border-color:var(--accent2); }
+  .chord-edit-actions{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+  .chord-edit-save{ background:var(--accent); border-color:var(--accent); color:#1a1305; }
+  .chord-edit-remove{ color:#ff6b6b; border-color:rgba(255,107,107,0.4); margin-left:auto; }
+  .chord-edit-cancel{
+    width:100%;
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:9px 12px;
+    border-radius:999px;
+    font-family:inherit;
+    font-size:.8rem;
+    cursor:pointer;
   }
   .fs-overlay{
     position:fixed;
@@ -773,6 +800,12 @@
     border-top:1px solid var(--border-soft);
   }
 </style>
+<!-- Banco de dados na nuvem (Firebase/Firestore) — deixa as cifras editadas no app salvas
+     pra todo mundo, não só no aparelho de quem editou. Se o carregamento falhar (sem
+     internet, script bloqueado etc.) o app continua funcionando normalmente com os dados
+     padrão + o que estiver salvo localmente nesse aparelho (ver loadCifraOverrides). -->
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -847,6 +880,24 @@
   </div>
   <button class="fs-arrow fs-arrow-prev" id="fsPrev" title="Música anterior da semana">‹</button>
   <button class="fs-arrow fs-arrow-next" id="fsNext" title="Próxima música da semana">›</button>
+</div>
+
+<div class="chord-edit-backdrop" id="chordEditBackdrop"></div>
+<div class="chord-edit-sheet" id="chordEditSheet">
+  <div class="chord-edit-sheet-inner">
+    <div class="chord-edit-label" id="chordEditLabel">Editar acorde</div>
+    <input type="text" id="chordEditInput" class="chord-edit-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ex: Bb7M(9)">
+    <div class="chord-edit-actions" id="chordEditActionsMain">
+      <button class="chip chord-edit-save" id="chordEditSave">💾 Salvar</button>
+      <button class="chip" id="chordEditBefore">+ Antes</button>
+      <button class="chip" id="chordEditAfter">+ Depois</button>
+      <button class="chip chord-edit-remove" id="chordEditRemove">🗑 Remover</button>
+    </div>
+    <div class="chord-edit-actions" id="chordEditActionsInsert" style="display:none;">
+      <button class="chip chord-edit-save" id="chordEditInsertConfirm">➕ Inserir</button>
+    </div>
+    <button class="chord-edit-cancel" id="chordEditCancel">Cancelar</button>
+  </div>
 </div>
 
 <script>
@@ -2134,16 +2185,36 @@ const REPERTORIO = [
 const PROXIMOS_LANCAMENTOS = [
 ];
 
-// Edição de cifra direto no app (celular ou computador): salva no localStorage do navegador,
-// então cada aparelho guarda suas próprias edições. Blindado com try/catch porque localStorage
-// pode não estar disponível em alguns contextos (ex: artifact embutido).
+// Edição de cifra direto no app (celular ou computador): salva na nuvem (Firestore), pra
+// aparecer pra todo mundo, e também no localStorage do aparelho como cache/plano B (caso
+// fique sem internet ou o Firestore não carregue por algum motivo). Tudo blindado com
+// try/catch — se alguma dessas coisas não estiver disponível, o app segue funcionando
+// normalmente com os dados padrão.
 const CIFRA_OVERRIDE_PREFIX = 'redencaoMusicCifraOverride::';
-function saveCifraOverride(key, payload){
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBTNrQ1hv9SEmNMlbm645hBxKWoyA8RcRk",
+  authDomain: "redencaomusic-11311.firebaseapp.com",
+  projectId: "redencaomusic-11311",
+  storageBucket: "redencaomusic-11311.firebasestorage.app",
+  messagingSenderId: "703926735409",
+  appId: "1:703926735409:web:ac9431feaace4828cbbb10",
+  measurementId: "G-WL81QQ21ZK"
+};
+const CIFRA_OVERRIDES_COLLECTION = 'cifraOverrides';
+let db = null;
+try{
+  if(typeof firebase !== 'undefined'){
+    firebase.initializeApp(FIREBASE_CONFIG);
+    db = firebase.firestore();
+  }
+}catch(e){ db = null; /* segue só com localStorage/dados padrão */ }
+
+function saveCifraOverrideLocal(key, payload){
   try{
     localStorage.setItem(CIFRA_OVERRIDE_PREFIX + key, JSON.stringify(payload));
   }catch(e){ /* localStorage indisponível nesse navegador/contexto — edição fica só nesta sessão */ }
 }
-function loadCifraOverrides(){
+function loadCifraOverridesLocal(){
   try{
     for(let i=0; i<localStorage.length; i++){
       const k = localStorage.key(i);
@@ -2158,7 +2229,56 @@ function loadCifraOverrides(){
     }
   }catch(e){ /* localStorage indisponível — segue só com os dados padrão do app */ }
 }
-loadCifraOverrides();
+
+// Salva a edição na nuvem (pra aparecer pra todo mundo) e também localmente (cache/plano B).
+function saveCifraOverride(key, payload){
+  saveCifraOverrideLocal(key, payload);
+  if(!db) return;
+  try{
+    db.collection(CIFRA_OVERRIDES_COLLECTION).doc(key).set(payload).catch(()=>{
+      /* sem internet ou Firestore indisponível — a edição já ficou salva localmente nesse aparelho */
+    });
+  }catch(e){ /* ignora — edição já ficou salva localmente */ }
+}
+
+// Busca as edições salvas na nuvem (com um tempo limite curto, pra não travar o carregamento
+// do app se a internet estiver ruim) e aplica por cima dos dados padrão/locais.
+function loadCifraOverridesCloud(){
+  if(!db) return Promise.resolve();
+  const timeout = new Promise(resolve => setTimeout(resolve, 3500));
+  const fetchCloud = db.collection(CIFRA_OVERRIDES_COLLECTION).get().then(snapshot=>{
+    snapshot.forEach(doc=>{
+      const songKey = doc.id;
+      const saved = doc.data();
+      if(!CIFRAS[songKey] || !saved || typeof saved.cifra !== 'string') return;
+      CIFRAS[songKey].cifra = saved.cifra;
+      if(saved.tom) CIFRAS[songKey].tom = saved.tom;
+      saveCifraOverrideLocal(songKey, saved); // mantém o cache local atualizado
+    });
+  }).catch(()=>{ /* sem internet ou Firestore indisponível — segue com o que já tem */ });
+  return Promise.race([fetchCloud, timeout]);
+}
+
+// Escuta mudanças futuras na nuvem em segundo plano (ex: alguém editou pelo celular enquanto
+// esse app já estava aberto noutro aparelho) — atualiza os dados em memória pra próxima vez
+// que a música for exibida/reaberta, sem forçar recarregar a tela toda na hora.
+function watchCifraOverridesCloud(){
+  if(!db) return;
+  try{
+    db.collection(CIFRA_OVERRIDES_COLLECTION).onSnapshot(snapshot=>{
+      snapshot.docChanges().forEach(change=>{
+        const songKey = change.doc.id;
+        const saved = change.doc.data();
+        if(!CIFRAS[songKey] || !saved || typeof saved.cifra !== 'string') return;
+        CIFRAS[songKey].cifra = saved.cifra;
+        if(saved.tom) CIFRAS[songKey].tom = saved.tom;
+        saveCifraOverrideLocal(songKey, saved);
+      });
+    });
+  }catch(e){ /* sem suporte a listener em tempo real nesse contexto — sem problema */ }
+}
+
+loadCifraOverridesLocal();
 
 // ---------- BUILD ----------
 const listEl = document.getElementById('list');
@@ -2489,6 +2609,31 @@ function escapeHtml(s){
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+// Quebra o "resto" de uma linha de acorde em pedaços (espaços e tokens), com a posição de
+// cada um relativa ao início desse "resto" — usado tanto pra render quanto pra localizar
+// exatamente onde editar/inserir/remover um acorde no texto bruto da música (data.cifra).
+function tokenizeChordRest(rest){
+  const parts = rest.split(/(\s+)/);
+  const tokens = [];
+  let pos = 0;
+  for(const p of parts){
+    tokens.push({ text: p, isToken: p.trim()!=='', start: pos, end: pos + p.length });
+    pos += p.length;
+  }
+  return tokens;
+}
+
+// Renderiza os tokens de uma linha de acorde como spans clicáveis/editáveis, com a coluna
+// absoluta de cada um dentro da linha ORIGINAL guardada em data.cifra (baseCol soma o que
+// vier antes, tipo um rótulo "[Intro] " ou o pedaço cortado de um par que quebrou de linha).
+function renderChordTokens(rest, lineIdx, baseCol){
+  return tokenizeChordRest(rest).map(t=>{
+    if(!t.isToken) return escapeHtml(t.text);
+    const absStart = baseCol + t.start, absEnd = baseCol + t.end;
+    return `<span class="chord chord-tok" data-line="${lineIdx}" data-start="${absStart}" data-end="${absEnd}">${escapeHtml(t.text)}</span>`;
+  }).join('');
+}
+
 // Uma linha de acorde seguida de uma linha de letra forma um "par" — quando a letra
 // precisa quebrar em telas estreitas, o acorde tem que quebrar junto, no mesmo lugar,
 // pra continuar exatamente em cima da silaba certa (ver wrapPair/fitChordLines).
@@ -2501,7 +2646,7 @@ function highlightChords(text){
     if(label){
       const rest = line.slice(label.length);
       const restIsChords = isChordish && rest.trim().length>0;
-      const restHtml = restIsChords ? `<span class="chord chord-part">${escapeHtml(rest)}</span>` : escapeHtml(rest);
+      const restHtml = restIsChords ? renderChordTokens(rest, i, label.length) : escapeHtml(rest);
       const cls = restIsChords ? 'line chord-line' : 'line';
       out.push(`<div class="${cls}"><span class="section-label">${escapeHtml(label)}</span>${restHtml}</div>`);
       continue;
@@ -2512,15 +2657,15 @@ function highlightChords(text){
       const nextIsLyric = next!==undefined && nextInfo && !nextInfo.label && !nextInfo.isChordish && next.trim().length>0;
       if(nextIsLyric){
         out.push(
-          `<div class="cl-pair" data-chord="${encodeURIComponent(line)}" data-lyric="${encodeURIComponent(next)}">` +
-          `<div class="line chord-line"><span class="chord">${escapeHtml(line)}</span></div>` +
+          `<div class="cl-pair" data-line="${i}" data-chord="${encodeURIComponent(line)}" data-lyric="${encodeURIComponent(next)}">` +
+          `<div class="line chord-line">${renderChordTokens(line, i, 0)}</div>` +
           `<div class="line">${escapeHtml(next)}</div>` +
           `</div>`
         );
         i++;
         continue;
       }
-      out.push(`<div class="line chord-line"><span class="chord">${escapeHtml(line)}</span></div>`);
+      out.push(`<div class="line chord-line">${renderChordTokens(line, i, 0)}</div>`);
       continue;
     }
     out.push(`<div class="line">${line.length ? escapeHtml(line) : ' '}</div>`);
@@ -2530,10 +2675,12 @@ function highlightChords(text){
 
 // Divide um par acorde+letra em varios pares menores, quebrando os dois juntos na mesma
 // coluna (sempre num espaco da letra, pra nao cortar palavra no meio) — assim o acorde
-// wrapado continua exatamente em cima da silaba onde estava no texto original.
+// wrapado continua exatamente em cima da silaba onde estava no texto original. Cada
+// segmento guarda seu "offset" (coluna onde começa dentro da linha completa original),
+// necessário pra editar um token clicado de volta no lugar certo do texto bruto.
 function wrapPair(chordLine, lyricLine, maxChars){
   const total = Math.max(chordLine.length, lyricLine.length);
-  if(maxChars<=0 || total<=maxChars) return [{ chord: chordLine, lyric: lyricLine }];
+  if(maxChars<=0 || total<=maxChars) return [{ chord: chordLine, lyric: lyricLine, offset: 0 }];
   const segments = [];
   let start = 0;
   while(total - start > maxChars){
@@ -2546,17 +2693,17 @@ function wrapPair(chordLine, lyricLine, maxChars){
       breakAt = Math.min(start+maxChars, total);
       if(breakAt<=start) breakAt = start+1;
     }
-    segments.push({ chord: chordLine.slice(start, breakAt), lyric: lyricLine.slice(start, breakAt) });
+    segments.push({ chord: chordLine.slice(start, breakAt), lyric: lyricLine.slice(start, breakAt), offset: start });
     start = breakAt;
   }
-  segments.push({ chord: chordLine.slice(start), lyric: lyricLine.slice(start) });
+  segments.push({ chord: chordLine.slice(start), lyric: lyricLine.slice(start), offset: start });
   return segments;
 }
 
-function renderPairSegment(seg){
+function renderPairSegment(seg, lineIdx){
   let html = '';
   if(seg.chord.trim().length>0){
-    html += `<div class="line chord-line"><span class="chord">${escapeHtml(seg.chord)}</span></div>`;
+    html += `<div class="line chord-line">${renderChordTokens(seg.chord, lineIdx, seg.offset)}</div>`;
   }
   html += `<div class="line">${seg.lyric.length ? escapeHtml(seg.lyric) : ' '}</div>`;
   return html;
@@ -2590,10 +2737,11 @@ function fitChordLines(container){
   const charWidth = measureCharWidth(container);
   const maxChars = Math.max(4, Math.floor(maxWidthPx / charWidth) - 1);
   pairs.forEach(pair=>{
+    const lineIdx = parseInt(pair.dataset.line, 10);
     const chord = decodeURIComponent(pair.dataset.chord||'');
     const lyric = decodeURIComponent(pair.dataset.lyric||'');
     const segments = wrapPair(chord, lyric, maxChars);
-    pair.innerHTML = segments.map(renderPairSegment).join('');
+    pair.innerHTML = segments.map(seg=>renderPairSegment(seg, lineIdx)).join('');
   });
 }
 function fitAllChordLines(){
@@ -2603,6 +2751,103 @@ let fitResizeTimer = null;
 window.addEventListener('resize', ()=>{
   clearTimeout(fitResizeTimer);
   fitResizeTimer = setTimeout(fitAllChordLines, 150);
+});
+
+// Aplica uma edição (trocar/inserir/remover um acorde) numa linha específica do texto bruto
+// da cifra, usando as colunas (start/end) do token clicado — ver renderChordTokens acima
+// pra como cada token sabe sua posição exata dentro dessa linha.
+function spliceCifraLine(cifraText, lineIdx, start, end, replacement){
+  const lines = cifraText.split("\n");
+  if(lineIdx<0 || lineIdx>=lines.length) return cifraText;
+  const line = lines[lineIdx];
+  lines[lineIdx] = line.slice(0, start) + replacement + line.slice(end);
+  return lines.join("\n");
+}
+
+// ---------- EDIÇÃO DE ACORDE (toque num acorde pra trocar, ou acrescentar uma passagem) ----------
+// Uma única "folha" (bottom sheet) reutilizada por todos os cards: cada card só precisa
+// chamar openChordEditSheet(...) passando onde o acorde tocado fica no texto (lineIdx/start/end)
+// e um onChange(...) que sabe como aplicar a edição de volta naquele card específico.
+const chordEditSheetEl = document.getElementById('chordEditSheet');
+const chordEditBackdropEl = document.getElementById('chordEditBackdrop');
+const chordEditLabelEl = document.getElementById('chordEditLabel');
+const chordEditInputEl = document.getElementById('chordEditInput');
+const chordEditActionsMainEl = document.getElementById('chordEditActionsMain');
+const chordEditActionsInsertEl = document.getElementById('chordEditActionsInsert');
+const chordEditSaveEl = document.getElementById('chordEditSave');
+const chordEditRemoveEl = document.getElementById('chordEditRemove');
+const chordEditBeforeEl = document.getElementById('chordEditBefore');
+const chordEditAfterEl = document.getElementById('chordEditAfter');
+const chordEditInsertConfirmEl = document.getElementById('chordEditInsertConfirm');
+const chordEditCancelEl = document.getElementById('chordEditCancel');
+let chordEditCtx = null; // { currentText, lineIdx, start, end, onChange, insertMode }
+
+function openChordEditSheet(ctx){
+  chordEditCtx = ctx;
+  chordEditLabelEl.textContent = 'Editar acorde';
+  chordEditInputEl.value = ctx.currentText;
+  chordEditInputEl.placeholder = 'ex: Bb7M(9)';
+  chordEditActionsMainEl.style.display = 'flex';
+  chordEditActionsInsertEl.style.display = 'none';
+  chordEditSheetEl.classList.add('open');
+  chordEditBackdropEl.classList.add('open');
+  setTimeout(()=>{ chordEditInputEl.focus(); chordEditInputEl.select(); }, 60);
+}
+function closeChordEditSheet(){
+  chordEditSheetEl.classList.remove('open');
+  chordEditBackdropEl.classList.remove('open');
+  chordEditCtx = null;
+}
+chordEditCancelEl.addEventListener('click', closeChordEditSheet);
+chordEditBackdropEl.addEventListener('click', closeChordEditSheet);
+chordEditSaveEl.addEventListener('click', ()=>{
+  if(!chordEditCtx) return;
+  const val = chordEditInputEl.value;
+  chordEditCtx.onChange({ start: chordEditCtx.start, end: chordEditCtx.end, replacement: val });
+  closeChordEditSheet();
+});
+chordEditRemoveEl.addEventListener('click', ()=>{
+  if(!chordEditCtx) return;
+  chordEditCtx.onChange({ start: chordEditCtx.start, end: chordEditCtx.end, replacement: '' });
+  closeChordEditSheet();
+});
+chordEditBeforeEl.addEventListener('click', ()=>{
+  if(!chordEditCtx) return;
+  chordEditCtx.insertMode = 'before';
+  chordEditLabelEl.textContent = 'Acrescentar passagem antes';
+  chordEditInputEl.value = '';
+  chordEditInputEl.placeholder = 'novo acorde, ex: G7';
+  chordEditActionsMainEl.style.display = 'none';
+  chordEditActionsInsertEl.style.display = 'flex';
+  setTimeout(()=>chordEditInputEl.focus(), 60);
+});
+chordEditAfterEl.addEventListener('click', ()=>{
+  if(!chordEditCtx) return;
+  chordEditCtx.insertMode = 'after';
+  chordEditLabelEl.textContent = 'Acrescentar passagem depois';
+  chordEditInputEl.value = '';
+  chordEditInputEl.placeholder = 'novo acorde, ex: G7';
+  chordEditActionsMainEl.style.display = 'none';
+  chordEditActionsInsertEl.style.display = 'flex';
+  setTimeout(()=>chordEditInputEl.focus(), 60);
+});
+chordEditInsertConfirmEl.addEventListener('click', ()=>{
+  if(!chordEditCtx || !chordEditCtx.insertMode) return;
+  const val = chordEditInputEl.value.trim();
+  if(!val){ closeChordEditSheet(); return; }
+  if(chordEditCtx.insertMode==='before'){
+    chordEditCtx.onChange({ start: chordEditCtx.start, end: chordEditCtx.start, replacement: val + ' ' });
+  } else {
+    chordEditCtx.onChange({ start: chordEditCtx.end, end: chordEditCtx.end, replacement: ' ' + val });
+  }
+  closeChordEditSheet();
+});
+chordEditInputEl.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter'){
+    e.preventDefault();
+    if(chordEditActionsInsertEl.style.display==='none') chordEditSaveEl.click();
+    else chordEditInsertConfirmEl.click();
+  }
 });
 
 const voices = ["TODAS", ...Array.from(new Set(REPERTORIO.map(r=>vozClass(r[2])))).filter(v=>v!=="OUTROS").sort()];
@@ -2680,17 +2925,10 @@ function createSongCard({ num, title, voz, youtube, openByDefault, nota, registr
         <button class="tr-btn" data-dir="1" title="Subir meio tom">+</button>
         <button class="tr-reset chip" style="display:none;">voltar ao original</button>
         <button class="tr-fs" title="Ver em tela cheia">⛶ Tela cheia</button>
-        <button class="tr-edit" title="Editar essa cifra">✏️ Editar</button>
+        <button class="tr-edit" title="Editar os acordes">✏️ Editar acordes</button>
       </div>
+      <div class="edit-hint">Toque num acorde pra trocar ele, ou acrescentar uma passagem antes/depois. Toque em "✓ Concluído" quando terminar.</div>
       <div class="cifra"></div>
-      <div class="cifra-editbox" style="display:none;">
-        <label>Tom<br><input type="text" class="edit-tom"></label>
-        <label>Cifra (acordes + letra)<br><textarea class="edit-cifra" spellcheck="false"></textarea></label>
-        <div class="edit-actions">
-          <button class="edit-save chip">💾 Salvar</button>
-          <button class="edit-cancel chip">Cancelar</button>
-        </div>
-      </div>
       <a class="source" href="${data.fonte}" target="_blank" rel="noopener">Ver cifra completa em ${data.fonteNome} ↗</a>
     `;
 
@@ -2701,13 +2939,9 @@ function createSongCard({ num, title, voz, youtube, openByDefault, nota, registr
     const resetBtn = bodyPad.querySelector('.tr-reset');
     const fsBtn = bodyPad.querySelector('.tr-fs');
     const editBtn = bodyPad.querySelector('.tr-edit');
-    const editBox = bodyPad.querySelector('.cifra-editbox');
-    const editTomInput = bodyPad.querySelector('.edit-tom');
-    const editCifraInput = bodyPad.querySelector('.edit-cifra');
-    const saveBtn = bodyPad.querySelector('.edit-save');
-    const cancelBtn = bodyPad.querySelector('.edit-cancel');
-    const transposeRow = bodyPad.querySelector('.transpose');
+    const editHint = bodyPad.querySelector('.edit-hint');
     const songKey = key;
+    let chordEditModeOn = false;
 
     function renderTranspose(){
       cifraEl.innerHTML = highlightChords(transposeCifra(data.cifra, offset, useFlats));
@@ -2721,29 +2955,30 @@ function createSongCard({ num, title, voz, youtube, openByDefault, nota, registr
 
     editBtn.addEventListener('click', (e)=>{
       e.stopPropagation();
-      editTomInput.value = data.tom;
-      editCifraInput.value = data.cifra;
-      cifraEl.style.display = 'none';
-      transposeRow.style.display = 'none';
-      editBox.style.display = 'block';
+      chordEditModeOn = !chordEditModeOn;
+      cifraEl.classList.toggle('editing-chords', chordEditModeOn);
+      editHint.classList.toggle('show', chordEditModeOn);
+      editBtn.textContent = chordEditModeOn ? '✓ Concluído' : '✏️ Editar acordes';
+      editBtn.classList.toggle('active', chordEditModeOn);
+      if(chordEditModeOn && offset!==0){ offset = 0; renderTranspose(); }
     });
-    cancelBtn.addEventListener('click', (e)=>{
+    cifraEl.addEventListener('click', (e)=>{
+      if(!chordEditModeOn) return;
+      const tok = e.target.closest('.chord-tok');
+      if(!tok) return;
       e.stopPropagation();
-      editBox.style.display = 'none';
-      cifraEl.style.display = '';
-      transposeRow.style.display = '';
-    });
-    saveBtn.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      data.cifra = editCifraInput.value;
-      data.tom = editTomInput.value.trim() || data.tom;
-      useFlats = (data.tom||'').includes('b');
-      offset = 0;
-      saveCifraOverride(songKey, { cifra: data.cifra, tom: data.tom });
-      editBox.style.display = 'none';
-      cifraEl.style.display = '';
-      transposeRow.style.display = '';
-      renderTranspose();
+      const lineIdx = parseInt(tok.dataset.line, 10);
+      const start = parseInt(tok.dataset.start, 10);
+      const end = parseInt(tok.dataset.end, 10);
+      openChordEditSheet({
+        currentText: tok.textContent,
+        lineIdx, start, end,
+        onChange: ({ start, end, replacement })=>{
+          data.cifra = spliceCifraLine(data.cifra, lineIdx, start, end, replacement);
+          saveCifraOverride(songKey, { cifra: data.cifra, tom: data.tom });
+          renderTranspose();
+        }
+      });
     });
 
     bodyPad.querySelectorAll('.tr-btn').forEach(btn=>{
@@ -2861,6 +3096,18 @@ searchEl.addEventListener('input', render);
 switchTab('semana');
 renderSemana();
 render();
+
+// Depois do primeiro desenho da tela (rápido, com os dados padrão + cache local do
+// aparelho), busca as edições mais recentes salvas na nuvem por qualquer pessoa da banda
+// e re-renderiza assim que chegarem (com internet normal, isso costuma levar só 1-2s —
+// no pior caso, depois de 3.5s o app segue com o que já tinha carregado localmente).
+loadCifraOverridesCloud().then(()=>{
+  renderSemana();
+  render();
+  if(activeTab==='proximas') renderProximas();
+  setTimeout(fitAllChordLines, 0);
+  watchCifraOverridesCloud();
+});
 </script>
 
 </body>
