@@ -328,6 +328,28 @@
     display:flex; align-items:center; justify-content:center;
     flex-shrink:0;
   }
+  .reorder-ctrl{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    flex-shrink:0;
+  }
+  .reorder-btn{
+    border:1px solid var(--border);
+    background:var(--panel2);
+    color:var(--muted);
+    width:22px; height:17px;
+    border-radius:6px;
+    font-size:.6rem;
+    line-height:1;
+    font-family:inherit;
+    padding:0;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:all .15s ease;
+  }
+  .reorder-btn:hover:not(:disabled){ border-color:var(--accent2); color:var(--accent2); }
+  .reorder-btn:disabled{ opacity:.25; cursor:default; }
   .title{
     flex:1;
     font-weight:700;
@@ -2019,6 +2041,342 @@ De Ti Eu Preciso
 Meu Defensor   Justo e   Fiel de Ti Eu Preciso
     Bb/D  Cm/Eb      Bb/F  Eb/G   Bb       F  Bb
 Meu Defensor   Justo e   Fiel de Ti Eu Preciso`
+  },
+  "AFLIÇÃO E PAZ": {
+    tom: "D",
+    compasso: "4/4",
+    bpm: null,
+    fonte: null,
+    fonteNome: null,
+    compositor: "Não identificado — hinário tradicional (cifra e letra enviadas pelo Bruno)",
+    cifra:
+`[Intro] D E F# A B A F#
+        E E E
+        E F# E D D (2x)
+
+D
+Se paz a mais doce me deres provar
+Se dor a mais forte sofrer
+     D/F#         G            Em      A/C#
+Oh! Seja o que for, Tu me fazes saber
+        Bm             A            D
+Que feliz com Jesus sempre sou
+
+(D) Repete Intro
+
+Embora me assalte o cruel Satanás
+E ataque com vis tentações
+     D/F#         G            Em      A/C#
+Oh! Certo eu estou, apesar de aflições
+        Bm             A          D (D D D D)
+Que feliz eu serei com Jesus!
+
+[Apenas teclado]
+   D         Em         D/F#     Bm
+Sou feliz com Jesus
+        G             A          D
+Sou feliz com Jesus, meu Senhor
+
+[Todos marcando]
+   D         Em         D/F# (caída - A Bm)
+Sou feliz com Jesus
+        G             A     (silêncio)
+Sou feliz com Jesus, meu Senhor
+
+(D) Repete Intro
+
+Meu triste pecado, por meu Salvador
+        Bm             A
+Foi pago de um modo cabal
+     D/F#         G            Em      A/C#
+Valeu-me o Senhor! Oh mercê sem igual
+        Bm             A     (D D D D)
+Sou feliz, graças dou a Jesus
+
+(D)
+   D         Em         D/F#     Bm
+Sou feliz com Jesus
+        G             A          D
+Sou feliz com Jesus, meu Senhor
+   D         Em         D/F#     Bm
+Sou feliz com Jesus
+        G             A          D
+Sou feliz com Jesus, meu Senhor
+
+[Apenas teclado — D/F#]
+D/F#            G             A       Bm    A
+ A vinda eu anseio do meu Salvador
+G           D/F#            E       A    D/F#
+ Em breve virá me buscar
+G           D/F#            E7      G    Bm
+ Ao céu onde eu vou pra sempre morar
+    A        G         D/F#    E     A    D    Em   D/F#
+ Com os remidos na luz do Senhor
+G           D/F#            A       Bm    A
+ A vinda eu anseio do meu Salvador
+G           D/F#            E       A    D/F#
+ Em breve virá me levar
+G           D/F#            E7      G    Bm
+ Ao céu onde eu vou pra sempre morar
+    A        G         D/F#    E     A    D  (solfejo: C B A G D F#)
+ Com os remidos na luz do Senhor
+D/F#       G        E/G#   A
+ Com os remidos na luz do Senhor
+
+(Todos D D D D)
+   D         Em         D/F#     Bm
+Sou feliz com Jesus
+        G             A          D
+Sou feliz com Jesus, meu Senhor
+   D         Em         D/F#     Bm
+Sou feliz com Jesus
+        G             A          D
+Sou feliz com Jesus, meu Senhor
+Em          G         A     Bm  E
+ Sou feliz com Jesus, meu Senhor
+        G             A          D
+Sou feliz com Jesus, meu Senhor
+
+[Fim] D E F# A B A F#`
+  },
+  "O CORDEIRO": {
+    tom: "D",
+    compasso: "4/4",
+    bpm: null,
+    fonte: "https://www.cifraclub.com.br/rafael-araujo/",
+    fonteNome: "Rafael Araújo — Cifra Club",
+    compositor: "Rafael Araújo",
+    cifra:
+`[Intro] Bm  G  D  F#m
+
+ D                G                            D
+Fico a imaginar o dia, em que o meu nome irá chamar
+                       G
+Pra um lugar muito distante
+               D
+Onde nunca haverá
+    G        D/F#        Em7              A
+Nem fome, nem sede, nem pranto nunca haverá
+   G         D/F#        Bm7              A4  A
+Nem fome, nem sede, nem pranto nunca haverá
+
+      D                 G
+O Cordeiro que está no trono
+       Bm           A
+Apascentará e me servirá
+     G          D/F#                G
+De guia para as fontes das águas da vida
+        A4 A
+Me levará
+
+[Instrumental] Bm  G  D  F#m
+               G  A  G/B  A/C#  Em  D/F#  G  A`
+  },
+  "CANÇÃO DE SIMEÃO": {
+    tom: "E",
+    compasso: "4/4",
+    bpm: null,
+    fonte: "https://www.cifraclub.com.br/drops-ina/",
+    fonteNome: "Drops INA — Cifra Club",
+    compositor: "Drops INA",
+    cifra:
+`[Intro] A  E6  A  E6
+
+[Primeira Parte]
+    A                       E6
+Os meus olhos viram a salvação
+   A                              E6
+A luz para o mundo, esperança da terra
+  C#m      E6/G#     A7M
+E eu não sou mais meu
+  C#m      E6/G#     A7M
+E eu não sou mais meu
+
+  A                       E6
+Cristo, tu és a minha porção
+    A                             E6
+O trigo esmagado, vinho novo e o pão
+  C#m      E6/G#     A7M
+E eu não sou mais meu
+  C#m      E6/G#     A7M
+E eu não sou mais meu
+
+[Pré-Refrão]
+      F#m7      E6/G#      A7M
+És a fome que me faz cantar
+      F#m7      E6/G#     A7M
+És a sede que me faz beber
+      F#m7        E6/G#       A7M
+És o nome que escuto ao deitar
+       F#m7         E6/G#      B9
+E o olhar que vejo ao amanhecer
+
+[Refrão]
+  A9               E6/G#
+E essa é minha promessa
+                   A9            E6/G#
+Eu gastarei minha vida pra Te coroar
+F#m              E6/G#
+Esse é o meu anseio
+                A9                E6/G#
+O meu amor por Ti não será um segredo
+
+  A9               E6/G#
+E essa é minha promessa
+                   A9            E6/G#
+Eu gastarei minha vida pra Te coroar
+F#m              E6/G#
+Esse é o meu anseio
+                A9                E6/G#
+O meu amor por Ti não será um segredo
+
+[Pré-Refrão]
+      F#m7      E6/G#      A7M
+És a fome que me faz cantar
+      F#m7      E6/G#     A7M
+És a sede que me faz beber
+      F#m7        E6/G#       A7M
+És o nome que escuto ao deitar
+       F#m7         E6/G#      A7M  B9
+E o olhar que vejo ao amanhecer
+
+[Refrão Final]
+  A9               E6/G#
+E essa é minha promessa
+                   A9            E6/G#
+Eu gastarei minha vida pra Te coroar
+F#m              E6/G#
+Esse é o meu anseio
+                A9                E6/G#
+O meu amor por Ti não será um segredo
+
+( A9  E6/G#  A9  E6/G# )
+( F#m  E6/G#  A9  B9 )
+
+  A9               E/G#
+E essa é minha promessa
+                   A9            E/G#
+Eu gastarei minha vida pra Te coroar
+F#m              E/G#
+Esse é o meu anseio
+                A7M               E/G#
+O meu amor por Ti não será um segredo
+
+  A9
+E essa é minha promessa
+Eu gastarei minha vida pra Te coroar
+Esse é o meu anseio
+O meu amor por Ti não será um segredo`
+  },
+  "HÁ UM LUGAR": {
+    tom: "G",
+    compasso: "4/4",
+    bpm: null,
+    fonte: "https://www.cifraclub.com.br/heloisa-rosa/",
+    fonteNome: "Heloísa Rosa — Cifra Club",
+    compositor: "Heloísa Rosa",
+    cifra:
+`[Intro] C9  G  C9  G
+
+         C9
+Há um lugar de descanso em Ti
+         G
+Há um lugar de refrigério em Ti
+         C9            D/F#
+Há um lugar onde a verdade
+   Em        C9           G
+Reina, esse lugar é no Senhor
+
+         C9
+Há um lugar onde as pessoas
+Não me influenciam
+         G
+Há um lugar onde
+Eu ouço o Teu espírito
+         C9       D
+Há um lugar de vitória
+            Em
+Em meio a guerra
+        C9           G
+Esse lugar é no Senhor
+
+[Refrão]
+                    C9
+Esse lugar é no Senhor
+                    G
+Esse lugar é no Senhor
+                    C9
+Esse lugar é no Senhor
+        C9       G
+Esse lugar é no Senhor
+
+[Segunda Parte]
+         C9
+Há um lugar onde
+A inconstância não me domina
+         G
+Há um lugar onde minha fé
+É fortalecida
+         C9         D
+Há um lugar onde a paz
+          Em
+É quem governa
+        C9          G
+Esse lugar é no Senhor
+
+         C9
+Há um lugar onde
+Os sonhos não se abortam
+         G
+Há um lugar
+Onde os medos não te dominam
+         C9
+Há um lugar que quando
+    D              Em
+Se perde é que se ganha
+       C9         G
+Esse lugar é no Senhor
+
+[Refrão]
+                    C9
+Esse lugar é no Senhor
+                    G
+Esse lugar é no Senhor
+                    C9
+Esse lugar é no Senhor
+                    G
+Esse lugar é no Senhor
+
+                    C9
+Esse lugar é no Senhor
+                    G
+Esse lugar é no Senhor
+                    C9
+Esse lugar é no Senhor
+                    G
+Esse lugar é no Senhor
+
+[Solo] C9  G  C9  G
+
+[Final]
+    C9
+És tudo o que eu preciso, Jesus!
+    G
+És tudo o que eu preciso, Jesus!
+    C9
+És tudo o que eu preciso, Jesus!
+G
+  Oh, meu amado
+
+      C9
+Tu És tudo o que eu preciso, Jesus!
+      G
+Tu És tudo o que eu
+Mais preciso, Jesus!
+    C9
+És tudo o que eu preciso
+       G
+Jesus!`
   }
 };
 
@@ -2132,14 +2490,14 @@ const ULTIMA_VEZ_TOCADA = {
 // Repertório da semana: culto, quem está escalado, e as músicas (com quem canta + link do YouTube).
 // titulo:null = vaga ainda não definida. Atualize aqui toda semana.
 const SEMANA = {
-  data: "16/08/2026",
+  data: "23/08/2026",
   diaSemana: "Domingo",
-  escalados: ["MANU","NIKA","MILA"],
+  escalados: ["GUI","MANU","NICA/NIKA"],
   musicas: [
-    { titulo: "Jesus", voz: "MANU/MILA", youtube: "https://www.youtube.com/watch?v=nwfOXpzbLoA" },
-    { titulo: "Dono da Minha Afeição", voz: "MANU/NIKA/MILA", youtube: "https://www.youtube.com/watch?v=2anDhu7L-Cc" },
-    { titulo: "Senhor de Ti Preciso", voz: "RAFA", youtube: "https://www.youtube.com/watch?v=34-jsOV_7WQ" },
-    { titulo: "Minha Alma Engrandece", voz: "MILA", youtube: "https://www.youtube.com/watch?v=oNUErOaOuPw" }
+    { titulo: "O Cordeiro", voz: "GUI", youtube: "https://www.youtube.com/watch?v=pE4ucsjb8Hg" },
+    { titulo: "Canção de Simeão", voz: "NIKA", youtube: "https://www.youtube.com/watch?v=7R-wcOhsNrI" },
+    { titulo: "Há Um Lugar", voz: "MANU", youtube: "https://www.youtube.com/watch?v=ISjYkZF6whA" },
+    { titulo: "Aflição e Paz", voz: "NICA", youtube: "https://www.youtube.com/watch?v=Uw0g_Vba4uw" }
   ]
 };
 
@@ -2279,6 +2637,89 @@ function watchCifraOverridesCloud(){
 }
 
 loadCifraOverridesLocal();
+
+// ---------- ORDEM DO REPERTÓRIO DA SEMANA (setas ▲▼) ----------
+// Mesma lógica de sincronização das edições de cifra acima (localStorage + Firestore):
+// guarda só a LISTA DE TÍTULOS na ordem escolhida, junto com a data do culto (SEMANA.data) —
+// se a data mudar (nova semana), a ordem salva fica obsoleta e é ignorada automaticamente,
+// então cada semana nova começa na ordem padrão até alguém reordenar de novo.
+const SEMANA_ORDER_LOCAL_KEY = 'redencaoMusicSemanaOrder';
+const SEMANA_ORDER_COLLECTION = 'semanaConfig';
+const SEMANA_ORDER_DOC = 'ordem';
+let semanaOrderOverride = null; // array de títulos, só válido se saved.data === SEMANA.data
+
+function saveSemanaOrderLocal(payload){
+  try{
+    localStorage.setItem(SEMANA_ORDER_LOCAL_KEY, JSON.stringify(payload));
+  }catch(e){ /* localStorage indisponível — a reordenação fica só nesta sessão */ }
+}
+function loadSemanaOrderLocal(){
+  try{
+    const raw = localStorage.getItem(SEMANA_ORDER_LOCAL_KEY);
+    if(!raw) return;
+    const saved = JSON.parse(raw);
+    if(saved && saved.data===SEMANA.data && Array.isArray(saved.order)) semanaOrderOverride = saved.order;
+  }catch(e){ /* segue com a ordem padrão do SEMANA.musicas */ }
+}
+
+// Salva a nova ordem na nuvem (pra aparecer pra todo mundo) e também localmente (cache/plano B).
+function saveSemanaOrder(order){
+  const payload = { data: SEMANA.data, order };
+  saveSemanaOrderLocal(payload);
+  if(!db) return;
+  try{
+    db.collection(SEMANA_ORDER_COLLECTION).doc(SEMANA_ORDER_DOC).set(payload).catch(()=>{
+      /* sem internet ou Firestore indisponível — a reordenação já ficou salva localmente nesse aparelho */
+    });
+  }catch(e){ /* ignora — já ficou salva localmente */ }
+}
+
+// Busca a ordem salva na nuvem (com tempo limite curto, pra não travar o carregamento do app).
+function loadSemanaOrderCloud(){
+  if(!db) return Promise.resolve();
+  const timeout = new Promise(resolve => setTimeout(resolve, 3500));
+  const fetchCloud = db.collection(SEMANA_ORDER_COLLECTION).doc(SEMANA_ORDER_DOC).get().then(doc=>{
+    if(!doc.exists) return;
+    const saved = doc.data();
+    if(saved && saved.data===SEMANA.data && Array.isArray(saved.order)){
+      semanaOrderOverride = saved.order;
+      saveSemanaOrderLocal(saved); // mantém o cache local atualizado
+    }
+  }).catch(()=>{ /* sem internet ou Firestore indisponível — segue com o que já tem */ });
+  return Promise.race([fetchCloud, timeout]);
+}
+
+// Escuta mudanças futuras na nuvem (ex: alguém reordenou pelo celular enquanto esse app já
+// estava aberto noutro aparelho) e redesenha o Repertório da Semana na hora com a nova ordem.
+function watchSemanaOrderCloud(){
+  if(!db) return;
+  try{
+    db.collection(SEMANA_ORDER_COLLECTION).doc(SEMANA_ORDER_DOC).onSnapshot(doc=>{
+      if(!doc.exists) return;
+      const saved = doc.data();
+      if(saved && saved.data===SEMANA.data && Array.isArray(saved.order)){
+        semanaOrderOverride = saved.order;
+        saveSemanaOrderLocal(saved);
+        applySemanaOrder();
+        renderSemana();
+      }
+    });
+  }catch(e){ /* sem suporte a listener em tempo real nesse contexto — sem problema */ }
+}
+
+// Reordena SEMANA.musicas de acordo com semanaOrderOverride (se houver e for da semana atual).
+// Músicas não presentes no override (ex: vaga "a definir", ou uma música nova adicionada depois
+// de alguém já ter reordenado) ficam no fim, na ordem original — nunca somem da lista.
+function applySemanaOrder(){
+  if(!semanaOrderOverride || !SEMANA || !Array.isArray(SEMANA.musicas)) return;
+  const remaining = SEMANA.musicas.slice();
+  const ordered = [];
+  semanaOrderOverride.forEach(t=>{
+    const idx = remaining.findIndex(m=>m && m.titulo===t);
+    if(idx>-1){ ordered.push(remaining[idx]); remaining.splice(idx,1); }
+  });
+  SEMANA.musicas = ordered.concat(remaining);
+}
 
 // ---------- BUILD ----------
 const listEl = document.getElementById('list');
@@ -2868,7 +3309,9 @@ voices.forEach(v=>{
 });
 
 // Constrói um card de música reutilizável (usado na lista geral, no repertório da semana e em próximas músicas)
-function createSongCard({ num, title, voz, youtube, openByDefault, nota, registry } = {}){
+// `reorder` (opcional, só usado no Repertório da Semana): { disableUp, disableDown, onUp, onDown } —
+// desenha setas ▲▼ pra mudar a posição da música na sequência do culto.
+function createSongCard({ num, title, voz, youtube, openByDefault, nota, registry, reorder } = {}){
   const key = (title||'').toUpperCase();
   const data = CIFRAS[key];
   const vClass = voz ? vozClass(voz) : null;
@@ -2881,6 +3324,10 @@ function createSongCard({ num, title, voz, youtube, openByDefault, nota, registr
   head.className = 'card-head';
   const uv = ultimaVezInfo(title);
   head.innerHTML = `
+    ${reorder ? `<span class="reorder-ctrl">
+      <button class="reorder-btn reorder-up" title="Mover pra cima na sequência" ${reorder.disableUp ? 'disabled' : ''}>▲</button>
+      <button class="reorder-btn reorder-down" title="Mover pra baixo na sequência" ${reorder.disableDown ? 'disabled' : ''}>▼</button>
+    </span>` : ''}
     ${num!==undefined ? `<span class="num">${num}</span>` : ''}
     <span class="title">${title}${data ? '' : '<span class="note">cifra ainda não cadastrada</span>'}
       <span class="uv uv-${uv.nivel}">${uv.data ? '🕓 '+uv.label : '— nunca tocada'}</span>
@@ -2892,6 +3339,12 @@ function createSongCard({ num, title, voz, youtube, openByDefault, nota, registr
   head.addEventListener('click', ()=>{
     card.classList.toggle('open');
   });
+  if(reorder){
+    const upBtn = head.querySelector('.reorder-up');
+    const downBtn = head.querySelector('.reorder-down');
+    upBtn.addEventListener('click', (e)=>{ e.stopPropagation(); if(!upBtn.disabled) reorder.onUp(); });
+    downBtn.addEventListener('click', (e)=>{ e.stopPropagation(); if(!downBtn.disabled) reorder.onDown(); });
+  }
 
   const body = document.createElement('div');
   body.className = 'card-body';
@@ -2929,7 +3382,7 @@ function createSongCard({ num, title, voz, youtube, openByDefault, nota, registr
       </div>
       <div class="edit-hint">Toque num acorde pra trocar ele, ou acrescentar uma passagem antes/depois. Toque em "✓ Concluído" quando terminar.</div>
       <div class="cifra"></div>
-      <a class="source" href="${data.fonte}" target="_blank" rel="noopener">Ver cifra completa em ${data.fonteNome} ↗</a>
+      ${data.fonte ? `<a class="source" href="${data.fonte}" target="_blank" rel="noopener">Ver cifra completa em ${data.fonteNome} ↗</a>` : ''}
     `;
 
     let offset = 0;
@@ -3041,6 +3494,7 @@ function renderSemana(){
     <div class="semana-list"></div>
   `;
   const listWrap = el.querySelector('.semana-list');
+  const total = SEMANA.musicas.length;
   SEMANA.musicas.forEach((m, i)=>{
     if(!m || !m.titulo){
       const ph = document.createElement('div');
@@ -3049,8 +3503,30 @@ function renderSemana(){
       listWrap.appendChild(ph);
       return;
     }
-    listWrap.appendChild(createSongCard({ title: m.titulo, voz: m.voz, youtube: m.youtube, registry: semanaCardRegistry }));
+    const reorder = {
+      disableUp: i===0,
+      disableDown: i===total-1,
+      onUp: ()=> moveSemanaSong(i, -1),
+      onDown: ()=> moveSemanaSong(i, 1),
+    };
+    listWrap.appendChild(createSongCard({ title: m.titulo, voz: m.voz, youtube: m.youtube, registry: semanaCardRegistry, reorder }));
   });
+}
+
+// Troca a música do índice "index" de posição com a vizinha (index+delta), salva a nova
+// ordem (localStorage + nuvem, pra sincronizar com todo mundo que abrir o app) e redesenha.
+function moveSemanaSong(index, delta){
+  if(!SEMANA || !Array.isArray(SEMANA.musicas)) return;
+  const newIndex = index + delta;
+  if(newIndex<0 || newIndex>=SEMANA.musicas.length) return;
+  const arr = SEMANA.musicas;
+  const tmp = arr[index];
+  arr[index] = arr[newIndex];
+  arr[newIndex] = tmp;
+  const order = arr.filter(m=>m && m.titulo).map(m=>m.titulo);
+  semanaOrderOverride = order;
+  saveSemanaOrder(order);
+  renderSemana();
 }
 
 function render(){
@@ -3092,21 +3568,26 @@ function renderProximas(){
   countProximasEl.textContent = `${PROXIMOS_LANCAMENTOS.length} música(s) nova(s) a caminho`;
 }
 
+loadSemanaOrderLocal();
+applySemanaOrder();
+
 searchEl.addEventListener('input', render);
 switchTab('semana');
 renderSemana();
 render();
 
 // Depois do primeiro desenho da tela (rápido, com os dados padrão + cache local do
-// aparelho), busca as edições mais recentes salvas na nuvem por qualquer pessoa da banda
-// e re-renderiza assim que chegarem (com internet normal, isso costuma levar só 1-2s —
-// no pior caso, depois de 3.5s o app segue com o que já tinha carregado localmente).
-loadCifraOverridesCloud().then(()=>{
+// aparelho), busca as edições e a ordem da semana mais recentes salvas na nuvem por qualquer
+// pessoa da banda e re-renderiza assim que chegarem (com internet normal, isso costuma levar
+// só 1-2s — no pior caso, depois de 3.5s o app segue com o que já tinha carregado localmente).
+Promise.all([loadCifraOverridesCloud(), loadSemanaOrderCloud()]).then(()=>{
+  applySemanaOrder();
   renderSemana();
   render();
   if(activeTab==='proximas') renderProximas();
   setTimeout(fitAllChordLines, 0);
   watchCifraOverridesCloud();
+  watchSemanaOrderCloud();
 });
 </script>
 
