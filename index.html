@@ -274,6 +274,8 @@
     border-color:var(--accent);
     box-shadow:0 4px 14px -4px rgba(234,182,84,0.5);
   }
+  #refreshBtn.spinning{ animation:spin-refresh .6s linear; pointer-events:none; opacity:.7; }
+  @keyframes spin-refresh{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
   .sort-chip{
     display:inline-block;
     margin:2px 0 12px;
@@ -847,6 +849,7 @@
   <div class="reading-opts" id="readingOpts">
     <button class="chip" id="toggleChordsBtn">🎼 Ocultar cifras</button>
     <button class="chip" id="toggleThemeBtn">☀️ Modo claro</button>
+    <button class="chip" id="refreshBtn" title="Recarregar a página e buscar as últimas atualizações">🔄 Atualizar</button>
     <div class="font-ctrl">
       <span>Fonte</span>
       <button id="fontDec" title="Diminuir fonte">A−</button>
@@ -2913,6 +2916,15 @@ fontIncBtn.addEventListener('click', ()=>{
   applyReadingPrefs();
 });
 applyReadingPrefs();
+
+// Botão "Atualizar": recarrega a página do zero (contorna cache do navegador/celular),
+// útil pra puxar uma cifra nova ou um repertório atualizado sem precisar fechar o app.
+const refreshBtn = document.getElementById('refreshBtn');
+refreshBtn.addEventListener('click', ()=>{
+  refreshBtn.classList.add('spinning');
+  const url = location.pathname + '?_r=' + Date.now() + location.hash;
+  setTimeout(()=>{ location.replace(url); }, 200);
+});
 
 // ---------- TELA CHEIA ----------
 const fsOverlay = document.getElementById('fsOverlay');
