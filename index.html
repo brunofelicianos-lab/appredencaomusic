@@ -845,6 +845,7 @@
     <button class="tab-btn" data-tab="musicas">Músicas</button>
     <button class="tab-btn active" data-tab="semana">Repertório da Semana</button>
     <button class="tab-btn" data-tab="proximas">Próximas Músicas</button>
+    <button class="tab-btn" data-tab="historico">Histórico</button>
   </nav>
   <div class="reading-opts" id="readingOpts">
     <button class="chip" id="toggleChordsBtn">🎼 Ocultar cifras</button>
@@ -876,6 +877,11 @@
     <div class="proximas-intro">🆕 Músicas novas que a banda vai aprender e lançar em breve.</div>
     <div class="count" id="count-proximas"></div>
     <div id="list-proximas"></div>
+  </section>
+
+  <section id="view-historico" class="view">
+    <div class="proximas-intro">🗓️ Repertório dos cultos anteriores, por data (mais recente primeiro).</div>
+    <div id="historico"></div>
   </section>
 </main>
 
@@ -1378,40 +1384,51 @@ Sacia meu ser
 [Ponte] A#  F  C  A#  Dm  C`
   },
   "ESTRELA DA MANHÃ": {
-    tom: "D",
+    tom: "C",
     compasso: "4/4",
     bpm: null,
-    modulacao: "2ª parte da música modula de Ré (D) para Mi (E), mantendo a mesma progressão.",
-    fonte: "https://www.cifraclub.com.br/eli-soares/estrela-da-manha/",
-    fonteNome: "Eli Soares — Cifra Club",
-    compositor: "Jônatas Manaem Liasch",
+    fonte: "https://www.cifraclub.com.br/corinhos-evangelicos/",
+    fonteNome: "Corinhos Evangélicos — Cifra Club",
+    compositor: "Corinhos Evangélicos",
     cifra:
-`[Intro] D  G/B  A/C#  (3x)
-D  G/B  A/C#  F#/Bb  Bm7  E/G#  A  D/F#  G
-D/F#  G
+`[Intro] F  Em  Am  Dm  Em  F  A#  G
 
-[Verso 1]
-D              A/C#          Bm
-G              D/F#             Em    Gm
+C           G     Am7       Gm7 C/G
+És a nossa estrela da manhã
+    F7M         C            Dm7  G7(4)
+Cordeiro Santo que nos trouxe a paz
+C            G    Am7           Gm7 C/G
+Em Tuas mãos está todo o vencer
+    F7M         C/E             Dm7  G7
+Resposta a todo aquele que clamar
+      E                          Am7 D/F#
+A verdade é Tua palavra que não pode mentir
+    Dm7    C/E    F7M   G7(4)
+Por isso estamos aqui
 
-[Verso 2]
-D              A/C#          Bm
-G              D/F#          Em
+C            G/B.    Am.   C7
+És a nossa estrela da manhã
+    F7M         C/E             Dm7  G7(4)
+Cordeiro Santo que nos trouxe a paz
+C            G/B.    Am.      C7
+Em Tuas mãos está todo o vencer
+    F7M         C/E             Dm7  G7(4)
+Resposta a todo aquele que clamar
+      E                          Am7  D/F#
+A verdade é Tua palavra que não pode mentir
+    Dm7    C/E    D/F#  E/G#
+Por isso estamos aqui
 
-[Verso 3]
-F#              F#/Bb       Bm    Bm/A G D/F# Em
-D       C  B4 B7
-
-[Refrão]
-E                 A
-B                  E  A/C# B/D#
-E                    A
-B    B/A       G#m   C#m      F#m
-B9
-
-[Ponte instrumental] F#/Bb  A7(13)  E/G#  G7(13)  F#m11  A9/B  D9
-
-(a 2ª parte modula para Mi maior, mesma progressão)`
+A          A/C#    D
+Te louvamos oh Senhor
+E/G#              A   (D E )
+Pelo Teu imenso amor
+A          A/C#    D
+Manifesta o Teu perdão e poder
+E/G#         C#m7    F#m7       Bm7 (A/C# D E7(4))
+E assim vamos Te adorar para sempre
+     E              A
+Para sempre oh meu Deus`
   },
   "A BENÇÃO": {
     tom: "C",
@@ -3219,6 +3236,379 @@ Por todos os dias
 Por todos os dias
               A9
 Por todos os dias`
+  },
+  "EFÉSIOS 1": {
+    tom: "C",
+    compasso: "4/4",
+    bpm: null,
+    fonte: "https://www.cifraclub.com.br/projeto-sola/efesios-1/",
+    fonteNome: "Projeto Sola — Cifra Club",
+    compositor: "Projeto Sola",
+    cifra:
+`[Intro] F  Am  G  C  C/E  F
+        F  Am  G  C  C/E  F  C
+
+Am                  G
+Antes do tempo existir
+               F
+Escolheu-nos pra Si
+Am                     G
+Nos encontrou e por graça
+           F
+Ele nos adotou
+
+     C/E   F
+Para Sua glória
+G4            Am
+E pro Seu louvor
+     C/E   F
+Para Sua glória
+G4            C
+E pro Seu louvor
+
+       F   Am   G
+Ao Senhor, Deus Pai
+     C            C/E      F
+O louvor que transborda de nós
+      F    Am G
+O Seu povo está
+   C          C/E      F
+Reunido em sincero fervor
+     C/E   F
+Para Sua glória
+G4
+E pro Seu louvor
+
+( F  Am  G  C  C/E  F )
+( F  Am  G  C  C/E  F  C )
+
+Am
+Cristo e Seu sangue
+   G                F
+A nós redenção concedeu
+Am                    G
+Com o fim de nos tornar
+              F
+Coerdeiros de Deus
+
+     C/E   F
+Para Sua glória
+G4            Am
+E pro Seu louvor
+     C/E   F
+Para Sua glória
+G4            C
+E pro Seu louvor
+
+       F   Am   G
+Ao Senhor, Deus Pai
+     C            C/E      F
+O louvor que transborda de nós
+      F    Am G
+O Seu povo está
+   C          C/E      F
+Reunido em sincero fervor
+
+       F   Am   G
+Ao Senhor, Deus Pai
+     C            C/E      F
+O louvor que transborda de nós
+      F    Am G
+O Seu povo está
+   C          C/E      F
+Reunido em sincero fervor
+     C/E   F
+Para Sua glória
+G4            C
+E pro Seu louvor
+
+F     G4  C            C/E
+E nós esperamos por Ti
+F    G4
+Confiantes
+Am                 C/E
+Que lá no fim, nos resgatarás
+F    G4     C           C/E
+A promessa feita aqui (feita aqui)
+F       G4     Am                 C/E
+Traz certeza, todo viver pra Tua glória será
+
+F     G4  C            C/E
+E nós esperamos por Ti
+F    G4
+Confiantes
+Am                 C/E
+Que lá no fim, nos resgatarás
+F    G4     C           C/E
+A promessa feita aqui (feita aqui)
+F       G4    Am                 C/E
+Traz certeza, todo viver pra Tua glória será
+
+( C )
+
+       F   Am   G
+Ao Senhor, Deus Pai
+
+O louvor que transborda de nós
+      C
+O Seu povo está
+   C          C/E       F
+Reunido em sincero fervor
+
+       F   Am   G
+Ao Senhor, Deus Pai
+     C            C/E      F
+O louvor que transborda de nós
+      F    Am G
+O Seu povo está
+   C          C/E      F
+Reunido em sincero fervor
+
+     C/E   F
+Para Sua glória
+G4            Am
+E pro Seu louvor
+     C/E   F
+Para Sua glória
+G4            C
+E pro Seu louvor`
+  },
+  "SALVADOR MARAVILHOSO": {
+    tom: "D",
+    compasso: "4/4",
+    bpm: null,
+    fonte: "https://www.cifraclub.com.br/novo-canto/",
+    fonteNome: "Novo Canto — Cifra Club",
+    compositor: "Novo Canto",
+    cifra:
+`[Intro] Bm  G  D/F#  A  Bm  G  D/F#  D  G
+
+D
+Salvador maravilhoso
+D/F#     G            A
+Deus-que-tomou-meu-lugar
+Bm                        G
+Cordeiro entregue ao Calvário
+A               Bm
+Morto pra nos salvar, ô, ô, ô
+G               D
+Morto pra nos salvar
+
+D
+Consolador, Conselheiro
+D/F#     G            A
+Deus-que-me-vem-abraçar
+Bm                  G
+Na noite escura da alma
+A               Bm
+Tu vens comigo andar, ô, ô, ô
+G               D
+Tu vens comigo andar
+
+[Refrão]
+
+Bm                   G
+Por isso nós te adoramos
+Bm                 G
+Por isso vamos louvar
+Bm                    G
+Pois desta graça que sara
+A               Bm  G
+Só tu nos pode dar, ô, ô, ô
+D/F#        A
+Só tu nos pode dar
+
+[Solo] Bm,G,D/F#,A,Bm,G,D/F#,D,G
+
+ D
+Pai poderoso e infinito
+D/F#       G           A
+Deus-que-não-cansa-de-amar
+Bm                    G
+Em meio à nossas fraquezas
+A               Bm
+Nós vamos te buscar,    ô, ô, ô
+G               D
+Nós vamos te buscar
+
+[Refrão]
+
+Bm                   G
+Por isso nós te adoramos
+Bm                 G
+Por isso vamos louvar
+Bm                    G
+Pois desta graça que sara
+A               Bm  G
+Só tu nos pode dar, ô, ô, ô
+D/F#        A   D
+Só tu nos pode dar
+
+Bm                   G
+Por isso nós te adoramos
+Bm                 G
+Por isso vamos louvar
+Bm                    G
+Pois desta graça que sara
+A               Bm  G
+Só tu nos pode dar, ô, ô, ô
+D/F#        A   D
+Só tu nos pode dar
+
+[Solo] Bm,G,D/F#,A,Bm,G,D/F#,D,G
+       Bm,G,D/F#,A,Bm,G,D/F#,D,G
+
+D
+Salvador maravilhoso
+D/F#     G            A
+Deus-que-tomou-meu-lugar
+Bm                        G
+Cordeiro entregue ao Calvário
+A               Bm
+Morto pra nos salvar, ô, ô, ô
+G               D
+Morto pra nos salvar
+
+         D                 Em
+Ao que está assentado no trono
+            D/F#  G         D
+E ao Cordeiro,   seja o louvor
+     F#          Bm        D/F# G
+E a Honra  e a Glória, e o  domínio
+       A           A/C#     D  G D
+Pelo séculos dos séculos Amém!
+         D                Em
+Ao que está assentado no trono
+            D/F#  G         D
+E ao Cordeiro,   seja o louvor
+     F#          Bm        D/F# G
+E a Honra  e a Glória, e o  domínio
+       A           A/C#      D   G D
+Pelo séculos dos séculos Amém!`
+  },
+  "TE AGRADEÇO": {
+    tom: "D",
+    compasso: "4/4",
+    bpm: null,
+    fonte: "https://www.cifraclub.com.br/diante-do-trono/",
+    fonteNome: "Diante do Trono — Cifra Club",
+    compositor: "Diante do Trono",
+    cifra:
+`[Intro] G  D2  G  D2
+
+[Primeira Parte]
+
+                     G
+Por tudo o que tens feito
+     D2                A
+Por tudo o que vais fazer
+     D2      D/C      G/B
+Por tuas promessas e tudo o que és
+     D/A           A
+Eu quero te agradecer
+                G  D2
+Com todo o meu ser
+
+[Pré-Refrão]
+
+        G            D2
+Te agradeço, meu Senhor
+        G            D2
+Te agradeço, meu Senhor
+
+[Refrão]
+
+                                  D/C
+Te agradeço por me libertar e salvar
+ G/B            G#º
+Por ter morrido em meu lugar
+        D2  D/F#  G
+Te agrade__ço
+               D2  D/F#  G
+Jesus, te agrade__ço
+           D2  D/F#  G
+Eu te agrade__ço
+        G/B  D2
+Te agrade___ço
+
+( G  D2  G/B )
+
+[Primeira Parte]
+
+     D2             G
+Por tudo o que tens feito
+     D2                A
+Por tudo o que vais fazer
+     D2      D/C      G/B
+Por tuas promessas e tudo o que és
+     D/A           A
+Eu quero te agradecer
+                G  D2
+Com todo o meu ser
+
+[Pré-Refrão]
+
+        G            D2
+Te agradeço, meu Senhor
+        G            D2
+Te agradeço, meu Senhor
+
+[Refrão]
+
+                                  D/C
+Te agradeço por me libertar e salvar
+ G/B            G#º
+Por ter morrido em meu lugar
+        D2  D/F#  G
+Te agrade__ço
+               D2  D/F#  G
+Jesus, te agrade__ço
+           D2  D/F#  G
+Eu te agrade__ço
+        G/B  D2
+Te agrade___ço
+
+[Pré-Refrão]
+
+        G            D2
+Te agradeço, meu Senhor
+        G            D2
+Te agradeço, meu Senhor
+
+[Refrão Final]
+
+                                  D/C
+Te agradeço por me libertar e salvar
+ G/B            G#º
+Por ter morrido em meu lugar
+        D2  D/F#  G
+Te agrade__ço
+
+               D2  D/F#  G
+Jesus, te agrade__ço
+           D2  D/F#  G
+Eu te agrade__ço
+        G/B  D2
+Te agrade___ço
+
+                                  D/C
+Te agradeço por me libertar e salvar
+ G/B            G#º
+Por ter morrido em meu lugar
+        D2  D/F#  G
+Te agrade__ço
+
+               D2  D/F#  G
+Jesus, te agrade__ço
+           D2  D/F#  G
+Eu te agrade__ço
+        G/B  D2
+Te agrade___ço
+
+        G/B  D2
+Te agrade___ço
+        G/B  D2
+Te agrade___ço`
   }
 
 };
@@ -3226,7 +3616,7 @@ Por todos os dias`
 // Histórico extraído do grupo do WhatsApp: última data (DD/MM/AAAA) em que cada música
 // apareceu num "*CULTO ...*" postado pelo Bruno. Usado pra evitar repetir música à toa.
 const ULTIMA_VEZ_TOCADA = {
-  "Jesus": "06/08/2026",
+  "Jesus": "06/09/2026",
   "Vitorioso És": "06/08/2026",
   "Cartas para o Mundo": "06/08/2026",
   "Perante o Trono": "30/07/2026",
@@ -3239,7 +3629,7 @@ const ULTIMA_VEZ_TOCADA = {
   "Eu Vou Construir": "13/07/2026",
   "Suficiente + Doxologia": "13/07/2026",
   "Quão Bondoso Amigo É Cristo": "13/07/2026",
-  "Grande É O Nome Do Senhor": "13/07/2026",
+  "Grande É O Nome Do Senhor": "30/08/2026",
   "Senhor Te Quero": "07/07/2026",
   "Em Tua Presença": "07/07/2026",
   "Não Há Amor Maior": "07/07/2026",
@@ -3277,7 +3667,9 @@ const ULTIMA_VEZ_TOCADA = {
   "Nunca Foi Sobre Nós": "23/04/2026",
   "Que Amor É Esse": "23/04/2026",
   "Redenção": "23/04/2026",
-  "Canção de Simeão": "23/04/2026",
+  "Canção de Simeão": "23/08/2026",
+  "O Cordeiro": "23/08/2026",
+  "Há Um Lugar": "23/08/2026",
   "Poder pra Salvar": "16/04/2026",
   "Reina em Mim": "16/04/2026",
   "Eu Me Rendo": "16/04/2026",
@@ -3308,22 +3700,24 @@ const ULTIMA_VEZ_TOCADA = {
   "Te Agradeço": "30/12/2025",
   "A Benção": "30/12/2025",
   "É o Teu Povo": "11/12/2025",
-  "Pai Nosso": "20/11/2025",
-  "Diante da Cruz": "11/11/2025",
+  "Pai Nosso": "30/08/2026",
+  "Diante da Cruz": "30/08/2026",
   "Digno de Tudo / Te Exaltamos": "03/11/2025",
   "De Graça em Graça": "03/11/2025",
   "Tu És": "30/10/2025",
   "Nome Sobre Todo Nome": "20/10/2025",
   "A Ele a Glória": "13/10/2025",
   "Eu Te Vejo em Tudo": "24/09/2025",
-  "Meu Respirar": "18/09/2025",
+  "Meu Respirar": "30/08/2026",
   "Alfa e Ômega": "11/09/2025",
   "Senhor de Ti Preciso": "24/08/2025",
   "Como Eu Te Amo": "21/08/2025",
   "Vasos Quebrados": "21/08/2025",
   "Em Teus Braços": "13/08/2025",
   "Majestoso": "07/08/2025",
-  "Jesus em Tua Presença": "20/07/2025",
+  "Jesus em Tua Presença": "06/09/2026",
+  "Digno É o Senhor": "06/09/2026",
+  "Em Memória de Mim": "06/09/2026",
   "Falar com Deus": "01/07/2025",
   "Até Outra Vez": "29/06/2025",
   "Toma o Meu Coração": "10/06/2025",
@@ -3333,16 +3727,56 @@ const ULTIMA_VEZ_TOCADA = {
 // Repertório da semana: culto, quem está escalado, e as músicas (com quem canta + link do YouTube).
 // titulo:null = vaga ainda não definida. Atualize aqui toda semana.
 const SEMANA = {
-  data: "06/09/2026",
+  data: "13/09/2026",
   diaSemana: "Domingo",
-  escalados: ["GUI","NIKA","MILA"],
+  escalados: ["GUI","MANU","MILA"],
   musicas: [
-    { titulo: "Jesus em Tua Presença", voz: "GUI", youtube: "https://www.youtube.com/watch?v=aMpM68cb5MY" },
-    { titulo: "Digno É o Senhor", voz: "NIKA/MILA", youtube: "https://www.youtube.com/watch?v=qhc-RceZvYE" },
-    { titulo: "Em Memória de Mim", voz: "NIKA", youtube: "https://www.youtube.com/watch?v=VloMNjMMJHI" },
-    { titulo: "Jesus", voz: "MILA", youtube: "https://www.youtube.com/watch?v=nwfOXpzbLoA" }
+    { titulo: "Efésios 1", voz: "GUI", youtube: "https://www.youtube.com/watch?v=_vk_GATcUu0" },
+    { titulo: "Salvador Maravilhoso", voz: "GUI", youtube: "https://www.youtube.com/watch?v=N6giVUqA43I" },
+    { titulo: "Te Agradeço", voz: "MANU", youtube: "https://www.youtube.com/watch?v=dQ8_SOQcnmU" },
+    { titulo: "Estrela da Manhã", voz: "MILA", youtube: "https://www.youtube.com/watch?v=49BSKVvaWlM" }
   ]
 };
+
+// Histórico do repertório de cada culto passado, por data (aba "Histórico") — guardado
+// aqui manualmente toda vez que o SEMANA é substituído por um repertório novo (o culto
+// anterior entra no fim desta lista antes do SEMANA ser sobrescrito). Ordem: do mais
+// antigo pro mais recente — a aba mostra invertido (mais recente primeiro).
+const HISTORICO = [
+  {
+    data: "23/08/2026",
+    diaSemana: "Domingo",
+    escalados: ["GUI","NIKA","MANU","NICA"],
+    musicas: [
+      { titulo: "O Cordeiro", voz: "GUI" },
+      { titulo: "Canção de Simeão", voz: "NIKA" },
+      { titulo: "Há Um Lugar", voz: "MANU" },
+      { titulo: "Meu Respirar", voz: "NICA" }
+    ]
+  },
+  {
+    data: "30/08/2026",
+    diaSemana: "Domingo",
+    escalados: ["GUI","NICA","MANU","MILA"],
+    musicas: [
+      { titulo: "Grande É O Nome Do Senhor", voz: "GUI", youtube: "https://www.youtube.com/watch?v=_W4cQWM7KEs" },
+      { titulo: "Meu Respirar", voz: "NICA", youtube: "https://www.youtube.com/watch?v=EyDq5dM45XY" },
+      { titulo: "Diante da Cruz", voz: "MANU", youtube: "https://www.youtube.com/watch?v=cAQ04a3sLPY" },
+      { titulo: "Pai Nosso", voz: "MILA", youtube: "https://www.youtube.com/watch?v=NYFcTj-KmvI" }
+    ]
+  },
+  {
+    data: "06/09/2026",
+    diaSemana: "Domingo",
+    escalados: ["GUI","NIKA","MILA"],
+    musicas: [
+      { titulo: "Jesus em Tua Presença", voz: "GUI", youtube: "https://www.youtube.com/watch?v=aMpM68cb5MY" },
+      { titulo: "Digno É o Senhor", voz: "NIKA/MILA", youtube: "https://www.youtube.com/watch?v=qhc-RceZvYE" },
+      { titulo: "Em Memória de Mim", voz: "NIKA", youtube: "https://www.youtube.com/watch?v=VloMNjMMJHI" },
+      { titulo: "Jesus", voz: "MILA", youtube: "https://www.youtube.com/watch?v=nwfOXpzbLoA" }
+    ]
+  }
+];
 
 // Repertório completo (planilha "REDENÇÃO MUSIC") — número, título, quem canta
 const REPERTORIO = [
@@ -3585,9 +4019,10 @@ const views = {
   musicas: document.getElementById('view-musicas'),
   semana: document.getElementById('view-semana'),
   proximas: document.getElementById('view-proximas'),
+  historico: document.getElementById('view-historico'),
 };
 
-// Navegação por abas: Músicas / Repertório da Semana / Próximas Músicas
+// Navegação por abas: Músicas / Repertório da Semana / Próximas Músicas / Histórico
 let activeTab = 'semana';
 function switchTab(tab){
   activeTab = tab;
@@ -3597,6 +4032,7 @@ function switchTab(tab){
   searchbarEl.style.display = tab==='musicas' ? '' : 'none';
   filtersEl.style.display = tab==='musicas' ? '' : 'none';
   if(tab==='proximas') renderProximas();
+  if(tab==='historico') renderHistorico();
   // cards escondidos (display:none) têm clientWidth 0 quando renderizados, então
   // as linhas de acorde só conseguem ser ajustadas depois que a aba fica visível.
   setTimeout(fitAllChordLines, 0);
@@ -4420,6 +4856,36 @@ function renderProximas(){
     listProximasEl.appendChild(createSongCard({ title: m.titulo, voz: m.voz, youtube: m.youtube, nota: m.nota }));
   });
   countProximasEl.textContent = `${PROXIMOS_LANCAMENTOS.length} música(s) nova(s) a caminho`;
+}
+
+// Histórico: repertório de cada culto passado (HISTORICO), mais recente primeiro.
+function renderHistorico(){
+  const el = document.getElementById('historico');
+  if(!el) return;
+  el.innerHTML = '';
+  if(!HISTORICO.length){
+    el.innerHTML = `<div class="empty-state">Nenhum culto anterior registrado ainda.</div>`;
+    return;
+  }
+  HISTORICO.slice().reverse().forEach(semana=>{
+    const escaladosHtml = (semana.escalados||[]).map(v=>`<span class="badge ${vozClass(v)}"><span class="dot"></span>${v}</span>`).join('');
+    const head = document.createElement('div');
+    head.className = 'semana-head';
+    head.innerHTML = `
+      <div>
+        <div class="semana-title">🗓️ ${semana.diaSemana ? semana.diaSemana + ' · ' : ''}${semana.data || ''}</div>
+      </div>
+      ${escaladosHtml ? `<div class="semana-escalados">${escaladosHtml}</div>` : ''}
+    `;
+    el.appendChild(head);
+    const listWrap = document.createElement('div');
+    listWrap.className = 'semana-list';
+    (semana.musicas||[]).forEach(m=>{
+      if(!m || !m.titulo) return;
+      listWrap.appendChild(createSongCard({ title: m.titulo, voz: m.voz, youtube: m.youtube }));
+    });
+    el.appendChild(listWrap);
+  });
 }
 
 loadSemanaOrderLocal();
